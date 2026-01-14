@@ -1,7 +1,7 @@
 {
-  "name": "nextra-docs-template",
+  "name": "node-banana-docs",
   "version": "0.0.1",
-  "description": "Nextra docs template",
+  "description": "Node Banana documentation site",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,18 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "git+https://github.com/yourusername/node-banana-docs.git"
   },
-  "author": "Shu Ding <g@shud.in>",
+  "author": "Node Banana Team",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/shuding/nextra-docs-template/issues"
-  },
-  "homepage": "https://github.com/shuding/nextra-docs-template#readme",
+  "homepage": "https://github.com/yourusername/node-banana-docs#readme",
   "dependencies": {
     "next": "^13.0.6",
-    "nextra": "latest",
-    "nextra-theme-docs": "latest",
+    "nextra": "^2.2.14",
+    "nextra-theme-docs": "^2.2.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

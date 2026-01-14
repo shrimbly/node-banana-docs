@@ -1,0 +1,121 @@
+# AI Quickstart
+
+Node Banana's AI Quickstart feature lets you generate complete workflows from natural language descriptions or choose from preset templates. This guide shows you how to use it effectively.
+
+## Opening AI Quickstart
+
+Click the **AI Quickstart** button in the header or look for the quickstart panel when you first open Node Banana.
+
+## Preset Templates
+
+Choose from 6 built-in templates optimized for common use cases:
+
+### Product Shot
+Generate professional product photography with custom backgrounds.
+- **Inputs needed**: Product image
+- **Output**: Styled product shot
+
+### Model + Product
+Create compositions with a model holding or wearing your product.
+- **Inputs needed**: Model image, product image
+- **Output**: Combined composition
+
+### Color Variations
+Generate multiple color variations of a product or design.
+- **Inputs needed**: Source image
+- **Output**: Multiple color variants
+
+### Background Swap
+Replace the background of an image with a new scene.
+- **Inputs needed**: Subject image
+- **Output**: Image with new background
+
+### Style Transfer
+Apply an artistic style to your images.
+- **Inputs needed**: Content image
+- **Output**: Stylized image
+
+### Scene Composite
+Combine multiple elements into a cohesive scene.
+- **Inputs needed**: Multiple source images
+- **Output**: Composite image
+
+## Custom Workflow Generation
+
+Don't see what you need? Describe your workflow in plain English.
+
+### Writing Good Descriptions
+
+Be specific about:
+- What inputs you'll provide
+- What transformations you want
+- What output you expect
+
+import { Callout } from 'nextra/components'
+
+**Good example:**
+```
+Create a workflow that takes a portrait photo, uses an LLM to
+generate three different professional background descriptions,
+then generates three variations of the portrait with those
+backgrounds.
+```
+
+**Too vague:**
+```
+Make something cool with my photos
+```
+
+### How It Works
+
+1. Enter your description
+2. Click **Generate Workflow**
+3. The AI analyzes your request
+4. A complete workflow appears on the canvas
+5. Review and modify as needed
+
+<Callout type="info">
+  Generated workflows may need adjustment. Review prompts and connections before running to ensure they match your intent.
+</Callout>
+
+## Using Sample Images
+
+AI Quickstart includes sample images for testing:
+
+- Portrait photos
+- Product images
+- Backgrounds
+- Objects and props
+
+These help you test workflows before using your own images.
+
+## Tips for Best Results
+
+### Start Simple
+Begin with a preset template, then modify it rather than generating complex workflows from scratch.
+
+### Review Before Running
+Always check:
+- Prompt content in each node
+- Connection order and logic
+- Model selection and settings
+
+### Iterate
+Use Quickstart as a starting point. Add nodes, adjust connections, and refine prompts to get exactly what you want.
+
+### Save Good Workflows
+When you create something useful, save it for reuse. Your saved workflows are often more valuable than regenerating.
+
+## Troubleshooting Quickstart
+
+### Workflow doesn't match description
+The AI interprets your description as best it can. Try:
+- Being more specific
+- Breaking complex requests into steps
+- Using a preset template as a base
+
+### Missing nodes
+If expected nodes are missing, add them manually and connect them into the workflow.
+
+### Prompts need adjustment
+Generated prompts are starting points. Edit them to be more specific to your actual use case.

@@ -1,0 +1,246 @@
+# Troubleshooting
+
+This guide covers common issues and their solutions.
+
+## Installation Issues
+
+### "API key not found"
+
+**Cause**: Missing or invalid API key configuration.
+
+**Solution**:
+1. Check that `.env.local` exists in the project root
+2. Verify the file contains `GEMINI_API_KEY=your_key_here`
+3. Restart the development server after editing
+4. Ensure no extra spaces or quotes around the key
+
+```env filename=".env.local"
+GEMINI_API_KEY=AIza...
+```
+
+### Port 3000 in use
+
+**Cause**: Another application is using the default port.
+
+**Solution**:
+```bash
+# Use a different port
+npm run dev -- -p 3001
+```
+
+Or find and stop the process using port 3000.
+
+### Dependencies fail to install
+
+**Cause**: Node.js version mismatch or network issues.
+
+**Solution**:
+1. Verify Node.js version: `node --version` (should be 18+)
+2. Clear npm cache: `npm cache clean --force`
+3. Delete `node_modules` and `package-lock.json`
+4. Run `npm install` again
+
+## Generation Issues
+
+### "No image generated" / Empty output
+
+import { Callout } from 'nextra/components'
+
+**Possible causes**:
+- API quota exceeded
+- Invalid or blocked content in prompt
+- Network timeout
+
+**Solutions**:
+1. Check Google AI Studio for quota status
+2. Simplify your prompt
+3. Check browser console for detailed errors
+4. Try again (temporary API issues)
+
+### Generation takes too long
+
+**Cause**: Large images, complex prompts, or API congestion.
+
+**Solutions**:
+- Use nano-banana instead of Pro for testing
+- Reduce resolution setting
+- Check API status for outages
+
+### Poor quality output
+
+**Solutions**:
+- Write more detailed prompts
+- Use nano-banana-pro for final outputs
+- Provide better reference images
+- Increase resolution
+
+### "Content blocked" error
+
+**Cause**: The AI flagged content as potentially violating usage policies.
+
+**Solution**:
+- Modify your prompt to avoid restricted content
+- Ensure reference images comply with policies
+- Try rephrasing your request
+
+## Connection Issues
+
+### Can't connect nodes
+
+**Cause**: Incompatible handle types.
+
+**Remember**:
+- Text outputs → Text inputs only
+- Image outputs → Image inputs only
+- You can't mix types
+
+### Connection disappears
+
+**Cause**: Invalid connection removed automatically.
+
+**Solution**: Check that source and target handles are compatible types.
+
+### Data not flowing through
+
+**Possible causes**:
+- Edge is paused (dashed line)
+- Upstream node hasn't run
+- Connection is to wrong handle
+
+**Solutions**:
+1. Click edge to unpause if paused
+2. Run the full workflow
+3. Verify connection endpoints
+
+## Canvas Issues
+
+### Nodes disappeared
+
+**Possible causes**:
+- Zoomed out too far
+- Panned away from nodes
+
+**Solutions**:
+- Use minimap to locate nodes
+- Press keyboard shortcut to fit view
+- Check if nodes were accidentally deleted
+
+### Can't select nodes
+
+**Cause**: Selection area or click might be hitting background.
+
+**Solution**: Try clicking directly on node content, not edges.
+
+### Canvas is laggy
+
+**Possible causes**:
+- Too many nodes
+- Large images loaded
+- Browser memory pressure
+
+**Solutions**:
+- Remove unused nodes
+- Use smaller preview images
+- Refresh the page
+- Close other browser tabs
+
+## Save/Load Issues
+
+### Workflow won't save
+
+**Possible causes**:
+- Browser permissions
+- Invalid file path
+- Disk full
+
+**Solutions**:
+1. Check browser download permissions
+2. Try saving to a different location
+3. Check available disk space
+
+### Loaded workflow has missing data
+
+**Cause**: Workflow was saved from a different version or with incompatible settings.
+
+**Solutions**:
+- Check if all expected nodes loaded
+- Re-add missing connections
+- Re-input any missing data
+
+### Auto-save not working
+
+**Possible causes**:
+- Auto-save disabled
+- No project path configured
+- Storage permission issues
+
+**Solutions**:
+1. Enable auto-save in settings
+2. Configure a valid project path
+3. Check browser storage permissions
+
+## Browser-Specific Issues
+
+### Works in Chrome but not Safari/Firefox
+
+<Callout type="info">
+  Chrome is the recommended browser. Other browsers may have compatibility issues during early development.
+</Callout>
+
+**Solution**: Use Chrome for the most stable experience.
+
+### Images not displaying
+
+**Possible causes**:
+- CORS issues
+- Invalid image data
+- Memory limits
+
+**Solutions**:
+- Check browser console for errors
+- Try with smaller images
+- Refresh the page
+
+## API Issues
+
+### Rate limiting
+
+**Symptoms**: Errors about too many requests.
+
+**Solutions**:
+- Wait a few minutes before retrying
+- Reduce batch size
+- Space out generation requests
+
+### API errors (500, 503)
+
+**Cause**: Server-side issues at Google/OpenAI.
+
+**Solutions**:
+- Check API status pages
+- Wait and retry
+- Report persistent issues
+
+## Getting More Help
+
+### Check the Console
+
+Open browser developer tools (F12 or Cmd+Option+I) and check:
+- **Console tab**: JavaScript errors and logs
+- **Network tab**: Failed API requests
+- **Application tab**: Storage issues
+
+### Report Bugs
+
+If you've found a bug:
+1. Note the exact steps to reproduce
+2. Copy any error messages
+3. Take a screenshot if helpful
+4. [Open an issue on GitHub](https://github.com/yourusername/node-banana/issues)
+
+### Community Support
+
+Join the Discord community for:
+- Real-time help from other users
+- Tips and workflow sharing
+- Feature discussions

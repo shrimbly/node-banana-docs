@@ -1,0 +1,115 @@
+# Installation
+
+This guide walks you through setting up Node Banana on your local machine.
+
+## Prerequisites
+
+Before installing Node Banana, make sure you have:
+
+- **Node.js** 18.0 or later
+- **npm** or **pnpm** package manager
+- **Google Gemini API key** — [Get one here](https://aistudio.google.com/apikey)
+- **OpenAI API key** (optional) — Only needed for OpenAI text generation
+
+## Installation Steps
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/node-banana.git
+cd node-banana
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+Or if you prefer pnpm:
+
+```bash
+pnpm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```bash
+touch .env.local
+```
+
+Add your API keys:
+
+```env filename=".env.local"
+GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here  # Optional
+```
+
+import { Callout } from 'nextra/components'
+
+<Callout type="warning">
+  Never commit your `.env.local` file to version control. It's already in `.gitignore` by default.
+</Callout>
+
+### 4. Start the Development Server
+
+```bash
+npm run dev
+```
+
+Node Banana will be available at [http://localhost:3000](http://localhost:3000).
+
+## Getting Your API Keys
+
+### Google Gemini API Key
+
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy the key and add it to your `.env.local` file
+
+<Callout type="info">
+  The Gemini API has a free tier with generous limits. Check [Google's pricing](https://ai.google.dev/pricing) for details.
+</Callout>
+
+### OpenAI API Key (Optional)
+
+1. Go to [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Sign in or create an account
+3. Click "Create new secret key"
+4. Copy the key and add it to your `.env.local` file
+
+## Verifying Your Installation
+
+After starting the dev server:
+
+1. Open [http://localhost:3000](http://localhost:3000) in Chrome
+2. You should see the Node Banana canvas with a floating action bar at the bottom
+3. Try adding a **Prompt** node and a **Generate** node
+4. If you can add nodes and connect them, your installation is working
+
+## Troubleshooting
+
+### "API key not found" error
+
+Make sure your `.env.local` file is in the project root (same folder as `package.json`) and contains valid API keys.
+
+### Port 3000 already in use
+
+Either stop the other process using port 3000, or start Node Banana on a different port:
+
+```bash
+npm run dev -- -p 3001
+```
+
+### Nodes not generating images
+
+1. Check that your Gemini API key is valid
+2. Verify you have remaining API quota
+3. Check the browser console for error messages
+
+## Next Steps
+
+Now that Node Banana is running, continue to [Your First Workflow](/getting-started/first-workflow) to create your first image generation pipeline.

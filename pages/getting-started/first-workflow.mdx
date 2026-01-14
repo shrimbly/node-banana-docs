@@ -1,0 +1,114 @@
+# Your First Workflow
+
+This tutorial walks you through creating a simple image generation workflow. By the end, you'll understand the basics of adding nodes, connecting them, and running a workflow.
+
+## What We'll Build
+
+A simple two-node workflow that generates an image from a text prompt:
+
+```
+[Prompt] → [Generate] → Generated Image
+```
+
+## Step 1: Add a Prompt Node
+
+1. Look at the **floating action bar** at the bottom of the screen
+2. Click the **Prompt** button (or press `Shift + P`)
+3. A prompt node appears on the canvas
+
+The prompt node has:
+- A text input area for your prompt
+- An expand button to open a larger editor
+- A **text output handle** (small circle) on the right side
+
+## Step 2: Add a Generate Node
+
+1. Click the **Generate** button in the action bar (or press `Shift + G`)
+2. A generate node (Nano Banana) appears on the canvas
+3. Drag it to the right of your prompt node
+
+The generate node has:
+- **Input handles** on the left (for images and text)
+- **Output handle** on the right (for the generated image)
+- Model selection dropdown
+- Aspect ratio selector
+- Resolution options (Pro model only)
+
+## Step 3: Connect the Nodes
+
+1. Click and drag from the **text output** (right side of Prompt node)
+2. Drag to the **text input** (left side of Generate node)
+3. Release to create a connection
+
+import { Callout } from 'nextra/components'
+
+<Callout type="info">
+  Connections only work between compatible types: text-to-text and image-to-image. You can't connect a text output to an image input.
+</Callout>
+
+## Step 4: Write Your Prompt
+
+1. Click inside the prompt node's text area
+2. Type a description of the image you want to generate:
+
+```
+A golden retriever puppy sitting in a field of sunflowers,
+soft afternoon lighting, professional photography
+```
+
+## Step 5: Configure the Generator
+
+1. **Model**: Keep "nano-banana" for faster, cheaper generation
+2. **Aspect Ratio**: Choose from options like 1:1, 16:9, 4:3, etc.
+
+<Callout type="tip">
+  Start with "nano-banana" while testing. Switch to "nano-banana-pro" for higher quality final results.
+</Callout>
+
+## Step 6: Run the Workflow
+
+You have several options to run:
+
+- Press `Cmd/Ctrl + Enter` to run the entire workflow
+- Click the **Run** button in the header
+- Click the play button on an individual node to run from that point
+
+When running:
+1. Nodes execute in dependency order
+2. The current node shows a loading state
+3. Results appear when generation completes
+
+## Step 7: View Your Result
+
+After generation completes:
+- The generated image appears in the generate node
+- Click the image to open a larger preview
+- Use the **carousel arrows** to browse generation history
+- Right-click to download the image
+
+## Adding an Output Node
+
+For a cleaner workflow, add an Output node:
+
+1. Click **Output** in the action bar
+2. Connect the generate node's image output to the output node
+3. The output node gives you a dedicated preview area with download options
+
+## Saving Your Workflow
+
+1. Click the **menu icon** in the header
+2. Select **Save** (or press `Cmd/Ctrl + S`)
+3. Choose a location and filename
+4. Your workflow saves as a `.json` file
+
+<Callout type="info">
+  Node Banana auto-saves your work every 90 seconds when auto-save is enabled.
+</Callout>
+
+## What's Next?
+
+Now that you've created your first workflow, explore these topics:
+
+- [Core Concepts](/core-concepts) — Understand nodes, edges, and handle types
+- [Node Reference](/nodes) — Learn about all available node types
+- [AI Quickstart](/guides/ai-quickstart) — Use templates and AI to build workflows faster

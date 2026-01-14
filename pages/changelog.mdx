@@ -1,0 +1,78 @@
+# Changelog
+
+All notable changes to Node Banana are documented here.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## Unreleased
+
+### Added
+
+- **AI Quickstart Feature** — Generate complete workflows from natural language descriptions
+  - Welcome screen with preset templates and custom description input
+  - 6 preset workflow templates: Product Shot, Model + Product, Color Variations, Background Swap, Style Transfer, Scene Composite
+  - Content level selector (empty/minimal/full) to control pre-filled detail
+  - Gemini LLM-powered custom workflow generation
+  - JSON validation and repair for generated workflows
+  - Sample images for templates in `/public/sample-images/`
+
+- **Test Suite** — Comprehensive testing with Vitest
+  - 108+ tests covering quickstart templates, validation, and prompts
+  - 90%+ code coverage for quickstart module
+  - Run with `npm test` or `npm run test:coverage`
+
+- **Node Expansion & Run** — Expand nodes to full-screen modal and run individual nodes
+- **Group Locking** — Lock node groups to skip them during workflow execution
+- **Image Carousel** — Browse through image history on generation nodes
+
+### Fixed
+
+- Run button and global modal state issues
+- Carousel image inversion
+- Two-finger pan behavior on Mac
+- Comment tooltip z-index issues
+
+---
+
+## 1.0.0 — Initial Release
+
+### Added
+
+- **Visual Node Editor** — Drag-and-drop canvas with pan, zoom, and multi-select
+- **Image Input Node** — Load images from local filesystem
+- **Prompt Node** — Text input for prompts and descriptions
+- **Annotation Node** — Full-screen drawing tools (rectangles, circles, arrows, freehand, text)
+- **Nano Banana Node** — AI image generation using Google Gemini models
+- **LLM Generate Node** — Text generation with Gemini and OpenAI models
+- **Output Node** — Display and download results
+- **Split Grid Node** — Divide images into grid cells
+- **Workflow Management** — Save and load workflows as JSON files
+- **Connection Validation** — Type-safe connections (image-to-image, text-to-text)
+- **Multi-Image Input** — Connect multiple images to generation nodes
+- **Cost Tracking** — Monitor API usage and spending
+- **Keyboard Shortcuts** — Efficient workflow navigation and editing
+- **Node Groups** — Organize related nodes together
+- **Auto-save** — Automatic workflow saving
+
+---
+
+## Roadmap
+
+Features being considered for future releases:
+
+- Custom node creation
+- Workflow sharing and community library
+- More AI model integrations
+- Batch processing improvements
+- Plugin system
+- Mobile-responsive canvas
+
+---
+
+import { Callout } from 'nextra/components'
+
+<Callout type="info">
+  For the latest updates, check the [GitHub repository](https://github.com/yourusername/node-banana).
+</Callout>

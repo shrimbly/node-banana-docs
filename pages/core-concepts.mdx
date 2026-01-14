@@ -1,0 +1,187 @@
+# Core Concepts
+
+This page covers the fundamental concepts you need to understand when working with Node Banana.
+
+## The Canvas
+
+The canvas is your workspace — an infinite 2D area where you build workflows. You can:
+
+- **Pan** — Click and drag on empty space, or use scroll wheel
+- **Zoom** — Pinch to zoom, or use `Cmd/Ctrl + scroll`
+- **Select** — Click nodes, or drag a selection box
+- **Multi-select** — Hold `Shift` while clicking to select multiple nodes
+
+A **minimap** in the corner shows your current viewport position and provides quick navigation.
+
+## Nodes
+
+Nodes are the building blocks of your workflow. Each node performs a specific function:
+
+| Node | Purpose |
+|------|---------|
+| **Image Input** | Load images from your computer |
+| **Prompt** | Enter text prompts |
+| **Nano Banana** | Generate images with AI |
+| **LLM Generate** | Generate text with AI |
+| **Annotation** | Draw on images |
+| **Split Grid** | Split images into grids |
+| **Output** | Display and download results |
+
+See the [Nodes Reference](/nodes) for detailed information on each node type.
+
+### Node Anatomy
+
+Every node has:
+
+- **Title bar** — Shows the node type (click to edit the name)
+- **Input handles** — Connection points on the left
+- **Output handles** — Connection points on the right
+- **Body** — Node-specific controls and content
+- **Resize handle** — Bottom-right corner for resizing
+
+## Edges (Connections)
+
+Edges are the lines that connect nodes. Data flows through edges from outputs to inputs.
+
+### Creating Connections
+
+1. Click and hold on an output handle
+2. Drag to a compatible input handle
+3. Release to create the connection
+
+### Connection Rules
+
+- **Text → Text**: Prompt outputs connect to text inputs
+- **Image → Image**: Image outputs connect to image inputs
+- **Multiple connections**: Image inputs can receive multiple connections; text inputs accept one
+- **No mixing**: You cannot connect text to image or vice versa
+
+### Edge States
+
+- **Normal** — Gray line, data flows through
+- **Paused** — Dashed line, execution stops here
+- **Error** — Red line, indicates a problem
+
+Click an edge to toggle pause state. Right-click to delete.
+
+## Handle Types
+
+Handles are the connection points on nodes. Node Banana has three handle types:
+
+### Image Handles
+Used for visual content. Image data flows as base64-encoded data URLs.
+
+- Found on: Image Input, Annotation, Nano Banana, Split Grid, Output
+- Color: Blue
+- Accepts: PNG, JPG, WebP images
+
+### Text Handles
+Used for string content like prompts and generated text.
+
+- Found on: Prompt, LLM Generate, Nano Banana (input)
+- Color: Green
+- Accepts: Any text string
+
+### Reference Handles
+Used for organizational purposes, primarily with Split Grid.
+
+- Found on: Split Grid (outputs)
+- Color: Orange
+- Purpose: Visual organization, not data transfer
+
+## Workflow Execution
+
+When you run a workflow, Node Banana executes nodes in dependency order using topological sorting.
+
+### Execution Order
+
+1. Nodes with no dependencies run first (source nodes)
+2. Downstream nodes run after their inputs are ready
+3. The workflow completes when all nodes have executed
+
+### Running Workflows
+
+- `Cmd/Ctrl + Enter` — Run entire workflow
+- **Run button** — Click in header to run all
+- **Node play button** — Run from a specific node
+- **Regenerate** — Re-run a single node with same inputs
+
+### Execution States
+
+Nodes show their current state:
+
+- **Idle** — Ready to run
+- **Running** — Currently executing (shows spinner)
+- **Complete** — Finished successfully
+- **Error** — Something went wrong (shows error message)
+
+## Groups
+
+Groups let you organize related nodes together.
+
+### Creating Groups
+
+1. Select multiple nodes
+2. Right-click and select "Create Group"
+3. Name your group
+
+### Group Features
+
+- **Visual boundary** — Groups have a colored background
+- **Move together** — Dragging the group moves all contained nodes
+- **Lock groups** — Locked groups are skipped during execution
+
+import { Callout } from 'nextra/components'
+
+<Callout type="tip">
+  Use locked groups to temporarily disable parts of your workflow without deleting them.
+</Callout>
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Cmd/Ctrl + Enter` | Run workflow |
+| `Cmd/Ctrl + C` | Copy selected nodes |
+| `Cmd/Ctrl + V` | Paste nodes |
+| `Shift + P` | Add Prompt node |
+| `Shift + I` | Add Image Input node |
+| `Shift + G` | Add Generate node |
+| `Shift + L` | Add LLM node |
+| `Shift + A` | Add Annotation node |
+| `H` | Stack selected horizontally |
+| `V` | Stack selected vertically |
+| `G` | Arrange selected in grid |
+| `Delete/Backspace` | Delete selected |
+
+## Cost Tracking
+
+Node Banana tracks API costs for image and text generation.
+
+### How Costs Work
+
+- Each generation node shows estimated cost before running
+- Actual costs are tracked after generation
+- Total workflow cost displays in the header
+- Costs persist between sessions
+
+### Pricing (Approximate)
+
+| Model | Cost per Image |
+|-------|---------------|
+| nano-banana | $0.039 |
+| nano-banana-pro (1K) | $0.134 |
+| nano-banana-pro (2K) | $0.134 |
+| nano-banana-pro (4K) | $0.24 |
+
+See [Models & Pricing](/guides/models-pricing) for detailed pricing information.
+
+## Auto-Save
+
+Node Banana automatically saves your work:
+
+- **Interval** — Every 90 seconds when enabled
+- **Location** — Configured in project settings
+- **Format** — JSON workflow files
+
+The header shows save status and last save time.

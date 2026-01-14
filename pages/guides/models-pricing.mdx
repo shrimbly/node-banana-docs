@@ -1,0 +1,160 @@
+# Models & Pricing
+
+This guide covers the AI models available in Node Banana and their associated costs.
+
+## Image Generation Models
+
+Node Banana uses Google Gemini models for image generation.
+
+### nano-banana
+
+The standard model for everyday use.
+
+| Feature | Value |
+|---------|-------|
+| **API Model** | gemini-2.5-flash-image |
+| **Resolution** | 1K only |
+| **Speed** | Fast |
+| **Cost** | $0.039 per image |
+| **Best for** | Testing, iteration, drafts |
+
+### nano-banana-pro
+
+The premium model for high-quality output.
+
+| Feature | Value |
+|---------|-------|
+| **API Model** | gemini-3-pro-image-preview |
+| **Resolution** | 1K, 2K, 4K |
+| **Speed** | Slower |
+| **Cost** | $0.134 - $0.24 per image |
+| **Best for** | Final renders, high-res output |
+
+#### Pro Model Resolution Pricing
+
+| Resolution | Cost per Image |
+|------------|---------------|
+| 1K | $0.134 |
+| 2K | $0.134 |
+| 4K | $0.240 |
+
+#### Google Search Feature
+
+The Pro model can use Google Search to inform generation:
+- Enables current, real-world references
+- Useful for recognizable subjects
+- Toggle in node settings
+
+## Text Generation Models
+
+### Google Gemini Models
+
+| Model | Speed | Capability | Best For |
+|-------|-------|------------|----------|
+| gemini-2.5-flash | Fast | Good | Quick prompts |
+| gemini-3-flash-preview | Fast | Better | General use |
+| gemini-3-pro-preview | Slower | Best | Complex tasks |
+
+### OpenAI Models
+
+import { Callout } from 'nextra/components'
+
+<Callout type="warning">
+  OpenAI models require a separate `OPENAI_API_KEY` environment variable.
+</Callout>
+
+| Model | Speed | Capability | Best For |
+|-------|-------|------------|----------|
+| gpt-4.1-mini | Fast | Good | General tasks |
+| gpt-4.1-nano | Fastest | Basic | Simple prompts |
+
+## Cost Tracking
+
+### Viewing Costs
+
+Node Banana tracks costs in several places:
+
+1. **Header** — Shows total workflow cost
+2. **Node preview** — Shows estimated cost before running
+3. **Generation history** — Tracks cost per generation
+
+### How Costs Are Calculated
+
+- **Before running**: Estimated based on model and settings
+- **After running**: Actual cost recorded
+- **Cumulative**: All costs tracked across sessions
+
+### Managing Costs
+
+**Tips to reduce costs:**
+
+1. **Use nano-banana for testing** — It's ~3x cheaper than Pro
+2. **Lower resolution** — 1K is often sufficient for iteration
+3. **Batch carefully** — Review prompts before running multiple generations
+4. **Lock groups** — Skip unnecessary nodes during partial runs
+
+## Choosing the Right Model
+
+### For Iteration/Testing
+- Model: nano-banana
+- Resolution: 1K
+- Cost: ~$0.04/image
+
+### For Quality Previews
+- Model: nano-banana-pro
+- Resolution: 2K
+- Cost: ~$0.13/image
+
+### For Final Output
+- Model: nano-banana-pro
+- Resolution: 4K
+- Google Search: If beneficial
+- Cost: ~$0.24/image
+
+## Aspect Ratios
+
+Both models support these aspect ratios:
+
+| Ratio | Use Case |
+|-------|----------|
+| 1:1 | Square, social media |
+| 16:9 | Landscape, presentations |
+| 9:16 | Portrait, stories, mobile |
+| 4:3 | Standard photos |
+| 3:4 | Portrait photos |
+| 3:2 | Classic photography |
+| 2:3 | Vertical prints |
+| 4:5 | Instagram portrait |
+| 5:4 | Medium format |
+| 21:9 | Ultrawide, cinematic |
+
+## API Quotas
+
+### Google Gemini
+- Free tier available with generous limits
+- Check [Google AI pricing](https://ai.google.dev/pricing) for current quotas
+- Rate limits apply to requests per minute
+
+### OpenAI
+- Pay-per-use pricing
+- Check [OpenAI pricing](https://openai.com/pricing) for current rates
+- Rate limits based on your plan tier
+
+## Example Cost Scenarios
+
+### Quick Test Session
+- 10 generations with nano-banana
+- Cost: ~$0.39
+
+### Standard Workflow Run
+- 5 nano-banana (iteration)
+- 2 nano-banana-pro (finals)
+- Cost: ~$0.47
+
+### Production Batch
+- 20 nano-banana-pro at 2K
+- Cost: ~$2.68
+
+<Callout type="info">
+  Prices are approximate and may change. Check your actual usage in the cost tracker and API provider dashboards.
+</Callout>

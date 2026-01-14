@@ -1,0 +1,186 @@
+# Best Practices
+
+This guide covers tips and patterns for getting the most out of Node Banana.
+
+## Workflow Organization
+
+### Name Your Nodes
+Click node titles to give them meaningful names. Instead of "Prompt" and "Prompt 2", use "Subject Description" and "Style Instructions".
+
+### Use Comments
+Add comments to complex nodes explaining their purpose. Future you will thank present you.
+
+### Group Related Nodes
+Create groups for logical sections:
+- Input processing
+- Generation pipeline
+- Output handling
+
+### Left-to-Right Flow
+Organize workflows so data flows left to right. This matches reading direction and makes workflows easier to understand.
+
+## Prompt Writing
+
+### Be Specific
+Vague prompts get vague results. Include:
+- Subject details
+- Style and mood
+- Lighting conditions
+- Camera perspective
+- Technical specifications
+
+import { Callout } from 'nextra/components'
+
+**Instead of:**
+```
+A cat
+```
+
+**Write:**
+```
+A fluffy orange tabby cat sitting on a windowsill,
+golden hour sunlight streaming in, shallow depth of field,
+professional pet photography, warm tones
+```
+
+### Use Structure
+
+For complex prompts, organize into sections:
+```
+Subject: [what you're generating]
+Style: [artistic style or technique]
+Composition: [framing, angle, layout]
+Lighting: [light source, mood, time of day]
+Technical: [camera settings, render quality]
+```
+
+### Negative Space
+Mention what you don't want:
+```
+...clean background, no text, no watermarks
+```
+
+### Iterate on Prompts
+1. Start with a basic prompt
+2. Generate and evaluate
+3. Add details for what's missing
+4. Remove details that cause issues
+5. Save your refined prompt
+
+## Working with Images
+
+### Image Quality Matters
+- Use high-resolution source images
+- Avoid heavily compressed JPEGs
+- Clean, well-lit photos work best
+
+### Annotation Best Practices
+When annotating images for AI reference:
+- Use bright, contrasting colors
+- Keep annotations clear and simple
+- Circle or highlight, don't obscure
+- The AI sees exactly what you draw
+
+### Reference Images
+When providing reference images to Nano Banana:
+- Include images that show what you want
+- Multiple references can guide style, composition, color
+- Conflicting references may confuse the model
+
+## Execution Strategies
+
+### Test Before Batch
+Before running a full workflow:
+1. Run just the first generation node
+2. Check the output
+3. Adjust prompts if needed
+4. Then run the complete workflow
+
+### Use Locked Groups
+Lock groups containing completed work. This:
+- Prevents accidental re-execution
+- Speeds up partial runs
+- Preserves successful generations
+
+### Run From Node
+Use the play button on individual nodes to:
+- Re-run specific sections
+- Test changes without full execution
+- Debug connection issues
+
+## Cost Management
+
+### Iterate Cheaply
+Use nano-banana (not Pro) while iterating. Switch to Pro only for final outputs.
+
+### Check Before Running
+Review estimated costs in the header before executing large workflows.
+
+### Monitor Cumulative Costs
+Track your spending across sessions. Set mental budgets for projects.
+
+## File Management
+
+### Consistent Naming
+Name workflow files descriptively:
+- `product-shot-workflow.json`
+- `portrait-style-transfer-v2.json`
+
+### Version Your Workflows
+When making significant changes, save as a new version rather than overwriting.
+
+### Organize by Project
+Create folders for different projects or clients.
+
+## Common Patterns
+
+### Prompt Enhancement Pipeline
+```
+[Your Prompt] → [LLM: Enhance this prompt] → [Nano Banana]
+```
+Use an LLM to expand simple prompts into detailed generation instructions.
+
+### A/B Testing
+```
+                    ┌→ [Nano Banana: Model A]
+[Prompt] → [Split] ─┤
+                    └→ [Nano Banana: Model B]
+```
+Compare different models or settings on the same prompt.
+
+### Iterative Refinement
+```
+[Image] → [Annotate: Mark changes] → [Nano Banana: Apply changes]
+```
+Draw on images to guide refinements.
+
+### Multi-Style Generation
+```
+                           ┌→ [Prompt: Style 1] → [Generate]
+[Base Prompt] → [LLM] ─────┼→ [Prompt: Style 2] → [Generate]
+                           └→ [Prompt: Style 3] → [Generate]
+```
+Generate multiple style variations from one concept.
+
+## Troubleshooting Workflows
+
+### Check Connections
+- Ensure handle types match (image→image, text→text)
+- Verify all inputs are connected
+- Look for disconnected nodes
+
+### Review Node States
+- Red border = error (check console)
+- Spinning = still processing
+- Idle = ready to run
+
+### Isolate Problems
+If a workflow fails:
+1. Find the failing node
+2. Run just that node
+3. Check its inputs
+4. Review its settings
+
+<Callout type="tip">
+  The browser console (F12 or Cmd+Option+I) often contains detailed error messages that help diagnose issues.
+</Callout>

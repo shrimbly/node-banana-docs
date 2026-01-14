@@ -1,0 +1,325 @@
+# Nodes Reference
+
+This page documents all available node types in Node Banana. Each node serves a specific purpose in your workflow.
+
+## Overview
+
+| Node | Purpose | Inputs | Outputs |
+|------|---------|--------|---------|
+| [Image Input](#image-input) | Load images | — | Image |
+| [Prompt](#prompt) | Text prompts | — | Text |
+| [Nano Banana](#nano-banana) | AI image generation | Image, Text | Image |
+| [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
+| [Annotation](#annotation) | Draw on images | Image | Image |
+| [Split Grid](#split-grid) | Split into grid | Image | Reference |
+| [Output](#output) | Display results | Image | — |
+
+---
+
+## Image Input
+
+The Image Input node loads images into your workflow from your local filesystem.
+
+### Outputs
+- **Image** — The loaded image as base64 data
+
+### Features
+- Drag and drop images directly onto the node
+- Click to open file picker
+- Supports PNG, JPG, and WebP formats
+- Maximum file size: 10 MB
+
+### Usage
+1. Add an Image Input node to the canvas
+2. Click the node or drag an image file onto it
+3. The image appears in the node preview
+4. Connect the output to downstream nodes
+
+import { Callout } from 'nextra/components'
+
+<Callout type="tip">
+  You can paste images directly from your clipboard using `Cmd/Ctrl + V` when an Image Input node is selected.
+</Callout>
+
+---
+
+## Prompt
+
+The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation.
+
+### Outputs
+- **Text** — The prompt text string
+
+### Features
+- Inline text editing
+- Expand button for larger editor (modal)
+- Full-screen editing mode for complex prompts
+
+### Usage
+1. Add a Prompt node
+2. Type your prompt in the text area
+3. Click the expand icon for a larger editor
+4. Connect to Nano Banana or LLM Generate nodes
+
+### Writing Effective Prompts
+
+For image generation:
+- Be specific about subject, style, and composition
+- Include lighting and mood descriptions
+- Mention camera angle or perspective
+
+```
+A professional headshot of a business executive,
+studio lighting, neutral gray background,
+sharp focus, high resolution
+```
+
+---
+
+## Nano Banana
+
+The Nano Banana node generates images using Google Gemini's image generation models.
+
+### Inputs
+- **Image** (optional, multiple) — Reference images for the generation
+- **Text** — The prompt describing what to generate
+
+### Outputs
+- **Image** — The generated image
+
+### Settings
+
+| Setting | Options |
+|---------|---------|
+| **Model** | nano-banana, nano-banana-pro |
+| **Aspect Ratio** | 1:1, 16:9, 9:16, 4:3, 3:4, 3:2, 2:3, 4:5, 5:4, 21:9 |
+| **Resolution** | 1K, 2K, 4K (Pro model only) |
+| **Google Search** | Enable/disable (Pro model only) |
+
+### Model Comparison
+
+| Feature | nano-banana | nano-banana-pro |
+|---------|------------|-----------------|
+| Speed | Faster | Slower |
+| Quality | Good | Best |
+| Resolution | 1K only | Up to 4K |
+| Google Search | No | Yes |
+| Cost | $0.039/image | $0.134-$0.24/image |
+
+### Usage
+1. Add a Nano Banana node
+2. Connect a Prompt node to the text input
+3. Optionally connect Image Input nodes for reference
+4. Select your model and aspect ratio
+5. Run the workflow
+
+<Callout type="info">
+  Multiple input images are combined and used as reference for the generation. The AI will attempt to incorporate elements from all connected images.
+</Callout>
+
+### Image Carousel
+
+After generating, use the carousel to:
+- Browse previous generations (arrow buttons)
+- See generation history for this node
+- Select a previous result as the current output
+
+---
+
+## LLM Generate
+
+The LLM Generate node creates text using large language models. Use it for prompt enhancement, descriptions, or any text generation task.
+
+### Inputs
+- **Text** — Input prompt or context
+- **Image** (optional, multiple) — Images for multimodal generation
+
+### Outputs
+- **Text** — The generated text
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Model** | Select from Gemini or OpenAI models |
+| **Temperature** | Controls randomness (0-1) |
+| **Max Tokens** | Maximum output length |
+
+### Available Models
+
+**Google Gemini:**
+- gemini-2.5-flash (fast, capable)
+- gemini-3-flash-preview (latest flash)
+- gemini-3-pro-preview (most capable)
+
+**OpenAI:**
+- gpt-4.1-mini (balanced)
+- gpt-4.1-nano (fast)
+
+<Callout type="warning">
+  OpenAI models require a separate `OPENAI_API_KEY` in your environment.
+</Callout>
+
+### Usage
+1. Add an LLM Generate node
+2. Connect a Prompt node with your instructions
+3. Optionally connect images for multimodal input
+4. Configure model and parameters
+5. Run to generate text
+
+### Example: Prompt Enhancement
+
+Connect nodes like this:
+```
+[Prompt: "enhance this prompt for image generation: cat on roof"]
+    → [LLM Generate]
+    → [Nano Banana]
+```
+
+The LLM can expand simple prompts into detailed generation instructions.
+
+---
+
+## Annotation
+
+The Annotation node opens a full-screen drawing editor where you can draw on images.
+
+### Inputs
+- **Image** — The image to annotate
+
+### Outputs
+- **Image** — The annotated image
+
+### Drawing Tools
+
+| Tool | Description |
+|------|-------------|
+| **Rectangle** | Draw rectangular shapes |
+| **Circle** | Draw circular shapes |
+| **Arrow** | Draw arrows for highlighting |
+| **Freehand** | Free drawing with mouse/pen |
+| **Text** | Add text labels |
+
+### Features
+- 8 color presets
+- 3 stroke width options
+- Undo/redo support
+- Shape selection and transformation
+- Save or cancel changes
+
+### Usage
+1. Connect an image source to the Annotation input
+2. Click the **Edit** button on the node
+3. Use drawing tools to annotate
+4. Click **Save** to apply changes
+5. The annotated image flows to connected nodes
+
+<Callout type="tip">
+  Use annotations to mask areas, add reference marks, or highlight regions for AI generation. The AI will see and respond to your annotations.
+</Callout>
+
+---
+
+## Split Grid
+
+The Split Grid node divides an image into a grid of smaller images. This is useful for contact sheets or batch processing.
+
+### Inputs
+- **Image** — The image to split
+
+### Outputs
+- **Reference** (multiple) — Visual references to grid cells
+
+### Grid Options
+
+| Option | Grid Size |
+|--------|-----------|
+| 2×2 | 4 cells |
+| 2×3 | 6 cells |
+| 2×4 | 8 cells |
+| 3×3 | 9 cells |
+| 2×5 | 10 cells |
+
+### Usage
+1. Connect an image (like a contact sheet) to Split Grid
+2. Select your grid configuration
+3. The node generates output references for each cell
+4. Connect references to organize downstream processing
+
+### How It Works
+
+Split Grid is primarily for visual organization. It:
+- Divides the source image into equal cells
+- Creates reference outputs for each cell
+- Helps you visually track which part of an image flows where
+
+---
+
+## Output
+
+The Output node displays the final result of your workflow. Use it as the endpoint for generated images.
+
+### Inputs
+- **Image** — The image to display
+
+### Features
+- Large preview area
+- Click to open lightbox viewer
+- Download button for saving results
+- Shows image dimensions
+
+### Usage
+1. Add an Output node at the end of your workflow
+2. Connect the final image source
+3. Run the workflow
+4. View and download results from the Output node
+
+<Callout type="info">
+  While you can view images in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends.
+</Callout>
+
+---
+
+## Groups
+
+Groups aren't nodes, but they're an important organizational feature.
+
+### Creating Groups
+1. Select multiple nodes
+2. Right-click → "Create Group"
+3. Name your group
+
+### Group Features
+- **Color coding** — Groups have colored backgrounds
+- **Collective movement** — Drag to move all contained nodes
+- **Lock/unlock** — Locked groups skip execution
+
+### Use Cases
+- Organize related nodes visually
+- Disable workflow sections without deleting
+- Create reusable workflow "modules"
+
+---
+
+## Common Node Features
+
+All nodes share these capabilities:
+
+### Title Editing
+Click the title to rename any node. Custom names help organize complex workflows.
+
+### Comments
+Add comments to nodes for documentation. Hover to see the full comment.
+
+### Resizing
+Drag the bottom-right corner to resize nodes.
+
+### Execution Controls
+- **Play button** — Run from this node
+- **Regenerate** — Re-run with current inputs
+
+### Error States
+When a node encounters an error:
+- Red border appears
+- Error message displays
+- Check the browser console for details
