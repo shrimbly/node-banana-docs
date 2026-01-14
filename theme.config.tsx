@@ -4,8 +4,8 @@ import { DocsThemeConfig } from 'nextra-theme-docs'
 const config: DocsThemeConfig = {
   logo: (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <img src="/images/banana_icon.png" alt="Node Banana" width={28} height={28} />
-      <span style={{ fontWeight: 600 }}>Node Banana</span>
+      <img src="/images/banana_icon.png" alt="Node Banana" width={22} height={22} />
+      <span style={{ fontWeight: 600, fontSize: '1.25rem' }}>Node Banana</span>
     </div>
   ),
   project: {
@@ -13,7 +13,7 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: 'https://github.com/yourusername/node-banana-docs/tree/main',
   footer: {
-    content: (
+    text: (
       <span>
         {new Date().getFullYear()} © Node Banana. Built with Nextra.
       </span>
@@ -40,7 +40,7 @@ const config: DocsThemeConfig = {
     backToTop: true,
   },
   editLink: {
-    content: 'Edit this page on GitHub →'
+    text: 'Edit this page on GitHub →'
   },
   feedback: {
     content: null,
