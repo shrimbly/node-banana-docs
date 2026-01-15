@@ -28,7 +28,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx @anthropic-ai/claude-code --print --allowedTools "Bash,Read,Write,Edit,Glob,Grep" "
+          npx @anthropic-ai/claude-code --print --dangerously-skip-permissions --allowedTools "Bash,Read,Write,Edit,Glob,Grep" "
           A PR was just merged to the node-banana repository. Your task is to update this documentation site accordingly.
 
           ## Merged PR Details
