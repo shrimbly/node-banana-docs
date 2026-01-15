@@ -1,0 +1,53 @@
+name: Auto-Update Documentation
+
+on:
+  repository_dispatch:
+    types: [source-pr-merged]
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout docs repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Claude Code to update docs
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            A PR was just merged to the node-banana repository. Your task is to update this documentation site accordingly.
+
+            ## Merged PR Details
+            - **PR #${{ github.event.client_payload.pr_number }}**: ${{ github.event.client_payload.pr_title }}
+            - **URL**: ${{ github.event.client_payload.pr_url }}
+            - **Description**:
+            ${{ github.event.client_payload.pr_body }}
+
+            ## Instructions
+            1. Analyze the PR title and description to understand what changed
+            2. Determine if documentation updates are needed based on:
+               - New features → add to relevant guide pages + changelog
+               - Bug fixes → changelog only
+               - Breaking changes → update affected pages + changelog
+               - Internal/CI/API changes → no docs update needed
+
+            3. Update the changelog at `pages/changelog.mdx`:
+               - Add entry under "Unreleased" section
+               - Follow the existing format (Added/Changed/Fixed/Removed)
+               - Include PR number as reference
+
+            4. If relevant pages need updates, modify them following existing patterns
+
+            5. Create a PR with your changes:
+               - Branch name: `docs/pr-${{ github.event.client_payload.pr_number }}`
+               - PR title: `docs: update for PR #${{ github.event.client_payload.pr_number }}`
+
+            6. If no documentation updates are needed (e.g., internal refactoring, CI changes, API changes),
+               report that no updates were necessary and do not create a PR.
+
+          allowed_tools: "Read,Write,Edit,Glob,Grep,Bash"
+          timeout_minutes: 10
