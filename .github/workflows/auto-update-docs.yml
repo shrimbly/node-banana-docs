@@ -4,6 +4,11 @@ on:
   repository_dispatch:
     types: [source-pr-merged]
 
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   update-docs:
     runs-on: ubuntu-latest
@@ -18,7 +23,7 @@ jobs:
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
+          direct_prompt: |
             A PR was just merged to the node-banana repository. Your task is to update this documentation site accordingly.
 
             ## Merged PR Details
