@@ -8,11 +8,12 @@ This page documents all available node types in Node Banana. Each node serves a 
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
 | [Prompt](#prompt) | Text prompts | — | Text |
-| [Nano Banana](#nano-banana) | AI image generation | Image, Text | Image |
+| [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
+| [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
-| [Output](#output) | Display results | Image | — |
+| [Output](#output) | Display results | Image, Video | — |
 
 ---
 
@@ -76,45 +77,60 @@ sharp focus, high resolution
 
 ---
 
-## Nano Banana
+## Generate Image
 
-The Nano Banana node generates images using Google Gemini's image generation models.
+The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, and fal.ai.
 
 ### Inputs
-- **Image** (optional, multiple) — Reference images for the generation
+- **Image** (optional, multiple) — Reference images for the generation (supports image-to-image)
 - **Text** — The prompt describing what to generate
+- **Dynamic inputs** — Additional inputs based on selected model's schema
 
 ### Outputs
 - **Image** — The generated image
 
 ### Settings
 
-| Setting | Options |
-|---------|---------|
-| **Model** | nano-banana, nano-banana-pro |
-| **Aspect Ratio** | 1:1, 16:9, 9:16, 4:3, 3:4, 3:2, 2:3, 4:5, 5:4, 21:9 |
-| **Resolution** | 1K, 2K, 4K (Pro model only) |
-| **Google Search** | Enable/disable (Pro model only) |
+| Setting | Description |
+|---------|-------------|
+| **Provider** | Choose from Gemini, Replicate, or fal.ai |
+| **Model** | Select from available models (use search dialog) |
+| **Custom Parameters** | Model-specific parameters appear dynamically |
 
-### Model Comparison
+### Provider Configuration
 
-| Feature | nano-banana | nano-banana-pro |
-|---------|------------|-----------------|
-| Speed | Faster | Slower |
-| Quality | Good | Best |
-| Resolution | 1K only | Up to 4K |
-| Google Search | No | Yes |
-| Cost | $0.039/image | $0.134-$0.24/image |
+Configure API keys for each provider in Project Settings → Providers tab:
+- **Gemini** — Google AI API key
+- **Replicate** — Replicate API token
+- **fal.ai** — fal.ai API key
+
+### Model Discovery
+
+Click the model selector to open the Model Search dialog:
+- Browse models from all configured providers
+- Filter by provider using icon buttons
+- View recently used models for quick access
+- See capability badges (image/video) and model IDs
+- External links to model documentation
+
+### Dynamic Parameters
+
+Each model exposes its own parameters:
+- Parameters update automatically when changing models
+- Input handles appear/disappear based on schema
+- Parameter validation prevents invalid configurations
+- Custom UI for model-specific settings
 
 ### Usage
-1. Add a Nano Banana node
-2. Connect a Prompt node to the text input
-3. Optionally connect Image Input nodes for reference
-4. Select your model and aspect ratio
-5. Run the workflow
+1. Add a Generate Image node
+2. Select a provider and model
+3. Connect a Prompt node to the text input
+4. Optionally connect Image Input nodes for image-to-image
+5. Configure model-specific parameters
+6. Run the workflow
 
 <Callout type="info">
-  Multiple input images are combined and used as reference for the generation. The AI will attempt to incorporate elements from all connected images.
+  Image-to-image generation works across all providers. Large images are automatically converted to temporary URLs for provider compatibility.
 </Callout>
 
 ### Image Carousel
@@ -123,6 +139,66 @@ After generating, use the carousel to:
 - Browse previous generations (arrow buttons)
 - See generation history for this node
 - Select a previous result as the current output
+
+### Legacy Workflows
+
+Workflows using the old NanoBananaNode automatically migrate to GenerateImageNode on load.
+
+---
+
+## Generate Video
+
+The Generate Video node creates videos using AI models from providers that support video generation.
+
+### Inputs
+- **Image** (optional, multiple) — Reference images or starting frames
+- **Text** — The prompt describing the video to generate
+- **Dynamic inputs** — Additional inputs based on selected model's schema
+
+### Outputs
+- **Video** — The generated video
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Provider** | Choose from providers with video capabilities |
+| **Model** | Select from available video models |
+| **Custom Parameters** | Model-specific parameters (duration, fps, etc.) |
+
+### Video Generation Features
+
+- **Extended timeout** — 10-minute timeout for longer video processing
+- **Video playback** — In-node video player with controls
+- **Format detection** — Automatic handling of various video formats
+- **Generation queue** — Manages video generation tasks
+
+### Usage
+1. Add a Generate Video node
+2. Select a provider and video-capable model
+3. Connect a Prompt node describing the video
+4. Optionally connect Image Input for reference frames
+5. Configure video parameters (duration, style, etc.)
+6. Run the workflow
+
+<Callout type="warning">
+  Video generation typically takes longer than image generation and may have higher costs. Check provider pricing before running.
+</Callout>
+
+### Video Carousel
+
+After generating, use the carousel to:
+- Browse previous video generations
+- Play/pause videos directly in the node
+- Navigate through video generation history
+- Select a previous result as the current output
+
+### Output Display
+
+Connect Generate Video to an Output node to:
+- Display videos in a larger preview area
+- Access download controls
+- View video metadata (duration, resolution)
 
 ---
 
@@ -257,25 +333,28 @@ Split Grid is primarily for visual organization. It:
 
 ## Output
 
-The Output node displays the final result of your workflow. Use it as the endpoint for generated images.
+The Output node displays the final result of your workflow. Use it as the endpoint for generated images and videos.
 
 ### Inputs
-- **Image** — The image to display
+- **Image** — Images to display
+- **Video** — Videos to display
 
 ### Features
 - Large preview area
 - Click to open lightbox viewer
 - Download button for saving results
-- Shows image dimensions
+- Shows image dimensions or video metadata
+- Video playback controls with format detection
+- Carousel for browsing media history
 
 ### Usage
 1. Add an Output node at the end of your workflow
-2. Connect the final image source
+2. Connect the final image or video source
 3. Run the workflow
 4. View and download results from the Output node
 
 <Callout type="info">
-  While you can view images in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends.
+  While you can view images and videos in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends.
 </Callout>
 
 ---
