@@ -27,14 +27,18 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.client_payload.pr_number }}
+          PR_TITLE: ${{ github.event.client_payload.pr_title }}
+          PR_URL: ${{ github.event.client_payload.pr_url }}
+          PR_BODY: ${{ github.event.client_payload.pr_body }}
         run: |
-          npx @anthropic-ai/claude-code --print --dangerously-skip-permissions --allowedTools "Bash,Read,Write,Edit,Glob,Grep" "
+          PROMPT=$(cat <<'PROMPT_END'
           A PR was just merged to the node-banana repository. Your task is to update this documentation site accordingly.
 
           ## Merged PR Details
-          - PR #${{ github.event.client_payload.pr_number }}: ${{ github.event.client_payload.pr_title }}
-          - URL: ${{ github.event.client_payload.pr_url }}
-          - Description: ${{ github.event.client_payload.pr_body }}
+          - PR #${PR_NUMBER}: ${PR_TITLE}
+          - URL: ${PR_URL}
+          - Description: ${PR_BODY}
 
           ## Instructions
           1. Analyze the PR title and description to understand what changed
@@ -52,10 +56,16 @@ jobs:
           4. If relevant pages need updates, modify them following existing patterns
 
           5. After making changes, create a PR using gh CLI:
-             - Create branch: docs/pr-${{ github.event.client_payload.pr_number }}
+             - Create branch: docs/pr-${PR_NUMBER}
              - Commit changes
-             - Push and create PR with title: docs: update for PR #${{ github.event.client_payload.pr_number }}
+             - Push and create PR with title: docs: update for PR #${PR_NUMBER}
 
           6. If no documentation updates are needed (e.g., internal refactoring, CI changes, API changes),
              report that no updates were necessary and do not create a PR.
-          "
+          PROMPT_END
+          )
+
+          # Substitute environment variables
+          PROMPT=$(echo "$PROMPT" | envsubst)
+
+          npx @anthropic-ai/claude-code --print --dangerously-skip-permissions --allowedTools "Bash,Read,Write,Edit,Glob,Grep" "$PROMPT"
