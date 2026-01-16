@@ -21,7 +21,8 @@ Nodes are the building blocks of your workflow. Each node performs a specific fu
 |------|---------|
 | **Image Input** | Load images from your computer |
 | **Prompt** | Enter text prompts |
-| **Nano Banana** | Generate images with AI |
+| **Generate Image** | Generate images with AI (multi-provider) |
+| **Generate Video** | Generate videos with AI (multi-provider) |
 | **LLM Generate** | Generate text with AI |
 | **Annotation** | Draw on images |
 | **Split Grid** | Split images into grids |
@@ -71,14 +72,20 @@ Handles are the connection points on nodes. Node Banana has three handle types:
 ### Image Handles
 Used for visual content. Image data flows as base64-encoded data URLs.
 
-- Found on: Image Input, Annotation, Nano Banana, Split Grid, Output
+- Found on: Image Input, Annotation, Generate Image, Split Grid, Output
 - Color: Blue
 - Accepts: PNG, JPG, WebP images
+
+### Video Handles
+Used for video content. Video data flows as URLs or base64-encoded data.
+
+- Found on: Generate Video, Output
+- Accepts: Various video formats (MP4, WebM, etc.)
 
 ### Text Handles
 Used for string content like prompts and generated text.
 
-- Found on: Prompt, LLM Generate, Nano Banana (input)
+- Found on: Prompt, LLM Generate, Generate Image (input), Generate Video (input)
 - Color: Green
 - Accepts: Any text string
 
