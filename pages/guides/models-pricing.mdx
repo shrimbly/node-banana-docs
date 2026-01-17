@@ -124,15 +124,23 @@ import { Callout } from 'nextra/components'
 
 Node Banana tracks costs in several places:
 
-1. **Header** — Shows total workflow cost
-2. **Node preview** — Shows estimated cost before running
-3. **Generation history** — Tracks cost per generation
+1. **Header** — Shows total workflow cost in dollar format
+2. **Cost Dialog** — Provider-grouped breakdown with detailed cost information
+3. **Node preview** — Shows estimated cost before running
+4. **Generation history** — Tracks cost per generation
+
+The Cost Dialog provides:
+- Costs organized by provider (Gemini, Replicate, fal.ai)
+- Direct links to external provider pricing pages
+- Detailed pricing data for Gemini and fal.ai models
+- Dollar format for all costs
 
 ### How Costs Are Calculated
 
 - **Before running**: Estimated based on model and settings
 - **After running**: Actual cost recorded
 - **Cumulative**: All costs tracked across sessions
+- **Provider-specific**: Different providers may have different pricing structures
 
 ### Managing Costs
 
