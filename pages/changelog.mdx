@@ -10,6 +10,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Template Explorer UI** — Redesigned visual template browser with preview capabilities ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Two-column card layout with category filtering
+  - Template thumbnails with hover transitions showing workflow screenshots
+  - Grid layout with sidebar filter panel
+  - Interactive workflow diagram preview
+  - Category and provider filtering
+
+- **Node Defaults** — Set default models for Generate Image and Generate Video nodes per project ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - New Node Defaults tab in Project Setup modal
+  - Quick model picker integrated into defaults configuration
+  - Persistent storage saved per-project via localStorage
+  - New nodes automatically use configured defaults
+
+- **Cost Tracking Improvements** ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Provider-grouped breakdown in Cost Dialog
+  - Added Gemini model pricing data
+  - fal.ai pricing integration with model cost display
+  - Dollar format always shown for clarity
+  - Direct links to external provider pricing pages
+
 - **Multi-Provider Support** — Support for Replicate and fal.ai providers alongside Gemini ([#25](https://github.com/shrimbly/node-banana/pull/25))
   - Provider abstraction layer with unified interfaces
   - Per-provider API key management in Project Settings
@@ -55,6 +75,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- **Image History Critical Fixes** — Resolved race conditions and duplicate image issues ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Workflow saves now wait for pending image ID syncs to complete
+  - Store nodes receive refs after externalization, preventing duplicate files on save
+  - Carousel IDs properly synced with saved filenames
+- fal.ai 429 rate limit errors from excessive pricing API calls ([#30](https://github.com/shrimbly/node-banana/pull/30))
+- Template gallery scrolling and wheel event propagation with React Flow ([#30](https://github.com/shrimbly/node-banana/pull/30))
+- Thumbnail quality improved with 288px resize and fixed object-fit ([#30](https://github.com/shrimbly/node-banana/pull/30))
 - Run button and global modal state issues
 - Carousel image inversion
 - Two-finger pan behavior on Mac
