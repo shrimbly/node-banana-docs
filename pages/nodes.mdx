@@ -39,7 +39,7 @@ The Image Input node loads images into your workflow from your local filesystem.
 import { Callout } from 'nextra/components'
 
 <Callout type="tip">
-  You can paste images directly from your clipboard using `Cmd/Ctrl + V` when an Image Input node is selected.
+  **Image Paste Support**: Press `Cmd+V` (Mac) or `Ctrl+V` (Windows/Linux) to paste images directly from your clipboard. If an Image Input node is selected, it will update with the pasted image. Otherwise, a new Image Input node is created at the viewport center with the pasted image.
 </Callout>
 
 ---
@@ -339,6 +339,12 @@ The Output node displays the final result of your workflow. Use it as the endpoi
 - **Image** — Images to display
 - **Video** — Videos to display
 
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **outputFilename** | Custom filename for saved outputs (without extension). If empty, uses timestamp-based naming. |
+
 ### Features
 - Large preview area
 - Click to open lightbox viewer
@@ -346,15 +352,28 @@ The Output node displays the final result of your workflow. Use it as the endpoi
 - Shows image dimensions or video metadata
 - Video playback controls with format detection
 - Carousel for browsing media history
+- **Auto-save to outputs folder**: When your workflow has a project path configured, Output nodes automatically save results to an `/outputs` directory
+- **Custom filenames**: Set a custom `outputFilename` parameter to control the output filename (special characters are sanitized)
+- **Auto-directory creation**: The `/outputs` directory is automatically created if it doesn't exist
+
+### File Naming
+
+When saving outputs:
+- **With custom filename**: `{customFilename}_{hash}.{extension}`
+- **Without custom filename**: `generated-{timestamp}.{extension}`
+- Special characters in custom filenames are replaced with underscores
+- Multiple consecutive underscores are collapsed to a single underscore
 
 ### Usage
 1. Add an Output node at the end of your workflow
 2. Connect the final image or video source
-3. Run the workflow
-4. View and download results from the Output node
+3. (Optional) Set a custom `outputFilename` in the node settings
+4. Run the workflow
+5. View and download results from the Output node
+6. If your workflow has a project path, outputs are automatically saved to the `/outputs` folder
 
 <Callout type="info">
-  While you can view images and videos in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends.
+  While you can view images and videos in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends. When a project path is configured, they also handle automatic saving to the `/outputs` directory.
 </Callout>
 
 ---
@@ -390,8 +409,20 @@ Click the title to rename any node. Custom names help organize complex workflows
 ### Comments
 Add comments to nodes for documentation. Hover to see the full comment.
 
+#### Comment Navigation
+
+Use the comment navigation system to move between nodes with comments:
+- **Header icon**: Shows unviewed comment count badge in the header
+- **Previous/Next controls**: Navigate between comments using arrow buttons in comment tooltips
+- **Comment preview**: Hover over nodes to see comment previews in tooltips
+- **View tracking**: Unread comments are highlighted, and viewed comments are tracked during your session
+- **Auto-centering**: The viewport automatically centers on the target comment node when navigating
+- **Comment order**: Comments are sorted by position (top-to-bottom, left-to-right)
+
+This feature helps you review feedback and annotations in complex workflows without manually searching for commented nodes.
+
 ### Resizing
-Drag the bottom-right corner to resize nodes.
+Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically.
 
 ### Execution Controls
 - **Play button** — Run from this node
