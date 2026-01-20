@@ -21,18 +21,18 @@ The prompt node has:
 - An expand button to open a larger editor
 - A **text output handle** (small circle) on the right side
 
-## Step 2: Add a Generate Node
+## Step 2: Add a Generate Image Node
 
 1. Click the **Generate** button in the action bar (or press `Shift + G`)
-2. A generate node (Nano Banana) appears on the canvas
+2. A Generate Image node appears on the canvas
 3. Drag it to the right of your prompt node
 
-The generate node has:
+The Generate Image node has:
 - **Input handles** on the left (for images and text)
 - **Output handle** on the right (for the generated image)
-- Model selection dropdown
-- Aspect ratio selector
-- Resolution options (Pro model only)
+- Provider and model selection dropdown
+- Dynamic parameters based on selected model
+- Custom configuration options
 
 ## Step 3: Connect the Nodes
 
@@ -58,12 +58,24 @@ soft afternoon lighting, professional photography
 
 ## Step 5: Configure the Generator
 
-1. **Model**: Keep "nano-banana" for faster, cheaper generation
-2. **Aspect Ratio**: Choose from options like 1:1, 16:9, 4:3, etc.
+1. **Provider**: Start with "Gemini" (default)
+2. **Model**: Select a model like "nano-banana" for faster, cheaper generation
+3. **Parameters**: Configure model-specific options (aspect ratio, resolution, etc.)
 
 <Callout type="tip">
-  Start with "nano-banana" while testing. Switch to "nano-banana-pro" for higher quality final results.
+  Start with Gemini's "nano-banana" model while testing. You can explore other providers and models using the model search dialog for different capabilities and styles.
 </Callout>
+
+### Setting Default Models
+
+Save time by configuring default models for your project:
+
+1. Open **Project Setup** from the header menu
+2. Go to the **Node Defaults** tab
+3. Set your preferred default models for Generate Image and Generate Video nodes
+4. New nodes will automatically use these defaults
+
+This is especially useful when you have a preferred model you use frequently.
 
 ## Step 6: Run the Workflow
 

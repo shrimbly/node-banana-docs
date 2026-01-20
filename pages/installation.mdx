@@ -18,7 +18,10 @@ This guide walks you through setting up Node Banana on your local machine.
 Before installing Node Banana, make sure you have:
 
 - **Node.js** 18.0 or later — [Download Node.js](https://nodejs.org/en/download/)
-- **Google Gemini API key** — [Get one here](https://aistudio.google.com/apikey)
+- **At least one AI provider API key**:
+  - Google Gemini — [Get API key](https://aistudio.google.com/apikey)
+  - Replicate — [Get API key](https://replicate.com/account/api-tokens)
+  - fal.ai — [Get API key](https://fal.ai/dashboard/keys)
 - **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
 ## Installation Steps
@@ -44,11 +47,16 @@ Create a `.env.local` file in the project root:
 touch .env.local
 ```
 
-Add your API keys:
+Add your API keys (include at least one AI provider):
 
 ```env filename=".env.local"
+# AI Providers (at least one required)
 GEMINI_API_KEY=your_gemini_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here  # Optional
+REPLICATE_API_TOKEN=your_replicate_api_token_here
+FAL_KEY=your_fal_api_key_here
+
+# Optional
+OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 import { Callout } from 'nextra/components'
@@ -67,6 +75,8 @@ Node Banana will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Getting Your API Keys
 
+You need at least one AI provider API key. You can configure multiple providers to access different models.
+
 ### Google Gemini API Key
 
 1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
@@ -76,6 +86,28 @@ Node Banana will be available at [http://localhost:3000](http://localhost:3000).
 
 <Callout type="info">
   The Gemini API has a free tier with generous limits. Check [Google's pricing](https://ai.google.dev/pricing) for details.
+</Callout>
+
+### Replicate API Token
+
+1. Go to [Replicate](https://replicate.com/account/api-tokens)
+2. Sign in or create an account
+3. Copy your API token
+4. Add it to your `.env.local` file as `REPLICATE_API_TOKEN`
+
+<Callout type="info">
+  Replicate offers pay-per-use pricing with access to thousands of open-source models. Check [Replicate pricing](https://replicate.com/pricing) for details.
+</Callout>
+
+### fal.ai API Key
+
+1. Go to [fal.ai Dashboard](https://fal.ai/dashboard/keys)
+2. Sign in or create an account
+3. Create a new API key
+4. Add it to your `.env.local` file as `FAL_KEY`
+
+<Callout type="info">
+  fal.ai offers fast inference with competitive pricing. Check [fal.ai pricing](https://fal.ai/pricing) for details.
 </Callout>
 
 ### OpenAI API Key (Optional)
@@ -116,4 +148,4 @@ npm run dev -- -p 3001
 
 ## Next Steps
 
-Now that Node Banana is running, continue to [Your First Workflow](/getting-started/first-workflow) to create your first image generation pipeline.
+Now that Node Banana is running, continue to [Your First Workflow](/first-workflow) to create your first image generation pipeline.

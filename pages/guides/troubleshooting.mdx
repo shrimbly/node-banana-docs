@@ -10,12 +10,15 @@ This guide covers common issues and their solutions.
 
 **Solution**:
 1. Check that `.env.local` exists in the project root
-2. Verify the file contains `GEMINI_API_KEY=your_key_here`
+2. Verify you have at least one provider API key configured
 3. Restart the development server after editing
 4. Ensure no extra spaces or quotes around the key
 
 ```env filename=".env.local"
+# At least one of these is required
 GEMINI_API_KEY=AIza...
+REPLICATE_API_TOKEN=r8_...
+FAL_KEY=...
 ```
 
 ### Port 3000 in use
@@ -62,17 +65,19 @@ import { Callout } from 'nextra/components'
 **Cause**: Large images, complex prompts, or API congestion.
 
 **Solutions**:
-- Use nano-banana instead of Pro for testing
+- Use faster models for testing (check model descriptions for speed info)
 - Reduce resolution setting
-- Check API status for outages
+- Check provider status pages for outages
+- For video generation, note that processing can take several minutes
 
 ### Poor quality output
 
 **Solutions**:
 - Write more detailed prompts
-- Use nano-banana-pro for final outputs
+- Try different models — each has different strengths
 - Provide better reference images
 - Increase resolution
+- Experiment with model-specific parameters
 
 ### "Content blocked" error
 
@@ -220,6 +225,30 @@ import { Callout } from 'nextra/components'
 - Check API status pages
 - Wait and retry
 - Report persistent issues
+
+## Provider-Specific Issues
+
+### Replicate errors
+
+**"Model not found"**: The model may have been removed or renamed. Use the model search dialog to find current models.
+
+**Slow generation**: Some Replicate models run on cold-start hardware. First generations may take longer.
+
+**Rate limiting**: Replicate has per-account rate limits. Space out requests or upgrade your plan.
+
+### fal.ai errors
+
+**"Invalid API key"**: Verify your FAL_KEY is correct in `.env.local`. Keys are case-sensitive.
+
+**Timeout errors**: Some models (especially video) may exceed default timeouts. The app includes extended timeout support for video generation.
+
+### Video generation issues
+
+**Video won't play**: Ensure the output is connected to an Output node, which supports video playback.
+
+**Generation timeout**: Video generation can take several minutes. The app uses a 10-minute timeout for video models.
+
+**Format not supported**: Some video formats may not play in all browsers. Chrome has the best compatibility.
 
 ## Getting More Help
 

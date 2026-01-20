@@ -6,9 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## Unreleased
+## Latest
 
 ### Added
+
+- **Template Explorer UI** — Redesigned visual template browser with preview capabilities ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Two-column card layout with category filtering
+  - Template thumbnails with hover transitions showing workflow screenshots
+  - Grid layout with sidebar filter panel
+  - Interactive workflow diagram preview
+  - Category and provider filtering
+
+- **Node Defaults** — Set default models for Generate Image and Generate Video nodes per project ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - New Node Defaults tab in Project Setup modal
+  - Quick model picker integrated into defaults configuration
+  - Persistent storage saved per-project via localStorage
+  - New nodes automatically use configured defaults
+
+- **Cost Tracking Improvements** ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Provider-grouped breakdown in Cost Dialog
+  - Added Gemini model pricing data
+  - fal.ai pricing integration with model cost display
+  - Dollar format always shown for clarity
+  - Direct links to external provider pricing pages
+
+- **Multi-Provider Support** — Support for Replicate and fal.ai providers alongside Gemini ([#25](https://github.com/shrimbly/node-banana/pull/25))
+  - Provider abstraction layer with unified interfaces
+  - Per-provider API key management in Project Settings
+  - Model discovery endpoint aggregating models from all providers
+  - Model search dialog with provider filtering and recently used tracking
+
+- **Video Generation** — New GenerateVideoNode for AI video generation ([#25](https://github.com/shrimbly/node-banana/pull/25))
+  - Video playback in OutputNode with format detection
+  - Carousel controls for video history navigation
+  - Video generation queue system with 10-minute timeout
 
 - **AI Quickstart Feature** — Generate complete workflows from natural language descriptions
   - Welcome screen with preset templates and custom description input
@@ -27,8 +58,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Group Locking** — Lock node groups to skip them during workflow execution
 - **Image Carousel** — Browse through image history on generation nodes
 
+### Changed
+
+- **GenerateImageNode** — Replaced NanoBananaNode with unified GenerateImageNode ([#25](https://github.com/shrimbly/node-banana/pull/25))
+  - Provider and model selector dropdown
+  - Dynamic input handles based on model schema
+  - Custom model parameters UI with validation
+  - Image-to-image support across all providers
+  - Legacy workflows automatically migrate
+
+- **UI Improvements** — Redesigned node handles and error display ([#25](https://github.com/shrimbly/node-banana/pull/25))
+  - Node handles match reference UI with aligned connection points
+  - Error overlay on generate nodes with toast notifications
+  - Auto-resize for generate nodes on output
+  - Streamlined header with visual grouping
+
 ### Fixed
 
+- **Image History Critical Fixes** — Resolved race conditions and duplicate image issues ([#30](https://github.com/shrimbly/node-banana/pull/30))
+  - Workflow saves now wait for pending image ID syncs to complete
+  - Store nodes receive refs after externalization, preventing duplicate files on save
+  - Carousel IDs properly synced with saved filenames
+- fal.ai 429 rate limit errors from excessive pricing API calls ([#30](https://github.com/shrimbly/node-banana/pull/30))
+- Template gallery scrolling and wheel event propagation with React Flow ([#30](https://github.com/shrimbly/node-banana/pull/30))
+- Thumbnail quality improved with 288px resize and fixed object-fit ([#30](https://github.com/shrimbly/node-banana/pull/30))
 - Run button and global modal state issues
 - Carousel image inversion
 - Two-finger pan behavior on Mac
@@ -36,6 +89,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Duplicate input images for generateVideo nodes ([#26](https://github.com/shrimbly/node-banana/pull/26))
 - Connection handling now finds first unoccupied input handle instead of always targeting the first one ([#26](https://github.com/shrimbly/node-banana/pull/26))
 - Gemini model parameters (aspectRatio, resolution, useGoogleSearch) now display correctly when Gemini models are selected ([#26](https://github.com/shrimbly/node-banana/pull/26))
+- Connection drop menu now works with dynamic handles ([#25](https://github.com/shrimbly/node-banana/pull/25))
+- Drag-connect node creation and handle persistence bugs ([#25](https://github.com/shrimbly/node-banana/pull/25))
 
 ---
 

@@ -82,10 +82,11 @@ When annotating images for AI reference:
 - The AI sees exactly what you draw
 
 ### Reference Images
-When providing reference images to Nano Banana:
+When providing reference images to Generate Image nodes:
 - Include images that show what you want
 - Multiple references can guide style, composition, color
 - Conflicting references may confuse the model
+- Image-to-image support works across all providers
 
 ## Execution Strategies
 
@@ -111,7 +112,10 @@ Use the play button on individual nodes to:
 ## Cost Management
 
 ### Iterate Cheaply
-Use nano-banana (not Pro) while iterating. Switch to Pro only for final outputs.
+Use faster, cheaper models while iterating. Switch to higher-quality models only for final outputs. Check the Models & Pricing guide for cost comparisons.
+
+### Compare Providers
+Different providers have different pricing. Replicate and fal.ai often have competitive rates for open-source models.
 
 ### Check Before Running
 Review estimated costs in the header before executing large workflows.
@@ -136,31 +140,37 @@ Create folders for different projects or clients.
 
 ### Prompt Enhancement Pipeline
 ```
-[Your Prompt] → [LLM: Enhance this prompt] → [Nano Banana]
+[Your Prompt] → [LLM: Enhance this prompt] → [Generate Image]
 ```
 Use an LLM to expand simple prompts into detailed generation instructions.
 
 ### A/B Testing
 ```
-                    ┌→ [Nano Banana: Model A]
+                    ┌→ [Generate Image: Provider A]
 [Prompt] → [Split] ─┤
-                    └→ [Nano Banana: Model B]
+                    └→ [Generate Image: Provider B]
 ```
-Compare different models or settings on the same prompt.
+Compare different providers or models on the same prompt.
 
 ### Iterative Refinement
 ```
-[Image] → [Annotate: Mark changes] → [Nano Banana: Apply changes]
+[Image] → [Annotate: Mark changes] → [Generate Image: Apply changes]
 ```
 Draw on images to guide refinements.
 
 ### Multi-Style Generation
 ```
-                           ┌→ [Prompt: Style 1] → [Generate]
-[Base Prompt] → [LLM] ─────┼→ [Prompt: Style 2] → [Generate]
-                           └→ [Prompt: Style 3] → [Generate]
+                           ┌→ [Prompt: Style 1] → [Generate Image]
+[Base Prompt] → [LLM] ─────┼→ [Prompt: Style 2] → [Generate Image]
+                           └→ [Prompt: Style 3] → [Generate Image]
 ```
 Generate multiple style variations from one concept.
+
+### Video Generation
+```
+[Prompt] → [Generate Video] → [Output: Video playback]
+```
+Create AI-generated videos using video-capable models from Replicate or fal.ai.
 
 ## Troubleshooting Workflows
 
