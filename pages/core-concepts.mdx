@@ -150,7 +150,7 @@ import { Callout } from 'nextra/components'
 |----------|--------|
 | `Cmd/Ctrl + Enter` | Run workflow |
 | `Cmd/Ctrl + C` | Copy selected nodes |
-| `Cmd/Ctrl + V` | Paste nodes |
+| `Cmd/Ctrl + V` | Paste nodes (or paste image into selected Image Input node) |
 | `Shift + P` | Add Prompt node |
 | `Shift + I` | Add Image Input node |
 | `Shift + G` | Add Generate Image node |
@@ -191,5 +191,16 @@ Node Banana automatically saves your work:
 - **Interval** — Every 90 seconds when enabled
 - **Location** — Configured in project settings
 - **Format** — JSON workflow files
+- **Image storage** — Workflows can store images as external files (default) or embedded base64 data. The `useExternalImageStorage` setting persists in the workflow configuration.
 
 The header shows save status and last save time.
+
+### Save Directory Changes
+
+When you save a workflow to a different directory:
+- Image references are automatically cleared to prevent invalid paths
+- A new workflow ID is generated to avoid localStorage conflicts
+- Images are re-saved to the new location
+- Image history IDs are preserved during the migration
+
+This ensures your workflow remains self-contained and portable across different project directories.

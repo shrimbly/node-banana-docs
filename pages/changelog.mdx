@@ -10,6 +10,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Comment Navigation System** — Navigate between nodes with comments using Previous/Next controls ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Header icon with unviewed comment count badge
+  - Previous/Next navigation arrows in comment tooltips
+  - Tooltips show comment preview on hover
+  - View tracking highlights unread comments
+  - Auto-centering viewport on navigation
+  - Comments sorted by position (top-to-bottom, left-to-right)
+  - New `useCommentNavigation` hook with full test coverage
+
+- **Output Node Enhancements** — Custom filename support and auto-directory creation ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - `outputFilename` parameter for custom output filenames
+  - Auto-create `/outputs` directory option
+  - Automatic saving to `/outputs` when workflow has project path
+  - Custom filenames sanitized (special chars replaced with underscores)
+
+- **Image Paste Support** — Paste images directly from clipboard into imageInput nodes ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Press Cmd+V (Mac) or Ctrl+V (Windows/Linux) to paste images
+  - Updates selected imageInput node or creates new node at viewport center
+  - Automatic dimension extraction and timestamp-based naming
+
+- **Community Workflows Enhancements** — Rich metadata system for template explorer ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Centralized metadata config system (`communityWorkflows.ts`)
+  - Extended metadata: description, tags, preview images, sort order
+  - Template card reuse for consistent styling across all workflows
+  - Tag filtering now works for community workflows
+  - Search includes workflow descriptions
+  - Community workflow thumbnails in `/template-thumbnails/community/`
+  - Node count badge moved inline with tags
+
 - **Template Explorer UI** — Redesigned visual template browser with preview capabilities ([#30](https://github.com/shrimbly/node-banana/pull/30))
   - Two-column card layout with category filtering
   - Template thumbnails with hover transitions showing workflow screenshots
@@ -60,6 +89,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- **External Image Storage** — Now persists in workflow configuration ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - `useExternalImageStorage` field saved in workflow JSON
+  - Setting persists across sessions (previously in-memory only)
+  - Automatic image ref clearing when saving to different directory
+  - New workflow ID generated when changing save directory
+
+- **Node Dimension Handling** — Nodes preserve user-set height on resize ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - New `calculateNodeSizePreservingHeight()` utility
+  - Aspect ratio changes only adjust width, preserving manual height adjustments
+  - Applied to GenerateImageNode and GenerateVideoNode
+
+- **Comment Tooltips** — Enhanced positioning and navigation UI ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Tooltip position updates continuously during canvas pan/zoom
+  - Uses `requestAnimationFrame` for smooth tracking
+  - Centered above comment button (changed from right-aligned)
+  - Includes Previous/Next navigation controls
+
+- **Video Detection** — Improved video content recognition ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Now detects `fal.media` URLs (fal.ai video URLs)
+  - Checks for `data:video/` prefix and `.mp4`/`.webm` extensions
+  - Output nodes correctly distinguish image vs video content
+
+- **Model Selection** — Gemini generation uses `selectedModel.modelId` when available ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Falls back to legacy `model` field for backwards compatibility
+  - Ensures correct model selection in multi-provider workflows
+
 - **GenerateImageNode** — Replaced NanoBananaNode with unified GenerateImageNode ([#25](https://github.com/shrimbly/node-banana/pull/25))
   - Provider and model selector dropdown
   - Dynamic input handles based on model schema
@@ -74,6 +129,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Streamlined header with visual grouping
 
 ### Fixed
+
+- **Image History Improvements** — Additional fixes for edge cases ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Image history race condition causing duplicate images resolved
+  - Image history IDs now preserved when saving to new directory
+  - `outputImageRef` validation against selected history index on save
+  - Missing image files return 200 with `notFound` flag instead of 404 (prevents Next.js error overlay)
+
+- **Video Output Connections** — Fixed video output node connection handling ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Video connections now properly recognized and displayed
+  - Improved content type detection for video formats
+
+- **Node Styling** — React Flow default styles no longer leak into output nodes ([#33](https://github.com/shrimbly/node-banana/pull/33))
 
 - **Image History Critical Fixes** — Resolved race conditions and duplicate image issues ([#30](https://github.com/shrimbly/node-banana/pull/30))
   - Workflow saves now wait for pending image ID syncs to complete
@@ -91,6 +158,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Gemini model parameters (aspectRatio, resolution, useGoogleSearch) now display correctly when Gemini models are selected ([#26](https://github.com/shrimbly/node-banana/pull/26))
 - Connection drop menu now works with dynamic handles ([#25](https://github.com/shrimbly/node-banana/pull/25))
 - Drag-connect node creation and handle persistence bugs ([#25](https://github.com/shrimbly/node-banana/pull/25))
+
+### Removed
+
+- **Deprecated Examples** — Removed obsolete contact sheet workflows ([#33](https://github.com/shrimbly/node-banana/pull/33))
+  - Removed `examples/contact-sheet-jpow.json`
+  - Removed `examples/contact-sheet-tim.json`
+  - Added `Fashion-image-to-video.json` example (tracked with Git LFS)
 
 ---
 
