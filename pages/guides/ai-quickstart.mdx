@@ -15,6 +15,7 @@ The Template Explorer provides a visual interface for browsing and selecting wor
 - **Provider Filtering** — See which providers each template requires
 - **Interactive Preview** — View workflow diagrams before loading
 - **Grid Layout** — Browse templates in an organized card layout with sidebar filters
+- **Community Workflows** — Access community-contributed workflows stored remotely on node-banana-pro
 
 ## Preset Templates
 
@@ -49,6 +50,20 @@ Apply an artistic style to your images.
 Combine multiple elements into a cohesive scene.
 - **Inputs needed**: Multiple source images
 - **Output**: Composite image
+
+## Community Workflows
+
+Community workflows are user-contributed templates stored remotely on node-banana-pro. These workflows are:
+
+- **Automatically updated** — New community workflows appear without requiring Node Banana updates
+- **Centrally managed** — Hosted on R2 storage for fast, reliable access
+- **No repository bloat** — Workflows are fetched on-demand, keeping your local installation lean
+
+By default, Node Banana fetches community workflows from the hosted node-banana-pro service. If you're self-hosting or want to use a custom workflow source, you can set the `COMMUNITY_WORKFLOWS_API_URL` environment variable in your `.env.local` file.
+
+<Callout type="info">
+  Community workflows require the same API keys as any other workflow. Make sure you have the necessary provider API keys configured for the workflows you want to use.
+</Callout>
 
 ## Custom Workflow Generation
 

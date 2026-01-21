@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Changed
+
+- **Community Workflows Storage** — Migrated from Git LFS to R2 storage on node-banana-pro ([#35](https://github.com/shrimbly/node-banana/pull/35))
+  - Community workflows now fetched from remote API instead of local files
+  - Repository size dramatically reduced (~424MB removed)
+  - No Git LFS dependency required
+  - API routes proxy to `nodebananapro.com` by default
+  - 5-minute cache for workflow listings, 10-minute cache for individual workflows
+  - New `COMMUNITY_WORKFLOWS_API_URL` environment variable for custom hosting
+
+### Removed
+
+- **Local Community Workflow Files** — Removed from repository in favor of remote storage ([#35](https://github.com/shrimbly/node-banana/pull/35))
+  - Removed `examples/Fashion-image-to-video.json` (263MB)
+  - Removed `examples/contact-sheet-billsSupra.json` (79MB)
+  - Removed `examples/contact-sheet-ChrisWalkman.json` (82MB)
+  - Removed `src/lib/quickstart/communityWorkflows.ts` (metadata now server-side)
+  - Removed `.gitattributes` (Git LFS no longer needed)
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added
