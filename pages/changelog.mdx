@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **Community Workflow Loading** — Large workflow files (275MB+) now download reliably without timeouts ([#36](https://github.com/shrimbly/node-banana/pull/36))
+  - Workflows fetched using presigned URLs directly from R2 storage
+  - Prevents API proxy timeouts for large files like Fashion-image-to-video workflow
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added
