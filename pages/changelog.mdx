@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **Prompt Node Input** — Fixed cursor jumping when typing in prompt nodes by using local state ([#37](https://github.com/shrimbly/node-banana/pull/37))
+  - Text input now remains stable during typing
+  - Changes persist to store only on blur for better performance
+
+- **Indexed Handle Connections** — Fixed connection handling for indexed handles like `text-0`, `image-0` ([#37](https://github.com/shrimbly/node-banana/pull/37))
+  - WorkflowCanvas now correctly identifies indexed handle types using `startsWith()` checks
+  - Connections to dynamic multi-input nodes work reliably
+
+- **Video Node Validation** — Added validation for generateVideo nodes requiring text input ([#37](https://github.com/shrimbly/node-banana/pull/37))
+  - Workflow validation now checks both `text` and `text-N` handles for video nodes
+  - Prevents running video generation without required text prompts
+
+### Changed
+
+- **Community Workflows API** — Hardcoded API URL to prevent errors from placeholder in `.env.example` ([#37](https://github.com/shrimbly/node-banana/pull/37))
+  - Removed `COMMUNITY_WORKFLOWS_API_URL` environment variable
+  - Community workflows now always use `nodebananapro.com` hosted service
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added
