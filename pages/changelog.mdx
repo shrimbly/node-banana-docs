@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Added
+
+- **Prompt Node Text Connections** — Prompt nodes can now receive incoming text connections, enabling LLM-to-Prompt chaining ([#38](https://github.com/shrimbly/node-banana/pull/38))
+  - Connect LLM Generate output directly to Prompt input
+  - Prompt text area becomes read-only when receiving text from another node
+  - Enables automated prompt enhancement workflows
+
+- **LLM Node Enhancements** — Improved parameter controls and output handling ([#38](https://github.com/shrimbly/node-banana/pull/38))
+  - Collapsible Parameters section with temperature (0-2) and max tokens (256-16384) sliders
+  - Copy to clipboard button for generated text output
+  - Max tokens default setting (256-16384) in Project Setup → Node Defaults tab
+  - Visual feedback when text is copied (green checkmark)
+
+### Fixed
+
+- **Node Selection Bug** — Drag selections no longer incorrectly include distant nodes ([#38](https://github.com/shrimbly/node-banana/pull/38))
+  - Uses IQR-based statistical outlier detection to identify and deselect nodes outside selection area
+  - Resolves issue where nodes with undefined React Flow bounds were included in selections
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added

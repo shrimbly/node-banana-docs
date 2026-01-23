@@ -7,7 +7,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | Node | Purpose | Inputs | Outputs |
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
-| [Prompt](#prompt) | Text prompts | — | Text |
+| [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
 | [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
@@ -46,7 +46,10 @@ import { Callout } from 'nextra/components'
 
 ## Prompt
 
-The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation.
+The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation, or to receive text from other nodes like LLM Generate.
+
+### Inputs
+- **Text** (optional) — Incoming text from another node (e.g., LLM output)
 
 ### Outputs
 - **Text** — The prompt text string
@@ -55,12 +58,28 @@ The Prompt node provides text input for your workflow. Use it to write prompts f
 - Inline text editing
 - Expand button for larger editor (modal)
 - Full-screen editing mode for complex prompts
+- **Text input connection**: Receive text from LLM Generate or other text-producing nodes
+  - When connected, the text area becomes read-only
+  - Placeholder text indicates "Receiving text from connected node..."
+  - Enables automated prompt workflows and LLM chaining
 
 ### Usage
+
+**Manual entry:**
 1. Add a Prompt node
 2. Type your prompt in the text area
 3. Click the expand icon for a larger editor
-4. Connect to Nano Banana or LLM Generate nodes
+4. Connect to Generate Image or LLM Generate nodes
+
+**Receiving text from other nodes:**
+1. Add a Prompt node
+2. Connect an LLM Generate (or other text output) to the Prompt's text input handle
+3. The Prompt automatically receives and displays the connected text
+4. Use the Prompt output to feed into Generate Image nodes or other text consumers
+
+<Callout type="tip">
+  **LLM-to-Prompt Chaining**: Connect an LLM Generate output to a Prompt input to create automated prompt enhancement workflows. For example: `[Initial Prompt] → [LLM: "enhance this prompt"] → [Enhanced Prompt] → [Generate Image]`
+</Callout>
 
 ### Writing Effective Prompts
 
@@ -218,8 +237,21 @@ The LLM Generate node creates text using large language models. Use it for promp
 | Setting | Description |
 |---------|-------------|
 | **Model** | Select from Gemini or OpenAI models |
-| **Temperature** | Controls randomness (0-1) |
-| **Max Tokens** | Maximum output length |
+| **Temperature** | Controls randomness (0-2) — adjustable in collapsible Parameters section |
+| **Max Tokens** | Maximum output length (256-16384) — adjustable in collapsible Parameters section |
+
+### Parameters
+
+The LLM Generate node includes a collapsible **Parameters** section to configure generation settings without cluttering the node interface:
+
+- **Temperature slider**: 0 to 2.0 in 0.1 increments
+  - Lower values (0-0.5) produce more focused, deterministic output
+  - Higher values (1.5-2.0) produce more creative, varied output
+- **Max Tokens slider**: 256 to 16,384 in 256-token increments
+  - Controls the maximum length of generated text
+  - Higher values allow longer outputs but may increase costs
+
+Click "Parameters" to expand/collapse this section.
 
 ### Available Models
 
@@ -236,12 +268,20 @@ The LLM Generate node creates text using large language models. Use it for promp
   OpenAI models require a separate `OPENAI_API_KEY` in your environment.
 </Callout>
 
+### Features
+
+- **Copy to Clipboard**: Click the copy button on generated output to copy text to your clipboard
+  - Button shows a green checkmark when text is copied
+  - Useful for quickly transferring LLM output to other applications
+
 ### Usage
 1. Add an LLM Generate node
 2. Connect a Prompt node with your instructions
 3. Optionally connect images for multimodal input
-4. Configure model and parameters
-5. Run to generate text
+4. Configure model in the dropdown
+5. (Optional) Expand Parameters section to adjust temperature and max tokens
+6. Run to generate text
+7. Use the copy button to copy output to clipboard
 
 ### Example: Prompt Enhancement
 

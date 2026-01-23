@@ -85,9 +85,13 @@ Used for video content. Video data flows as URLs or base64-encoded data.
 ### Text Handles
 Used for string content like prompts and generated text.
 
-- Found on: Prompt, LLM Generate, Generate Image (input), Generate Video (input)
+- Found on: Prompt (input and output), LLM Generate (input and output), Generate Image (input), Generate Video (input)
 - Color: Green
 - Accepts: Any text string
+
+<Callout type="info">
+  Prompt nodes can now both receive and send text. Connect LLM Generate output to Prompt input to chain text processing nodes together.
+</Callout>
 
 ### Reference Handles
 Used for organizational purposes, primarily with Split Grid.
