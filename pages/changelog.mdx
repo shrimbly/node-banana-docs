@@ -2,7 +2,31 @@
 
 All notable changes to Node Banana are documented here.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+---
+
+## 1.3.0 — 2026-01-31
+
+### Added
+
+- Prompt nodes can now receive text connections for LLM-to-Prompt chaining ([#38](https://github.com/shrimbly/node-banana/pull/38))
+- LLM node collapsible parameters, copy-to-clipboard, and max tokens setting ([#38](https://github.com/shrimbly/node-banana/pull/38))
+
+### Changed
+
+- Community workflows migrated from Git LFS to R2 storage on node-banana-pro ([#35](https://github.com/shrimbly/node-banana/pull/35), [#37](https://github.com/shrimbly/node-banana/pull/37))
+
+### Fixed
+
+- Cursor jumping when typing in prompt nodes ([#37](https://github.com/shrimbly/node-banana/pull/37))
+- Connection handling for indexed handles like `text-0`, `image-0` ([#37](https://github.com/shrimbly/node-banana/pull/37))
+- Video node validation now requires text input ([#37](https://github.com/shrimbly/node-banana/pull/37))
+- Drag selection incorrectly including distant nodes ([#38](https://github.com/shrimbly/node-banana/pull/38))
+- Multiple image inputs overwriting instead of aggregating into arrays ([#40](https://github.com/shrimbly/node-banana/pull/40))
+- Directory path normalization on macOS network volumes ([#41](https://github.com/shrimbly/node-banana/pull/41))
+
+### Removed
+
+- Local community workflow files (~424MB) in favor of remote storage ([#35](https://github.com/shrimbly/node-banana/pull/35))
 
 ---
 

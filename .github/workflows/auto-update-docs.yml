@@ -69,7 +69,10 @@ jobs:
           1. **Changelog (pages/changelog.mdx)**: ALWAYS add an entry for code changes
              - Use the existing format (Added/Changed/Fixed/Removed)
              - Include PR number as reference
-             - Be specific about what was added/changed
+             - Keep entries succinct — one line per change, no sub-bullets
+             - Good: "Prompt nodes can now receive text connections for LLM-to-Prompt chaining ([#38](url))"
+             - Bad: A bold title followed by multiple nested bullets explaining implementation details
+             - Focus on what changed from the user's perspective, not how it was implemented
 
           2. **Feature Documentation**: For new features, ensure they are documented in the appropriate page:
              - New node types → pages/nodes.mdx

@@ -7,7 +7,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | Node | Purpose | Inputs | Outputs |
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
-| [Prompt](#prompt) | Text prompts | — | Text |
+| [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
 | [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
@@ -46,7 +46,10 @@ import { Callout } from 'nextra/components'
 
 ## Prompt
 
-The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation.
+The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation, or to receive text from other nodes like LLM Generate.
+
+### Inputs
+- **Text** (optional) — Incoming text from another node (e.g., LLM output)
 
 ### Outputs
 - **Text** — The prompt text string
@@ -55,12 +58,28 @@ The Prompt node provides text input for your workflow. Use it to write prompts f
 - Inline text editing
 - Expand button for larger editor (modal)
 - Full-screen editing mode for complex prompts
+- **Text input connection**: Receive text from LLM Generate or other text-producing nodes
+  - When connected, the text area becomes read-only
+  - Placeholder text indicates "Receiving text from connected node..."
+  - Enables automated prompt workflows and LLM chaining
 
 ### Usage
+
+**Manual entry:**
 1. Add a Prompt node
 2. Type your prompt in the text area
 3. Click the expand icon for a larger editor
-4. Connect to Nano Banana or LLM Generate nodes
+4. Connect to Generate Image or LLM Generate nodes
+
+**Receiving text from other nodes:**
+1. Add a Prompt node
+2. Connect an LLM Generate (or other text output) to the Prompt's text input handle
+3. The Prompt automatically receives and displays the connected text
+4. Use the Prompt output to feed into Generate Image nodes or other text consumers
+
+<Callout type="tip">
+  **LLM-to-Prompt Chaining**: Connect an LLM Generate output to a Prompt input to create automated prompt enhancement workflows. For example: `[Initial Prompt] → [LLM: "enhance this prompt"] → [Enhanced Prompt] → [Generate Image]`
+</Callout>
 
 ### Writing Effective Prompts
 
@@ -218,8 +237,17 @@ The LLM Generate node creates text using large language models. Use it for promp
 | Setting | Description |
 |---------|-------------|
 | **Model** | Select from Gemini or OpenAI models |
-| **Temperature** | Controls randomness (0-1) |
-| **Max Tokens** | Maximum output length |
+| **Temperature** | Controls randomness (0-2) — adjustable in collapsible Parameters section |
+| **Max Tokens** | Maximum output length (256-16384) — adjustable in collapsible Parameters section |
+
+### Parameters
+
+The Parameters section is collapsible and contains:
+- **Temperature** slider (0-2) — Controls output randomness
+- **Max Tokens** slider (256-16384) — Controls maximum output length
+
+### Features
+- **Copy to clipboard** — Click the copy button on generated text output. A green checkmark confirms the copy.
 
 ### Available Models
 
