@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **Directory Path Normalization** — Fixed directory path handling on macOS network volumes ([#41](https://github.com/shrimbly/node-banana/pull/41))
+  - Server-side normalization strips hostname prefixes from paths (e.g. `HOSTNAME/Users/guy/Desktop` → `/Users/guy/Desktop`)
+  - Client-side validation enforces absolute paths before API calls
+  - Prevents invalid paths from being accepted in Project Setup modal
+  - Comprehensive test coverage for cross-platform path handling
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added
