@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **Multiple Image Inputs** — Fixed dynamic inputs losing values when multiple edges target the same schema-mapped handle ([#40](https://github.com/shrimbly/node-banana/pull/40))
+  - Images now aggregate into arrays instead of overwriting when multiple connections map to same parameter
+  - Single image connections remain as strings for backward compatibility
+  - Added 4 regression tests for multi-image aggregation scenarios
+  - Type safety improved with `dynamicInputs` supporting both `string` and `string[]` values
+
+---
+
 ## 1.2.0 — 2026-01-20
 
 ### Added
