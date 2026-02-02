@@ -8,12 +8,15 @@ This page documents all available node types in Node Banana. Each node serves a 
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
 | [Prompt](#prompt) | Text prompts | Text (optional) | Text |
+| [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
 | [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
 | [Output](#output) | Display results | Image, Video | — |
+| [Output Gallery](#output-gallery) | View image collections | Image (multiple) | — |
+| [Image Compare](#image-compare) | Compare two images | Image (2) | — |
 
 ---
 
@@ -57,11 +60,15 @@ The Prompt node provides text input for your workflow. Use it to write prompts f
 ### Features
 - Inline text editing
 - Expand button for larger editor (modal)
-- Full-screen editing mode for complex prompts
+- Full-screen editing mode for complex prompts with persistent font size preference
 - **Text input connection**: Receive text from LLM Generate or other text-producing nodes
   - When connected, the text area becomes read-only
   - Placeholder text indicates "Receiving text from connected node..."
   - Enables automated prompt workflows and LLM chaining
+- **Variable naming**: Assign a variable name to the prompt for use in [Prompt Constructor](#prompt-constructor) templates
+  - Click the variable name button in the header to set a name (e.g., `style`, `subject`)
+  - Variable names can contain letters, numbers, and underscores (max 30 characters)
+  - Named prompts can be referenced as `@variableName` in Prompt Constructor templates
 
 ### Usage
 
@@ -92,6 +99,87 @@ For image generation:
 A professional headshot of a business executive,
 studio lighting, neutral gray background,
 sharp focus, high resolution
+```
+
+---
+
+## Prompt Constructor
+
+The Prompt Constructor node builds prompts from templates with variable placeholders. Use it to create reusable prompt templates that can be populated with values from multiple Prompt nodes.
+
+### Inputs
+- **Text** (multiple) — Prompt nodes with variable names that supply values for `@variable` placeholders
+
+### Outputs
+- **Text** — The resolved prompt with all variables substituted
+
+### Features
+- **Template-based prompts**: Define reusable templates with `@variable` placeholders
+- **@variable autocomplete**: Start typing `@` to see available variables from connected Prompt nodes
+  - Keyboard navigation (arrow keys, Enter, Escape)
+  - Shows variable name and current value in autocomplete dropdown
+- **Expand modal**: Click the expand button to open a full-screen editor
+  - Adjustable font size
+  - Clickable variable pills in toolbar for quick insertion
+  - Live "Resolved Preview" panel showing final prompt with substituted variables
+  - Unsaved changes confirmation dialog when closing with edits
+- **Unresolved variable warnings**: Amber badge displays any `@variables` that don't match a connected Prompt node
+- **Real-time preview**: Hover over the node to see the resolved prompt as a tooltip
+
+### Usage
+
+**Basic template workflow:**
+1. Add Prompt nodes and assign them variable names (e.g., `style`, `subject`, `mood`)
+2. Add a Prompt Constructor node
+3. Connect the Prompt nodes to the Prompt Constructor's text input
+4. In the Prompt Constructor, type your template using `@variableName` syntax:
+   ```
+   A @style photograph of @subject with @mood lighting
+   ```
+5. The template automatically resolves to the final prompt
+6. Connect the Prompt Constructor output to Generate Image or other nodes
+
+**Using the expand modal:**
+1. Click the expand button on a Prompt Constructor node
+2. Type your template - use `@` to trigger autocomplete and insert variables
+3. Click variable pills in the toolbar to insert them at cursor position
+4. View the "Resolved Preview" panel to see the final prompt in real-time
+5. Click "Save Template" to apply changes (or "Cancel" to discard)
+
+<Callout type="tip">
+  **Reusable Templates**: Create complex prompt templates with multiple variables for consistent generation. For example: `A @style photo of @subject, @pose, @lighting, @background` can be reused with different combinations of style, subject, pose, lighting, and background values.
+</Callout>
+
+<Callout type="warning">
+  If you see an amber "Unresolved" badge, it means one or more `@variables` in your template don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned.
+</Callout>
+
+### Example Workflows
+
+**Product photography variations:**
+```
+Template: "Product photography of @product, @angle angle, @lighting lighting, @background background"
+
+Connected prompts:
+- product: "luxury watch"
+- angle: "45-degree"
+- lighting: "soft studio"
+- background: "white seamless"
+
+Resolved: "Product photography of luxury watch, 45-degree angle, soft studio lighting, white seamless background"
+```
+
+**Character portraits:**
+```
+Template: "@character_name, @art_style style, @expression expression, @setting"
+
+Connected prompts:
+- character_name: "elven warrior"
+- art_style: "watercolor"
+- expression: "determined"
+- setting: "misty forest background"
+
+Resolved: "elven warrior, watercolor style, determined expression, misty forest background"
 ```
 
 ---
@@ -403,6 +491,96 @@ When saving outputs:
 <Callout type="info">
   While you can view images and videos in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends. When a project path is configured, they also handle automatic saving to the `/outputs` directory.
 </Callout>
+
+---
+
+## Output Gallery
+
+The Output Gallery node collects and displays multiple images in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or image collections.
+
+### Inputs
+- **Image** (multiple) — Connect multiple image sources to view them in a grid
+
+### Features
+- **Thumbnail grid**: 3-column grid layout with scrollable viewing
+- **Lightbox viewer**: Click any thumbnail to open full-size viewer
+  - Close button (X) in top-right corner
+  - Download button in top-left corner
+  - Previous/Next arrow navigation
+  - Keyboard navigation (Left/Right arrows, Escape to close)
+- **Real-time display**: Shows images from connected nodes immediately, not just after execution
+- **Automatic collection**: Gathers images from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
+
+### Usage
+1. Add an Output Gallery node
+2. Connect multiple image sources to its input handle
+   - You can connect multiple Generate Image nodes
+   - Or connect nodes that output multiple images
+3. The gallery automatically displays all connected images as thumbnails
+4. Click any thumbnail to view full-size
+5. Use keyboard shortcuts or navigation buttons to browse
+6. Click the download button in lightbox to save individual images
+
+<Callout type="tip">
+  **Generation Comparison**: Connect multiple Generate Image nodes with different parameters to the Output Gallery to compare results side-by-side. Perfect for evaluating different models, prompts, or settings.
+</Callout>
+
+### Lightbox Controls
+
+| Control | Action |
+|---------|--------|
+| **Click thumbnail** | Open lightbox at that image |
+| **Left arrow / ←** | Previous image |
+| **Right arrow / →** | Next image |
+| **Escape / X button** | Close lightbox |
+| **Download button** | Save current image |
+
+---
+
+## Image Compare
+
+The Image Compare node provides a side-by-side comparison view with a draggable slider for comparing two images. Useful for before/after comparisons or evaluating generation variations.
+
+### Inputs
+- **Image A** — First image to compare (top handle labeled "A")
+- **Image B** — Second image to compare (bottom handle labeled "B")
+
+### Features
+- **Draggable slider**: Interactive slider to reveal/hide portions of each image
+- **Real-time comparison**: Works with live connections, updates as source nodes change
+- **Labeled inputs**: Handles are labeled "A" and "B" for clarity
+- **Corner labels**: Images are labeled in the comparison view
+- **Automatic ordering**: First connected image becomes A, second becomes B
+
+### Usage
+1. Add an Image Compare node
+2. Connect two image sources:
+   - Connect the first image to the top handle (A)
+   - Connect the second image to the bottom handle (B)
+3. Drag the slider left or right to compare the images
+4. The node displays A on the left side and B on the right side of the slider
+
+<Callout type="tip">
+  **Before/After Workflows**: Create powerful before/after demonstrations by connecting an original Image Input to handle A and a processed/generated result to handle B. Perfect for showcasing edits, style transfers, or AI enhancements.
+</Callout>
+
+### Use Cases
+
+- **Generation comparison**: Compare two different AI generations of the same prompt
+- **Model comparison**: Test the same prompt with different models
+- **Before/after**: Show original vs. processed/annotated images
+- **Parameter tuning**: Compare results with different generation parameters
+- **Style variations**: Compare different style applications to the same subject
+
+### Example Workflow
+
+```
+[Image Input: Original Photo] → [Image Compare A]
+                                        ↓
+[Generate Image: Enhanced]    → [Image Compare B]
+```
+
+This workflow lets you compare the original photo (A) with an AI-enhanced version (B) using the interactive slider.
 
 ---
 
