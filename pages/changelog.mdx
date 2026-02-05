@@ -4,6 +4,34 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.4.0 — 2026-02-05
+
+### Added
+
+- Audio Input node for loading audio files with waveform visualization ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Video Stitch node for concatenating videos with drag-and-drop reordering and audio support ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Ease Curve node for applying speed ramping and easing effects to videos ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Kie.ai provider support for Sora, Veo, and Kling models ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- WaveSpeed provider for image and video generation ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Parallel workflow execution for independent nodes at the same dependency level ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- New handle types: audio, video, and easeCurve for routing media between nodes ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- 1x5 grid option in Split Grid node ([#51](https://github.com/shrimbly/node-banana/pull/51))
+
+### Changed
+
+- Output node now accepts video connections directly ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- fal.ai API key now required for fal.ai models (previously optional) ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- FloatingActionBar shows concurrent node count during parallel execution ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Vercel deployment timeout reduced to 300s for hobby plan compatibility ([#51](https://github.com/shrimbly/node-banana/pull/51))
+
+### Fixed
+
+- GPT Image 1.5 aspect ratio and parameter handling ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Deduplicated model fetching to prevent duplicate API requests ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Workflow save reliability with improved timeouts and parallel processing ([#51](https://github.com/shrimbly/node-banana/pull/51))
+
+---
+
 ## 1.3.0 — 2026-01-31
 
 ### Added

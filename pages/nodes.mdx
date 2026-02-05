@@ -7,9 +7,12 @@ This page documents all available node types in Node Banana. Each node serves a 
 | Node | Purpose | Inputs | Outputs |
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
+| [Audio Input](#audio-input) | Load audio files | — | Audio |
 | [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
 | [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
+| [Video Stitch](#video-stitch) | Concatenate videos | Video (multiple), Audio | Video |
+| [Ease Curve](#ease-curve) | Apply speed curves | Video, Ease Curve | Video, Ease Curve |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
@@ -40,6 +43,34 @@ import { Callout } from 'nextra/components'
 
 <Callout type="tip">
   **Image Paste Support**: Press `Cmd+V` (Mac) or `Ctrl+V` (Windows/Linux) to paste images directly from your clipboard. If an Image Input node is selected, it will update with the pasted image. Otherwise, a new Image Input node is created at the viewport center with the pasted image.
+</Callout>
+
+---
+
+## Audio Input
+
+The Audio Input node loads audio files into your workflow for use in video generation.
+
+### Outputs
+- **Audio** — The loaded audio file
+
+### Features
+- Drag and drop audio files directly onto the node
+- Click to open file picker
+- Supports MP3, WAV, and other browser-supported audio formats
+- Waveform visualization displays audio content at a glance
+- Built-in audio playback with play/pause controls
+- Duration and file size display
+
+### Usage
+1. Add an Audio Input node to the canvas
+2. Click the node or drag an audio file onto it
+3. The waveform visualization appears showing the audio content
+4. Use the playback controls to preview the audio
+5. Connect the audio output to a Video Stitch node to add audio to videos
+
+<Callout type="info">
+  Audio files are automatically trimmed or extended to match the final video duration when used with the Video Stitch node.
 </Callout>
 
 ---
@@ -221,6 +252,150 @@ Connect Generate Video to an Output node to:
 
 ---
 
+## Video Stitch
+
+The Video Stitch node concatenates multiple video clips into a single output video. Perfect for creating compilations, montages, or multi-clip sequences.
+
+### Inputs
+- **Video** (multiple, minimum 2) — Video clips to concatenate
+- **Audio** (optional) — Audio track to add to the final video
+
+### Outputs
+- **Video** — The stitched output video
+
+### Features
+
+- **Filmstrip UI** — Thumbnail previews for each connected video clip
+- **Drag-and-drop reordering** — Rearrange clips by dragging thumbnails within the filmstrip
+- **Dynamic handle creation** — New video input handles appear automatically as you connect clips
+- **Batch multi-connect** — Connect multiple video sources at once
+- **Audio mixing** — Optional audio input is automatically trimmed to match final video duration
+- **Duration tracking** — Shows duration for each clip and total duration
+- **Hardware encoding support** — Uses hardware acceleration when available
+- **Rotation handling** — Respects video rotation metadata (0°, 90°, 180°, 270°)
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Output Duration** | Total duration of the stitched video (automatically calculated from clips) |
+
+### Usage
+
+1. Add a Video Stitch node to the canvas
+2. Connect at least 2 video sources to the video input handles
+3. (Optional) Connect an Audio Input node to add background music
+4. Drag thumbnails in the filmstrip to reorder clips
+5. Run the workflow to generate the stitched video
+6. Preview the result in the node or connect to an Output node
+
+<Callout type="info">
+  All video clips must have consistent dimensions. If clips have different resolutions, the Video Stitch node will display an error. Use video generation settings or preprocessing to ensure matching dimensions.
+</Callout>
+
+<Callout type="tip">
+  Audio from the Audio Input is automatically adjusted to match the final video length. If the audio is longer, it's trimmed. If shorter, it plays until completion and the remaining video is silent.
+</Callout>
+
+### Technical Details
+
+- **Format**: Outputs MP4 with H.264 encoding
+- **Frame rate**: Up to 60fps (matches source clips)
+- **Bitrate**: Automatically selected based on source quality
+- **Audio format**: AAC audio codec
+
+---
+
+## Ease Curve
+
+The Ease Curve node applies speed ramping and easing effects to videos, creating smooth acceleration and deceleration. Use it to add cinematic slow-motion, time-lapse effects, or custom speed variations.
+
+### Inputs
+- **Video** — The video to apply the ease curve to
+- **Ease Curve** (optional) — Inherit easing configuration from another Ease Curve node
+
+### Outputs
+- **Video** — The speed-adjusted video
+- **Ease Curve** — The easing configuration for passing to other Ease Curve nodes
+
+### Features
+
+- **Interactive bezier curve editor** — Drag control points to create custom easing curves
+- **30+ preset easing functions** — Including sine, quad, cubic, expo, and asymmetric variations
+- **Real-time curve visualization** — See the speed multiplier over time
+- **Easing inheritance** — Chain multiple Ease Curve nodes to build complex effects
+- **Duration control** — Set output video duration (default: 1.5s)
+- **Input/output duration display** — Track how the easing affects video length
+- **Hardware encoding support** — Uses hardware acceleration when available
+- **Video preview** — Preview the eased video directly in the node
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Preset** | Select from 30+ built-in easing functions |
+| **Custom Curve** | Define cubic bezier control points (x1, y1, x2, y2) |
+| **Output Duration** | Target duration for the output video (default: 1.5s) |
+
+### Available Easing Presets
+
+**Basic:**
+- `linear` — Constant speed (no easing)
+- `easeIn`, `easeOut`, `easeInOut` — Standard easing curves
+
+**Sine:** easeInSine, easeOutSine, easeInOutSine
+
+**Quadratic:** easeInQuad, easeOutQuad, easeInOutQuad
+
+**Cubic:** easeInCubic, easeOutCubic, easeInOutCubic
+
+**Quartic:** easeInQuart, easeOutQuart, easeInOutQuart
+
+**Quintic:** easeInQuint, easeOutQuint, easeInOutQuint
+
+**Exponential:** easeInExpo, easeOutExpo, easeInOutExpo
+
+**Asymmetric:** easeInExpoOutCubic, easeInQuartOutQuad, and more
+
+### Usage
+
+**Basic usage:**
+1. Add an Ease Curve node to the canvas
+2. Connect a video source to the video input
+3. Select a preset easing function or create a custom curve
+4. Adjust the output duration if needed
+5. Run the workflow to generate the eased video
+
+**Chaining ease curves:**
+1. Add multiple Ease Curve nodes
+2. Connect the easeCurve output of one node to the easeCurve input of the next
+3. The second node inherits the curve from the first and can further modify it
+4. Build complex speed variations by stacking multiple effects
+
+<Callout type="tip">
+  Use easeInExpo for dramatic slow-motion starts, easeOutExpo for sudden stops, or easeInOutSine for smooth, natural-looking speed variations.
+</Callout>
+
+### How It Works
+
+The Ease Curve node resamples video frames according to the easing curve:
+- **Steep curve sections** = faster playback (time-lapse effect)
+- **Flat curve sections** = slower playback (slow-motion effect)
+- The curve's Y-axis represents time in the source video
+- The X-axis represents time in the output video
+
+For example, `easeInQuad` starts slow (duplicating frames for slow-motion) and accelerates (skipping frames for time-lapse).
+
+### Technical Details
+
+- **Frame resampling**: Creates new frames by selecting from source based on curve
+- **Smooth interpolation**: Uses cubic bezier curves for natural motion
+- **Format**: Outputs MP4 with H.264 encoding
+- **Frame rate**: Matches source frame rate (up to 60fps)
+- **Quality preservation**: No re-encoding quality loss
+
+---
+
 ## LLM Generate
 
 The LLM Generate node creates text using large language models. Use it for prompt enhancement, descriptions, or any text generation task.
@@ -338,6 +513,7 @@ The Split Grid node divides an image into a grid of smaller images. This is usef
 
 | Option | Grid Size |
 |--------|-----------|
+| 1×5 | 5 cells (useful for A+ content strips) |
 | 2×2 | 4 cells |
 | 2×3 | 6 cells |
 | 2×4 | 8 cells |
@@ -365,7 +541,7 @@ The Output node displays the final result of your workflow. Use it as the endpoi
 
 ### Inputs
 - **Image** — Images to display
-- **Video** — Videos to display
+- **Video** — Videos to display (connects directly to video outputs from Generate Video, Video Stitch, or Ease Curve nodes)
 
 ### Settings
 

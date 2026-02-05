@@ -20,9 +20,12 @@ Nodes are the building blocks of your workflow. Each node performs a specific fu
 | Node | Purpose |
 |------|---------|
 | **Image Input** | Load images from your computer |
+| **Audio Input** | Load audio files from your computer |
 | **Prompt** | Enter text prompts |
 | **Generate Image** | Generate images with AI (multi-provider) |
 | **Generate Video** | Generate videos with AI (multi-provider) |
+| **Video Stitch** | Concatenate multiple videos |
+| **Ease Curve** | Apply speed curves to videos |
 | **LLM Generate** | Generate text with AI |
 | **Annotation** | Draw on images |
 | **Split Grid** | Split images into grids |
@@ -54,8 +57,11 @@ Edges are the lines that connect nodes. Data flows through edges from outputs to
 
 - **Text → Text**: Prompt outputs connect to text inputs
 - **Image → Image**: Image outputs connect to image inputs
-- **Multiple connections**: Image inputs can receive multiple connections; text inputs accept one
-- **No mixing**: You cannot connect text to image or vice versa
+- **Video → Video**: Video outputs connect to video inputs
+- **Audio → Audio**: Audio outputs connect to audio inputs
+- **Ease Curve → Ease Curve**: Easing configurations can be passed between Ease Curve nodes
+- **Multiple connections**: Image and video inputs can receive multiple connections; text inputs accept one
+- **Type safety**: You cannot connect incompatible types (e.g., text to image, audio to video)
 
 ### Edge States
 
@@ -67,7 +73,7 @@ Click an edge to toggle pause state. Right-click to delete.
 
 ## Handle Types
 
-Handles are the connection points on nodes. Node Banana has three handle types:
+Handles are the connection points on nodes. Node Banana has five handle types:
 
 ### Image Handles
 Used for visual content. Image data flows as base64-encoded data URLs.
@@ -76,10 +82,17 @@ Used for visual content. Image data flows as base64-encoded data URLs.
 - Color: Blue
 - Accepts: PNG, JPG, WebP images
 
+### Audio Handles
+Used for audio content. Audio data flows as file references or data URLs.
+
+- Found on: Audio Input (output), Video Stitch (input)
+- Purpose: Add audio tracks to videos
+- Accepts: MP3, WAV, and other browser-supported formats
+
 ### Video Handles
 Used for video content. Video data flows as URLs or base64-encoded data.
 
-- Found on: Generate Video, Output
+- Found on: Generate Video, Video Stitch, Ease Curve, Output
 - Accepts: Various video formats (MP4, WebM, etc.)
 
 ### Text Handles
@@ -93,6 +106,13 @@ Used for string content like prompts and generated text.
   Prompt nodes can now both receive and send text. Connect LLM Generate output to Prompt input to chain text processing nodes together.
 </Callout>
 
+### Ease Curve Handles
+Used for passing easing configuration between Ease Curve nodes.
+
+- Found on: Ease Curve (input and output)
+- Purpose: Chain multiple easing effects together
+- Data: Cubic bezier control points and preset configurations
+
 ### Reference Handles
 Used for organizational purposes, primarily with Split Grid.
 
@@ -102,13 +122,29 @@ Used for organizational purposes, primarily with Split Grid.
 
 ## Workflow Execution
 
-When you run a workflow, Node Banana executes nodes in dependency order using topological sorting.
+When you run a workflow, Node Banana executes nodes in dependency order using topological sorting. Independent nodes at the same dependency level execute in parallel for improved performance.
 
 ### Execution Order
 
 1. Nodes with no dependencies run first (source nodes)
-2. Downstream nodes run after their inputs are ready
-3. The workflow completes when all nodes have executed
+2. Independent nodes at the same level execute in parallel
+3. Downstream nodes run after their inputs are ready
+4. The workflow completes when all nodes have executed
+
+### Parallel Execution
+
+Node Banana automatically identifies nodes that can run simultaneously:
+
+- **Level-based grouping**: Nodes are grouped by dependency depth
+- **Parallel execution**: All nodes in a level execute concurrently
+- **Performance gains**: Workflows with multiple independent generation nodes complete significantly faster
+
+**Example:** A workflow with 3 independent image generation nodes (each taking 20s) completes in ~20s instead of 60s.
+
+The floating action bar shows parallel execution status:
+- "Running..." (no nodes)
+- "Running {NodeLabel}..." (single node)
+- "Running N nodes..." (multiple nodes in parallel)
 
 ### Running Workflows
 
