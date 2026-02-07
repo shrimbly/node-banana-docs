@@ -13,6 +13,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
+| [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio (optional) | Video |
 | [Output](#output) | Display results | Image, Video | — |
 
 ---
@@ -356,6 +357,68 @@ Split Grid is primarily for visual organization. It:
 - Divides the source image into equal cells
 - Creates reference outputs for each cell
 - Helps you visually track which part of an image flows where
+
+---
+
+## Video Stitch
+
+The Video Stitch node combines multiple video clips into a single continuous video. It's useful for creating sequences, montages, or stitching together generated video clips.
+
+### Inputs
+- **Video** (multiple) — Video clips to stitch together in sequence
+- **Audio** (optional) — Audio track to overlay on the stitched video
+
+### Outputs
+- **Video** — The combined video file
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Loop** | Repeat the entire clip sequence 1x, 2x, or 3x |
+
+### Features
+
+- **Filmstrip preview** — Visual grid showing thumbnail previews of all connected video clips
+- **Drag to reorder** — Rearrange clips by dragging thumbnails in the filmstrip
+- **Loop control** — Use the Loop selector (1x/2x/3x) to repeat the final sequence multiple times
+- **Audio overlay** — Connect an optional audio track to add sound to the stitched video
+- **Progress indicator** — Shows stitching progress percentage during processing
+- **Output preview** — Play the stitched video directly in the node
+
+### Usage
+
+1. Add a Video Stitch node to the canvas
+2. Connect 2 or more video sources (e.g., from Generate Video nodes)
+3. (Optional) Drag thumbnails in the filmstrip to reorder clips
+4. (Optional) Set the Loop control to 2x or 3x to repeat the sequence
+5. (Optional) Connect an audio source to add a soundtrack
+6. Click **Stitch** to combine the videos
+7. The output video appears in the preview and flows to connected nodes
+
+### Loop Feature
+
+The Loop selector allows you to duplicate the entire clip sequence:
+- **1x** (default) — Single playthrough of all clips
+- **2x** — Entire sequence plays twice back-to-back
+- **3x** — Entire sequence plays three times
+
+For example, if you have 3 video clips of 2 seconds each:
+- 1x loop = 6 seconds total
+- 2x loop = 12 seconds total (clips play: 1, 2, 3, 1, 2, 3)
+- 3x loop = 18 seconds total (clips play: 1, 2, 3, 1, 2, 3, 1, 2, 3)
+
+<Callout type="tip">
+  Use the loop feature to create seamless repeating animations or extend short video sequences without manually duplicating clips.
+</Callout>
+
+### Execution Paths
+
+The Video Stitch node has two execution methods:
+1. **Manual stitching** — Click the "Stitch" button on the node
+2. **Workflow execution** — Run the full workflow with `Cmd+Enter`
+
+Both methods apply the loop count setting correctly.
 
 ---
 
