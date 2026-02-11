@@ -9,9 +9,9 @@ const config: DocsThemeConfig = {
     </div>
   ),
   project: {
-    link: 'https://github.com/yourusername/node-banana',
+    link: 'https://github.com/shrimbly/node-banana',
   },
-  docsRepositoryBase: 'https://github.com/yourusername/node-banana-docs/tree/main',
+  docsRepositoryBase: 'https://github.com/shrimbly/node-banana-docs/tree/main',
   footer: {
     text: (
       <span>

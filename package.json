@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/node-banana-docs.git"
+    "url": "git+https://github.com/shrimbly/node-banana-docs.git"
   },
   "author": "Node Banana Team",
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/node-banana-docs#readme",
+  "homepage": "https://github.com/shrimbly/node-banana-docs#readme",
   "dependencies": {
     "next": "^13.0.6",
     "nextra": "^2.2.14",
