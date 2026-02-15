@@ -4,6 +4,33 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.4.0 — 2026-02-15
+
+### Added
+
+- Generate 3D node for AI-powered 3D model generation with text-to-3d and image-to-3d support ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 3D Viewer node for displaying and interacting with GLB models, with orbit controls and snapshot capture ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 3x2 grid layout option for Split Grid node, with layout-based selector showing 7 distinct grid configurations ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Execute selected nodes feature to run only selected nodes and their dependencies ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Customizable canvas navigation settings for pan, zoom, and selection modes ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Keyboard shortcuts dialog accessible via `?` key or footer icon ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Run button for LLM Generate nodes in title bar ([#66](https://github.com/shrimbly/node-banana/pull/66))
+
+### Changed
+
+- Split Grid settings modal now uses layout-based selection with visual previews and RxC labels ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Cost indicator now hidden when non-Gemini providers are present in workflow ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 3D outputs use distinct orange handle color to differentiate from image and text connections ([#66](https://github.com/shrimbly/node-banana/pull/66))
+
+### Fixed
+
+- Prompt nodes remain editable when connected to LLM outputs ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Video regeneration spinner no longer gets stuck after cancellation ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- New image uploads now properly save when a node already has a saved image reference ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Array input unwrapping for provider APIs when multiple images are connected ([#66](https://github.com/shrimbly/node-banana/pull/66))
+
+---
+
 ## 1.3.0 — 2026-01-31
 
 ### Added

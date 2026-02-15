@@ -13,6 +13,18 @@ The canvas is your workspace — an infinite 2D area where you build workflows. 
 
 A **minimap** in the corner shows your current viewport position and provides quick navigation.
 
+### Customizable Canvas Navigation
+
+You can customize how you interact with the canvas to match your preferred workflow. Open **Project Settings** (gear icon in the header) and go to the **Canvas** tab to configure:
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Pan Mode** | Space + Drag (default), Middle Mouse, Always On | How you move the canvas around |
+| **Zoom Mode** | Alt + Scroll (default), Ctrl/Cmd + Scroll, Scroll | How you zoom in and out |
+| **Selection Mode** | Click (default), Alt + Drag, Shift + Drag | How you select nodes |
+
+Settings are saved to localStorage and persist across sessions.
+
 ## Nodes
 
 Nodes are the building blocks of your workflow. Each node performs a specific function:
@@ -23,6 +35,8 @@ Nodes are the building blocks of your workflow. Each node performs a specific fu
 | **Prompt** | Enter text prompts |
 | **Generate Image** | Generate images with AI (multi-provider) |
 | **Generate Video** | Generate videos with AI (multi-provider) |
+| **Generate 3D** | Generate 3D models with AI (multi-provider) |
+| **3D Viewer** | Display and interact with 3D models |
 | **LLM Generate** | Generate text with AI |
 | **Annotation** | Draw on images |
 | **Split Grid** | Split images into grids |
@@ -54,8 +68,10 @@ Edges are the lines that connect nodes. Data flows through edges from outputs to
 
 - **Text → Text**: Prompt outputs connect to text inputs
 - **Image → Image**: Image outputs connect to image inputs
+- **Video → Video**: Video outputs connect to video inputs (in Output nodes)
+- **3D Model → 3D Model**: 3D outputs connect to 3D inputs (e.g., Generate 3D → 3D Viewer)
 - **Multiple connections**: Image inputs can receive multiple connections; text inputs accept one
-- **No mixing**: You cannot connect text to image or vice versa
+- **Type safety**: You cannot connect incompatible types (e.g., text to image, 3D to image)
 
 ### Edge States
 
@@ -67,13 +83,13 @@ Click an edge to toggle pause state. Right-click to delete.
 
 ## Handle Types
 
-Handles are the connection points on nodes. Node Banana has three handle types:
+Handles are the connection points on nodes. Node Banana has four handle types:
 
 ### Image Handles
 Used for visual content. Image data flows as base64-encoded data URLs.
 
-- Found on: Image Input, Annotation, Generate Image, Split Grid, Output
-- Color: Blue
+- Found on: Image Input, Annotation, Generate Image, Split Grid, 3D Viewer (output), Output
+- Color: Green
 - Accepts: PNG, JPG, WebP images
 
 ### Video Handles
@@ -85,19 +101,26 @@ Used for video content. Video data flows as URLs or base64-encoded data.
 ### Text Handles
 Used for string content like prompts and generated text.
 
-- Found on: Prompt (input and output), LLM Generate (input and output), Generate Image (input), Generate Video (input)
-- Color: Green
+- Found on: Prompt (input and output), LLM Generate (input and output), Generate Image (input), Generate Video (input), Generate 3D (input)
+- Color: Blue
 - Accepts: Any text string
 
 <Callout type="info">
   Prompt nodes can now both receive and send text. Connect LLM Generate output to Prompt input to chain text processing nodes together.
 </Callout>
 
+### 3D Model Handles
+Used for 3D model content. 3D models flow as GLB files.
+
+- Found on: Generate 3D (output), 3D Viewer (input)
+- Color: Orange
+- Accepts: GLB 3D model files
+- Connection validation: 3D outputs can only connect to 3D inputs
+
 ### Reference Handles
 Used for organizational purposes, primarily with Split Grid.
 
 - Found on: Split Grid (outputs)
-- Color: Orange
 - Purpose: Visual organization, not data transfer
 
 ## Workflow Execution
@@ -114,8 +137,20 @@ When you run a workflow, Node Banana executes nodes in dependency order using to
 
 - `Cmd/Ctrl + Enter` — Run entire workflow
 - **Run button** — Click in header to run all
+- **Run selected** — Select nodes and choose "Run N selected nodes" from the Run dropdown
 - **Node play button** — Run from a specific node
 - **Regenerate** — Re-run a single node with same inputs
+
+#### Execute Selected Nodes
+
+When you select one or more nodes, the Run dropdown in the floating action bar shows the option to run only the selected nodes:
+
+- Execution respects dependency order (topological sort)
+- Upstream dependencies of selected nodes execute first
+- Downstream nodes that depend on selected nodes also execute
+- Supports abort/cancellation mid-execution
+
+This is useful for testing specific parts of a workflow without running everything.
 
 ### Execution States
 
@@ -152,6 +187,7 @@ import { Callout } from 'nextra/components'
 
 | Shortcut | Action |
 |----------|--------|
+| `?` | Show keyboard shortcuts dialog |
 | `Cmd/Ctrl + Enter` | Run workflow |
 | `Cmd/Ctrl + C` | Copy selected nodes |
 | `Cmd/Ctrl + V` | Paste nodes (or paste image into selected Image Input node) |
@@ -165,6 +201,10 @@ import { Callout } from 'nextra/components'
 | `V` | Stack selected vertically |
 | `G` | Arrange selected in grid |
 | `Delete/Backspace` | Delete selected |
+
+<Callout type="tip">
+  Press `?` anywhere on the canvas to open the keyboard shortcuts dialog, which shows all available shortcuts grouped by category with correct modifier keys for your platform (⌘ on Mac, Ctrl on Windows/Linux).
+</Callout>
 
 ## Cost Tracking
 
