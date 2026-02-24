@@ -4,6 +4,28 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.4.0 — 2026-02-24
+
+### Added
+
+- Output node auto-executes when an edge is connected to it, and has a Run button in the header for manual re-execution ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- AI quickstart now recognizes all recently added node types (audioInput, promptConstructor, outputGallery, imageCompare, videoStitch, easeCurve, videoTrim, videoFrameGrab, glbViewer) and handle types (video, easeCurve, 3d), fixing validation failures for workflows using these nodes ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Keyboard shortcuts dialog (press `?`) now lists Shift+T (Add Audio node) and Shift+R (Add Array node) ([#85](https://github.com/shrimbly/node-banana/pull/85))
+
+### Fixed
+
+- Prompt text from connected Prompt nodes now correctly passes through to Replicate and fal.ai APIs when image inputs are also connected ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Model schema now resolves `anyOf`/`oneOf`/`allOf` wrappers, fixing connectable handle detection for nullable image/text inputs (e.g., fal Kling v2.6 image-to-video) ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Workflow JSON files no longer include the absolute `directoryPath` field, preventing local filesystem paths from being exposed when sharing workflow files ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Path traversal protection added to workflow file API routes — paths containing `..` sequences or targeting system directories are rejected ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Array node regex split mode now detects nested quantifier patterns that cause catastrophic backtracking (ReDoS) ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Array node edge indices now wrap via modulo when item count decreases, preventing downstream nodes from silently receiving no data ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Save As failure no longer permanently marks the workflow as unsaved ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Video blob URL memory leak fixed when rapidly changing video sources ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Image dimension detection now has a 10-second timeout, preventing indefinite hangs if load events never fire ([#85](https://github.com/shrimbly/node-banana/pull/85))
+
+---
+
 ## 1.3.0 — 2026-01-31
 
 ### Added
