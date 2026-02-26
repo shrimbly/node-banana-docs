@@ -140,6 +140,23 @@ Each model exposes its own parameters:
 - Parameter validation prevents invalid configurations
 - Custom UI for model-specific settings
 
+### Gemini Models
+
+Three Nano Banana models are available via the Gemini provider:
+
+| Model | Resolution | Aspect Ratios | Google Search | Image Search |
+|-------|-----------|---------------|--------------|--------------|
+| **Nano Banana** | — | 10 standard | — | — |
+| **Nano Banana 2** | 512px / 1K / 2K / 4K | 14 (adds 1:4, 1:8, 4:1, 8:1) | Yes | Yes |
+| **Nano Banana Pro** | 1K / 2K / 4K | 10 standard | Yes | — |
+
+**Nano Banana 2** slots between Nano Banana (fast/cheap) and Nano Banana Pro (highest quality). It adds:
+- **512px resolution tier** — lower-cost option alongside 1K, 2K, and 4K
+- **Pricing by resolution** — $0.045 (512px) · $0.067 (1K) · $0.101 (2K) · $0.151 (4K)
+- **Up to 10 reference images** for image-to-image generation
+- **Image Search** — enables image-based Google Search grounding (can be used alongside or independently of web search)
+- **Extended aspect ratios** — ultra-wide and ultra-tall ratios (1:4, 1:8, 4:1, 8:1) in addition to the standard set
+
 ### Usage
 1. Add a Generate Image node
 2. Select a provider and model
