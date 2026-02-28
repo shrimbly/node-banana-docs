@@ -4,6 +4,28 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.5.0 — 2026-02-28
+
+### Added
+
+- Router node for branching and merging data flow with dynamic input/output handles and multi-type support (image, text, video, audio) ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Switch node for toggle-controlled routing — individual outputs can be enabled or disabled ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Conditional Switch node for rule-based text routing with 4 match modes (exact, contains, starts-with, ends-with), real-time match indicators, and a fallback output ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Visual dimming system — disabled Switch/ConditionalSwitch paths dim downstream nodes to 40% opacity; dimmed nodes are skipped during execution ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Gemini Veo 3.1 video generation via native Gemini API (text-to-video and image-to-video, standard and fast variants) ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Anthropic Claude as an LLM provider — Claude Opus 4.6, Sonnet 4.5, and Haiku 4.5 models available in LLM Generate node ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Gemini 3.1 Pro model added to LLM Generate node ([#87](https://github.com/shrimbly/node-banana/pull/87))
+
+### Fixed
+
+- ConditionalSwitch handle alignment using ref-based measurement ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Connection drop menu and default connector for ConditionalSwitch ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- ConditionalSwitch no longer passes input text through to downstream nodes — it acts as a gate/trigger only ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Default output label renamed to "Fallback" on ConditionalSwitch ([#87](https://github.com/shrimbly/node-banana/pull/87))
+- Node background opacity increased from 50% to 80% on Router, Switch, and ConditionalSwitch nodes ([#87](https://github.com/shrimbly/node-banana/pull/87))
+
+---
+
 ## 1.4.0 — 2026-02-24
 
 ### Added
