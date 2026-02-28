@@ -23,9 +23,10 @@ The prompt node has:
 
 ## Step 2: Add a Generate Image Node
 
-1. Click the **Generate** button in the action bar (or press `Shift + G`)
-2. A Generate Image node appears on the canvas
-3. Drag it to the right of your prompt node
+1. Click the **Generate** dropdown in the action bar (or press `Shift + G`)
+2. Select **Image** from the dropdown menu (or choose **Video** for video generation, or **3D** for 3D model generation)
+3. A Generate Image node appears on the canvas
+4. Drag it to the right of your prompt node
 
 The Generate Image node has:
 - **Input handles** on the left (for images and text)
@@ -82,13 +83,18 @@ This is especially useful when you have a preferred model you use frequently.
 You have several options to run:
 
 - Press `Cmd/Ctrl + Enter` to run the entire workflow
-- Click the **Run** button in the header
+- Click the **Run** button in the floating action bar to run all nodes
+- Select specific nodes and choose **"Run N selected nodes"** from the Run dropdown to run only selected nodes
 - Click the play button on an individual node to run from that point
 
 When running:
 1. Nodes execute in dependency order
 2. The current node shows a loading state
 3. Results appear when generation completes
+
+<Callout type="tip">
+  The "Run selected nodes" feature lets you test specific parts of your workflow without running everything. Select the nodes you want to run, and they'll execute along with their dependencies.
+</Callout>
 
 ## Step 7: View Your Result
 
