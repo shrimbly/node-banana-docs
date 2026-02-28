@@ -21,7 +21,9 @@ Before installing Node Banana, make sure you have:
 - **At least one AI provider API key**:
   - Google Gemini — [Get API key](https://aistudio.google.com/apikey)
   - Replicate — [Get API key](https://replicate.com/account/api-tokens)
-  - fal.ai — [Get API key](https://fal.ai/dashboard/keys)
+  - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
+  - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
+  - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
 - **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
 ## Installation Steps
@@ -53,9 +55,13 @@ Add your API keys (include at least one AI provider):
 # AI Providers (at least one required)
 GEMINI_API_KEY=your_gemini_api_key_here
 REPLICATE_API_TOKEN=your_replicate_api_token_here
-FAL_KEY=your_fal_api_key_here
+FAL_API_KEY=your_fal_api_key_here
 
-# Optional
+# Optional providers
+KIE_API_KEY=your_kie_api_key_here
+WAVESPEED_API_KEY=your_wavespeed_api_key_here
+
+# Optional for OpenAI text generation
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
@@ -104,10 +110,37 @@ You need at least one AI provider API key. You can configure multiple providers 
 1. Go to [fal.ai Dashboard](https://fal.ai/dashboard/keys)
 2. Sign in or create an account
 3. Create a new API key
-4. Add it to your `.env.local` file as `FAL_KEY`
+4. Add it to your `.env.local` file as `FAL_API_KEY`
+
+<Callout type="warning">
+  As of version 1.4.0, the fal.ai API key is now **required** (no longer optional) to use fal.ai models. Previously, fal.ai worked without a key but with rate limits.
+</Callout>
 
 <Callout type="info">
   fal.ai offers fast inference with competitive pricing. Check [fal.ai pricing](https://fal.ai/pricing) for details.
+</Callout>
+
+### Kie.ai API Key (Optional)
+
+1. Go to [Kie.ai](https://kie.ai/)
+2. Sign in or create an account
+3. Navigate to API keys section
+4. Copy your API key
+5. Add it to your `.env.local` file as `KIE_API_KEY`
+
+<Callout type="info">
+  Kie.ai provides access to cutting-edge video models including Sora, Veo, and Kling 2.5/2.6. Only required if you want to use these models.
+</Callout>
+
+### WaveSpeed API Key (Optional)
+
+1. Go to [WaveSpeed AI](https://wavespeed.ai/)
+2. Sign in or create an account
+3. Generate an API key
+4. Add it to your `.env.local` file as `WAVESPEED_API_KEY`
+
+<Callout type="info">
+  WaveSpeed offers image and video generation through an async task API. Only required if you want to use WaveSpeed models.
 </Callout>
 
 ### OpenAI API Key (Optional)

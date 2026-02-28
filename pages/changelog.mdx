@@ -4,6 +4,80 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.4.0 — 2026-02-24
+
+### Added
+
+- OutputGallery node displays scrollable thumbnail grid with full-size lightbox viewer ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- ImageCompare node provides side-by-side image comparison with draggable slider ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- PromptConstructor node for template-based prompts with @variable placeholders ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- PromptConstructor expand modal with @variable autocomplete, variable pills, and resolved preview panel ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Prompt nodes can be assigned variable names for use in PromptConstructor templates ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- AI chat panel for building and editing workflows through conversation ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Workflow snapshot and revert system to undo AI-generated changes ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Image connection sequence numbering for clearer multi-input ordering ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Prompt node expand modal for full-screen editing with persistent font size preference ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Audio Input node for loading audio files with waveform visualization ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Video Stitch node for concatenating videos with drag-and-drop reordering and audio support ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Ease Curve node for applying speed ramping and easing effects to videos ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Kie.ai provider support for Sora, Veo, and Kling models ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- WaveSpeed provider for image and video generation ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Parallel workflow execution for independent nodes at the same dependency level ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- New handle types: audio, video, and easeCurve for routing media between nodes ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Model browser refresh button to manually clear model and schema caches ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- 48-hour localStorage caching for model lists and schema parameters to reduce API calls ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- 20MB upload size guard to prevent memory spikes when uploading images ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- Generate 3D node for AI-powered 3D model generation with text-to-3d and image-to-3d support ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 3D Viewer node for displaying and interacting with GLB models, with orbit controls and snapshot capture ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 7 grid configurations in Split Grid node, with layout-based selector showing visual previews and RxC labels ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Execute selected nodes feature to run only selected nodes and their dependencies ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Customizable canvas navigation settings for pan, zoom, and selection modes ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Keyboard shortcuts dialog accessible via `?` key or footer icon ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Run button for LLM Generate nodes in title bar ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Output node auto-executes when an edge is connected to it, and has a Run button in the header for manual re-execution ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- AI quickstart now recognizes all recently added node types (audioInput, promptConstructor, outputGallery, imageCompare, videoStitch, easeCurve, videoTrim, videoFrameGrab, glbViewer) and handle types (video, easeCurve, 3d), fixing validation failures for workflows using these nodes ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Keyboard shortcuts dialog now lists `Shift+T` (Add Audio node) and `Shift+R` (Add Array node) ([#85](https://github.com/shrimbly/node-banana/pull/85))
+
+### Changed
+
+- Chat performance improved for large workflows with smart data optimization ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- ConnectionDropMenu now supports auto-connecting OutputGallery, ImageCompare, and PromptConstructor node types ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- Output node now accepts video connections directly ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- fal.ai API key now required for fal.ai models (previously optional) ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- FloatingActionBar shows concurrent node count during parallel execution ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- fal.ai generation now uses async queue-based execution with polling instead of blocking requests ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- Base64 images are now uploaded to fal.ai CDN before submission to avoid large inline payloads ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- Split Grid settings modal now uses layout-based selection with visual previews and RxC labels ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Split Grid settings modal width increased to 600px for better layout button spacing ([#68](https://github.com/shrimbly/node-banana/pull/68))
+- Cost indicator now hidden when non-Gemini providers are present in workflow ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- 3D outputs use distinct orange handle color to differentiate from image and text connections ([#66](https://github.com/shrimbly/node-banana/pull/66))
+
+### Fixed
+
+- PromptNode Enter key behavior now properly saves content ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- PromptConstructor textarea sizing now fills available node space ([#43](https://github.com/shrimbly/node-banana/pull/43))
+- GPT Image 1.5 aspect ratio and parameter handling ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Deduplicated model fetching to prevent duplicate API requests ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- Workflow save reliability with improved timeouts and parallel processing ([#51](https://github.com/shrimbly/node-banana/pull/51))
+- WaveSpeed video generation now saves with correct file extension ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- Updated Kie and WaveSpeed provider badge icons for visual consistency ([#53](https://github.com/shrimbly/node-banana/pull/53))
+- Video Stitch node now applies loop count (1x/2x/3x) when using the Stitch button ([#58](https://github.com/shrimbly/node-banana/pull/58))
+- Prompt nodes remain editable when connected to LLM outputs ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Video regeneration spinner no longer gets stuck after cancellation ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- New image uploads now properly save when a node already has a saved image reference ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Array input unwrapping for provider APIs when multiple images are connected ([#66](https://github.com/shrimbly/node-banana/pull/66))
+- Prompt text from connected Prompt nodes now correctly passes through to Replicate and fal.ai APIs when image inputs are also connected ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Model schema now resolves `anyOf`/`oneOf`/`allOf` wrappers, fixing connectable handle detection for nullable image/text inputs ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Workflow JSON files no longer include the absolute `directoryPath` field, preventing local filesystem paths from being exposed when sharing ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Path traversal protection added to workflow file API routes — paths containing `..` sequences or targeting system directories are rejected ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Array node regex split mode now detects nested quantifier patterns that cause catastrophic backtracking (ReDoS) ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Array node edge indices now wrap via modulo when item count decreases, preventing downstream nodes from silently receiving no data ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Save As failure no longer permanently marks the workflow as unsaved ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Video blob URL memory leak fixed when rapidly changing video sources ([#85](https://github.com/shrimbly/node-banana/pull/85))
+- Image dimension detection now has a 10-second timeout, preventing indefinite hangs if load events never fire ([#85](https://github.com/shrimbly/node-banana/pull/85))
+
+---
+
 ## 1.3.0 — 2026-01-31
 
 ### Added
@@ -23,6 +97,7 @@ All notable changes to Node Banana are documented here.
 - Drag selection incorrectly including distant nodes ([#38](https://github.com/shrimbly/node-banana/pull/38))
 - Multiple image inputs overwriting instead of aggregating into arrays ([#40](https://github.com/shrimbly/node-banana/pull/40))
 - Directory path normalization on macOS network volumes ([#41](https://github.com/shrimbly/node-banana/pull/41))
+- Race condition causing duplicate workflow executions when rapidly triggering execution ([#42](https://github.com/shrimbly/node-banana/pull/42))
 
 ### Removed
 
