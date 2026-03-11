@@ -157,7 +157,7 @@ The Prompt Constructor node builds prompts from templates with variable placehol
   - Clickable variable pills in toolbar for quick insertion
   - Live "Resolved Preview" panel showing final prompt with substituted variables
   - Unsaved changes confirmation dialog when closing with edits
-- **Unresolved variable warnings**: Amber badge displays any `@variables` that don't match a connected Prompt node
+- **Inline variable highlights**: Resolved `@variables` are highlighted in blue; unresolved ones are highlighted in red directly in the template text
 - **Real-time preview**: Hover over the node to see the resolved prompt as a tooltip
 
 ### Usage
@@ -185,7 +185,7 @@ The Prompt Constructor node builds prompts from templates with variable placehol
 </Callout>
 
 <Callout type="warning">
-  If you see an amber "Unresolved" badge, it means one or more `@variables` in your template don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned.
+  `@variables` highlighted in red are unresolved — they don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned. Resolved variables appear in blue.
 </Callout>
 
 ### Example Workflows
@@ -638,13 +638,13 @@ The LLM Generate node creates text using large language models. Use it for promp
 
 | Setting | Description |
 |---------|-------------|
-| **Model** | Select from Gemini or OpenAI models |
-| **Temperature** | Controls randomness (0-2) — adjustable in collapsible Parameters section |
-| **Max Tokens** | Maximum output length (256-16384) — adjustable in collapsible Parameters section |
+| **Model** | Select from Gemini, Anthropic, or OpenAI models |
+| **Temperature** | Controls randomness (0-2) — adjustable in the Parameters section |
+| **Max Tokens** | Maximum output length (256-16384) — adjustable in the Parameters section |
 
 ### Parameters
 
-The Parameters section is collapsible and contains:
+The Parameters section contains:
 - **Temperature** slider (0-2) — Controls output randomness
 - **Max Tokens** slider (256-16384) — Controls maximum output length
 
@@ -656,14 +656,20 @@ The Parameters section is collapsible and contains:
 **Google Gemini:**
 - gemini-2.5-flash (fast, capable)
 - gemini-3-flash-preview (latest flash)
-- gemini-3-pro-preview (most capable)
+- gemini-3.1-pro (most capable)
+- gemini-3-pro-preview
+
+**Anthropic:**
+- claude-3-5-haiku (fast)
+- claude-3-5-sonnet (balanced)
+- claude-3-7-sonnet (most capable)
 
 **OpenAI:**
 - gpt-4.1-mini (balanced)
 - gpt-4.1-nano (fast)
 
 <Callout type="warning">
-  OpenAI models require a separate `OPENAI_API_KEY` in your environment.
+  OpenAI models require a separate `OPENAI_API_KEY` in your environment. Anthropic models require a separate `ANTHROPIC_API_KEY`.
 </Callout>
 
 ### Usage
@@ -934,6 +940,9 @@ All nodes share these capabilities:
 ### Title Editing
 Click the title to rename any node. Custom names help organize complex workflows.
 
+### Moving Nodes
+Drag a node's floating header to reposition it on the canvas.
+
 ### Comments
 Add comments to nodes for documentation. Hover to see the full comment.
 
@@ -950,7 +959,7 @@ Use the comment navigation system to move between nodes with comments:
 This feature helps you review feedback and annotations in complex workflows without manually searching for commented nodes.
 
 ### Resizing
-Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically.
+Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically. **Double-click the resize handle** to instantly auto-fit the node to its media content's aspect ratio.
 
 ### Execution Controls
 - **Play button** — Run from this node

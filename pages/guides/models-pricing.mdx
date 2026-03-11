@@ -4,11 +4,13 @@ This guide covers the AI models available in Node Banana and their associated co
 
 ## Multi-Provider Support
 
-Node Banana supports multiple AI providers for image and video generation:
+Node Banana supports multiple AI providers for image, video, and text generation:
 
-- **Gemini** — Google's image generation models
+- **Gemini** — Google's image and video generation models
 - **Replicate** — Wide selection of community and custom models
 - **fal.ai** — Fast inference for popular models
+- **Anthropic** — Claude models for text generation in LLM nodes
+- **OpenAI** — GPT models for text generation in LLM nodes
 
 Configure API keys for each provider in **Project Settings → Providers** tab.
 
@@ -73,7 +75,7 @@ Use the model selector in Generate Image nodes to browse and search available mo
 
 ## Video Generation Models
 
-Video generation is available through compatible models on Replicate and fal.ai providers.
+Video generation is available through compatible models on Replicate, fal.ai, and Gemini providers.
 
 ### Features
 - **Extended processing** — 10-minute timeout for video generation
@@ -89,13 +91,17 @@ Video generation typically:
 - Varies significantly by model and video length
 - Check specific model pricing on provider websites
 
+### Gemini Video Models
+
+Google Gemini Veo 3.1 models are available for video generation directly through the Gemini provider — no additional API key required beyond your existing Gemini API key.
+
 ### Choosing Video Models
 
 When selecting a video model, consider:
 - **Duration** — Longer videos cost more
 - **Resolution** — Higher resolution increases cost and processing time
 - **FPS** — Frame rate affects both quality and cost
-- **Provider** — Compare pricing between Replicate and fal.ai
+- **Provider** — Compare pricing between Gemini, Replicate, and fal.ai
 
 ## Text Generation Models
 
@@ -105,11 +111,24 @@ When selecting a video model, consider:
 |-------|-------|------------|----------|
 | gemini-2.5-flash | Fast | Good | Quick prompts |
 | gemini-3-flash-preview | Fast | Better | General use |
+| gemini-3.1-pro | Slower | Best | Complex tasks |
 | gemini-3-pro-preview | Slower | Best | Complex tasks |
 
-### OpenAI Models
+### Anthropic Models
 
 import { Callout } from 'nextra/components'
+
+<Callout type="warning">
+  Anthropic models require a separate `ANTHROPIC_API_KEY` environment variable.
+</Callout>
+
+| Model | Speed | Capability | Best For |
+|-------|-------|------------|----------|
+| claude-3-5-haiku | Fastest | Good | Quick prompts |
+| claude-3-5-sonnet | Fast | Better | General use |
+| claude-3-7-sonnet | Slower | Best | Complex tasks |
+
+### OpenAI Models
 
 <Callout type="warning">
   OpenAI models require a separate `OPENAI_API_KEY` environment variable.
@@ -204,6 +223,11 @@ Both models support these aspect ratios:
 - Fast inference with per-request pricing
 - Check [fal.ai pricing](https://fal.ai/pricing) for current rates
 - Optimized for speed and cost efficiency
+
+### Anthropic
+- Pay-per-use pricing
+- Check [Anthropic pricing](https://anthropic.com/pricing) for current rates
+- Rate limits based on your plan tier
 
 ### OpenAI
 - Pay-per-use pricing

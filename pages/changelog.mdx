@@ -4,6 +4,46 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.5.0 — 2026-03-11
+
+### Added
+
+- Control Panel for editing node parameters, with node-type-specific routing and Run/Apply buttons ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Inline parameter display on nodes, togglable in Settings ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Node dimming system for nodes downstream of disabled switch paths, with cascade awareness for converging paths ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Double-click a node's resize handle to auto-fit it to the media content's aspect ratio ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Nodes can be repositioned by dragging their floating header ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Gemini Veo 3.1 video generation models ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Anthropic Claude models available as an LLM provider ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Gemini 3.1 Pro model added to LLM model registry ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Browser warns before closing a tab with unsaved workflow changes ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Generate node headers now include external links to model provider pages ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Inline blue/red highlights for resolved/unresolved @variables in PromptConstructor, replacing the old warning banner ([#95](https://github.com/shrimbly/node-banana/pull/95))
+
+### Changed
+
+- Image, video, prompt, LLM, 3D, audio, and annotation nodes now render content edge-to-edge with no header chrome ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Handle size increased from 10px to 14px for easier connections ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Resize handle grab zones widened for easier node resizing ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Settings panel checkboxes replaced with toggles, with new inline parameters option ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Minimap now supports click navigation and scroll zoom ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- LLM node max tokens parameter exposed directly in the node ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Switch and Conditional Switch nodes updated with dimming support and improved data flow ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- PromptNode empty variable label changed from "@var" to "Add variable" ([#95](https://github.com/shrimbly/node-banana/pull/95))
+
+### Fixed
+
+- Edge gradients missing for video, audio, text, 3D, and easeCurve handle types ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- LLM error view not showing the actual error message ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Fal and Kie providers now properly gated behind API key checks ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- ConditionalSwitch using stale input from previous workflow run ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Node click-to-select failures caused by d3-drag dead zone ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Paste causing compounding node height growth ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Nodes growing taller when toggling inline parameters ([#95](https://github.com/shrimbly/node-banana/pull/95))
+- Clipped handles on full-bleed nodes ([#95](https://github.com/shrimbly/node-banana/pull/95))
+
+---
+
 ## 1.4.0 — 2026-02-24
 
 ### Added
