@@ -4,6 +4,23 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## Unreleased
+
+### Added
+
+- Canvas automatically swaps full-res images for JPEG thumbnails when nodes are zoomed out, improving performance on large workflows ([#99](https://github.com/shrimbly/node-banana/pull/99))
+
+### Fixed
+
+- Router and switch nodes now correctly pass multiple data types (e.g. text + image simultaneously) to a single downstream node ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Split Grid node Split button and image preview now update immediately when an edge is connected, without needing to execute first ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Panning and node dragging now suppress hover and pointer events on node content, improving canvas performance ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Thumbnail cache key collisions that could cause wrong images to appear on nodes ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Stale thumbnail cache entries left behind when thumbnail generation failed ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Backdrop blur removed from modal overlays and node UI for improved rendering performance on Windows ([#99](https://github.com/shrimbly/node-banana/pull/99))
+
+---
+
 ## 1.4.0 — 2026-02-24
 
 ### Added
