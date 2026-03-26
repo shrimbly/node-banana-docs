@@ -4,7 +4,50 @@ All notable changes to Node Banana are documented here.
 
 ---
 
-## 1.5.0 — 2026-03-22
+## 1.1.3 — 2026-03-22
+
+### Changed
+
+- ArrayNode auto-route button now displays a split icon instead of a placeholder ([#103](https://github.com/shrimbly/node-banana/pull/103))
+
+### Fixed
+
+- Prompt variables in PromptConstructor now resolve correctly when connected through Router or Switch nodes ([#103](https://github.com/shrimbly/node-banana/pull/103))
+- Node connection handles no longer get clipped by node content — handles now render above node content ([#103](https://github.com/shrimbly/node-banana/pull/103))
+- Nodes with inline parameters no longer accumulate extra height on each workflow reload ([#103](https://github.com/shrimbly/node-banana/pull/103))
+
+---
+
+## 1.1.2 — 2026-03-12
+
+### Added
+
+- Adaptive image resolution — canvas automatically swaps full-res images for JPEG thumbnails when nodes are zoomed out ([#99](https://github.com/shrimbly/node-banana/pull/99))
+
+### Fixed
+
+- Router and switch nodes now correctly pass multiple data types (e.g. text + image simultaneously) to a single downstream node ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Split Grid node Split button and image preview now update immediately when an edge is connected ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Panning and node dragging now suppress hover and pointer events on node content, improving canvas performance ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Thumbnail cache key collisions causing wrong images to appear on nodes ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Stale thumbnail cache entries left behind when thumbnail generation failed ([#99](https://github.com/shrimbly/node-banana/pull/99))
+- Backdrop blur removed from modal overlays and node UI for improved rendering performance on Windows ([#99](https://github.com/shrimbly/node-banana/pull/99))
+
+---
+
+## 1.1.1 — 2026-03-11
+
+### Changed
+
+- ArrayNode refreshed with compact default size, borderless inputs, and rotating chevron for Advanced options ([#97](https://github.com/shrimbly/node-banana/pull/97))
+
+### Fixed
+
+- Auto-route to Prompts now correctly passes individual item text to each created Prompt node ([#97](https://github.com/shrimbly/node-banana/pull/97))
+
+---
+
+## 1.1.0 — 2026-03-11
 
 ### Added
 
@@ -24,7 +67,6 @@ All notable changes to Node Banana are documented here.
 - Browser warns before closing a tab with unsaved workflow changes ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - Generate node headers now include external links to model provider pages ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - Inline blue/red highlights for resolved/unresolved @variables in PromptConstructor, replacing the old warning banner ([#95](https://github.com/shrimbly/node-banana/pull/95))
-- Adaptive image resolution — canvas automatically swaps full-res images for JPEG thumbnails when nodes are zoomed out ([#99](https://github.com/shrimbly/node-banana/pull/99))
 
 ### Changed
 
@@ -36,8 +78,6 @@ All notable changes to Node Banana are documented here.
 - LLM node max tokens parameter exposed directly in the node ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - Switch and Conditional Switch nodes updated with dimming support and improved data flow ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - PromptNode empty variable label changed from "@var" to "Add variable" ([#95](https://github.com/shrimbly/node-banana/pull/95))
-- ArrayNode refreshed with compact default size, borderless inputs, and rotating chevron for Advanced options ([#97](https://github.com/shrimbly/node-banana/pull/97))
-- ArrayNode auto-route button now displays a split icon instead of a placeholder ([#103](https://github.com/shrimbly/node-banana/pull/103))
 
 ### Fixed
 
@@ -54,20 +94,10 @@ All notable changes to Node Banana are documented here.
 - Paste causing compounding node height growth ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - Nodes growing taller when toggling inline parameters ([#95](https://github.com/shrimbly/node-banana/pull/95))
 - Clipped handles on full-bleed nodes ([#95](https://github.com/shrimbly/node-banana/pull/95))
-- Auto-route to Prompts now correctly passes individual item text to each created Prompt node ([#97](https://github.com/shrimbly/node-banana/pull/97))
-- Router and switch nodes now correctly pass multiple data types (e.g. text + image simultaneously) to a single downstream node ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Split Grid node Split button and image preview now update immediately when an edge is connected ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Panning and node dragging now suppress hover and pointer events on node content, improving canvas performance ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Thumbnail cache key collisions causing wrong images to appear on nodes ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Stale thumbnail cache entries left behind when thumbnail generation failed ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Backdrop blur removed from modal overlays and node UI for improved rendering performance on Windows ([#99](https://github.com/shrimbly/node-banana/pull/99))
-- Prompt variables in PromptConstructor now resolve correctly when connected through Router or Switch nodes ([#103](https://github.com/shrimbly/node-banana/pull/103))
-- Node connection handles no longer get clipped by node content — handles now render above node content ([#103](https://github.com/shrimbly/node-banana/pull/103))
-- Nodes with inline parameters no longer accumulate extra height on each workflow reload ([#103](https://github.com/shrimbly/node-banana/pull/103))
 
 ---
 
-## 1.4.0 — 2026-02-24
+## 0.5.0 — 2026-02-24
 
 ### Added
 
@@ -141,7 +171,7 @@ All notable changes to Node Banana are documented here.
 
 ---
 
-## 1.3.0 — 2026-01-31
+## 0.4.0 — 2026-01-31
 
 ### Added
 
@@ -168,7 +198,7 @@ All notable changes to Node Banana are documented here.
 
 ---
 
-## 1.2.0 — 2026-01-20
+## 0.3.0 — 2026-01-20
 
 ### Added
 
@@ -252,7 +282,7 @@ All notable changes to Node Banana are documented here.
 
 ---
 
-## 1.1.0
+## 0.2.0
 
 ### Added
 
@@ -340,7 +370,7 @@ All notable changes to Node Banana are documented here.
 
 ---
 
-## 1.0.0 — Initial Release
+## 0.1.0 — Initial Release
 
 ### Added
 
