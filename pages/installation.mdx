@@ -24,6 +24,7 @@ Before installing Node Banana, make sure you have:
   - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
   - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
   - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
+- **Anthropic API key** (optional) — Only needed for Claude text generation in LLM nodes
 - **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
 ## Installation Steps
@@ -61,7 +62,8 @@ FAL_API_KEY=your_fal_api_key_here
 KIE_API_KEY=your_kie_api_key_here
 WAVESPEED_API_KEY=your_wavespeed_api_key_here
 
-# Optional for OpenAI text generation
+# Optional for LLM text generation
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 ```
 
@@ -141,6 +143,18 @@ You need at least one AI provider API key. You can configure multiple providers 
 
 <Callout type="info">
   WaveSpeed offers image and video generation through an async task API. Only required if you want to use WaveSpeed models.
+</Callout>
+
+### Anthropic API Key (Optional)
+
+1. Go to [Anthropic Console](https://console.anthropic.com/)
+2. Sign in or create an account
+3. Navigate to API keys
+4. Create a new API key
+5. Add it to your `.env.local` file as `ANTHROPIC_API_KEY`
+
+<Callout type="info">
+  Anthropic provides Claude models for text generation in LLM nodes. Only required if you want to use Claude models. Check [Anthropic pricing](https://anthropic.com/pricing) for details.
 </Callout>
 
 ### OpenAI API Key (Optional)

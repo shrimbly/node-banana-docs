@@ -17,6 +17,9 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio | Video |
 | [Ease Curve](#ease-curve) | Apply speed curves | Video, Ease Curve | Video, Ease Curve |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
+| [Router](#router) | Route data without transformation | Any (dynamic) | Any (dynamic) |
+| [Switch](#switch) | Toggle-controlled routing | Any | Any (multiple, toggleable) |
+| [Conditional Switch](#conditional-switch) | Rule-based text routing | Text | Text (multiple) |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
 | [Output](#output) | Display results | Image, Video | — |
@@ -157,7 +160,7 @@ The Prompt Constructor node builds prompts from templates with variable placehol
   - Clickable variable pills in toolbar for quick insertion
   - Live "Resolved Preview" panel showing final prompt with substituted variables
   - Unsaved changes confirmation dialog when closing with edits
-- **Unresolved variable warnings**: Amber badge displays any `@variables` that don't match a connected Prompt node
+- **Inline variable highlights**: Resolved `@variables` are highlighted in blue; unresolved ones are highlighted in red directly in the template text
 - **Real-time preview**: Hover over the node to see the resolved prompt as a tooltip
 
 ### Usage
@@ -185,7 +188,7 @@ The Prompt Constructor node builds prompts from templates with variable placehol
 </Callout>
 
 <Callout type="warning">
-  If you see an amber "Unresolved" badge, it means one or more `@variables` in your template don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned.
+  `@variables` highlighted in red are unresolved — they don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned. Resolved variables appear in blue.
 </Callout>
 
 ### Example Workflows
@@ -262,6 +265,23 @@ Each model exposes its own parameters:
 - Parameter validation prevents invalid configurations
 - Custom UI for model-specific settings
 
+### Gemini Models
+
+Three Nano Banana models are available via the Gemini provider:
+
+| Model | Resolution | Aspect Ratios | Google Search | Image Search |
+|-------|-----------|---------------|--------------|--------------|
+| **Nano Banana** | — | 10 standard | — | — |
+| **Nano Banana 2** | 512px / 1K / 2K / 4K | 14 (adds 1:4, 1:8, 4:1, 8:1) | Yes | Yes |
+| **Nano Banana Pro** | 1K / 2K / 4K | 10 standard | Yes | — |
+
+**Nano Banana 2** slots between Nano Banana (fast/cheap) and Nano Banana Pro (highest quality). It adds:
+- **512px resolution tier** — lower-cost option alongside 1K, 2K, and 4K
+- **Pricing by resolution** — $0.045 (512px) · $0.067 (1K) · $0.101 (2K) · $0.151 (4K)
+- **Up to 10 reference images** for image-to-image generation
+- **Image Search** — enables image-based Google Search grounding (can be used alongside or independently of web search)
+- **Extended aspect ratios** — ultra-wide and ultra-tall ratios (1:4, 1:8, 4:1, 8:1) in addition to the standard set
+
 ### Usage
 1. Add a Generate Image node
 2. Select a provider and model
@@ -303,9 +323,22 @@ The Generate Video node creates videos using AI models from providers that suppo
 
 | Setting | Description |
 |---------|-------------|
-| **Provider** | Choose from providers with video capabilities |
+| **Provider** | Choose from providers with video capabilities (Gemini, Kie.ai, WaveSpeed, fal.ai, Replicate) |
 | **Model** | Select from available video models |
-| **Custom Parameters** | Model-specific parameters (duration, fps, etc.) |
+| **Custom Parameters** | Model-specific parameters (duration, aspect ratio, resolution, etc.) |
+
+### Gemini Veo Models
+
+Gemini is now a native provider for video generation using Google's Veo 3.1 models:
+
+| Model | Type | Notes |
+|-------|------|-------|
+| Veo 3.1 (text-to-video) | Text → Video | Highest quality; supports 720p/1080p/4K, 4–8 second clips |
+| Veo 3.1 (image-to-video) | Image + Text → Video | Animate a reference image |
+| Veo 3.1 Fast (text-to-video) | Text → Video | Faster generation at slightly lower quality |
+| Veo 3.1 Fast (image-to-video) | Image + Text → Video | Fast image animation |
+
+Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
 
 ### Video Generation Features
 
@@ -638,13 +671,14 @@ The LLM Generate node creates text using large language models. Use it for promp
 
 | Setting | Description |
 |---------|-------------|
-| **Model** | Select from Gemini or OpenAI models |
-| **Temperature** | Controls randomness (0-2) — adjustable in collapsible Parameters section |
-| **Max Tokens** | Maximum output length (256-16384) — adjustable in collapsible Parameters section |
+| **Provider** | Choose from Google, OpenAI, or Anthropic |
+| **Model** | Select from available models for the chosen provider |
+| **Temperature** | Controls randomness (0-2) — adjustable in the Parameters section |
+| **Max Tokens** | Maximum output length (256-16384) — adjustable in the Parameters section |
 
 ### Parameters
 
-The Parameters section is collapsible and contains:
+The Parameters section contains:
 - **Temperature** slider (0-2) — Controls output randomness
 - **Max Tokens** slider (256-16384) — Controls maximum output length
 
@@ -656,14 +690,20 @@ The Parameters section is collapsible and contains:
 **Google Gemini:**
 - gemini-2.5-flash (fast, capable)
 - gemini-3-flash-preview (latest flash)
-- gemini-3-pro-preview (most capable)
+- gemini-3.1-pro (most capable)
+- gemini-3-pro-preview
+
+**Anthropic:**
+- claude-3-5-haiku (fast)
+- claude-3-5-sonnet (balanced)
+- claude-3-7-sonnet (most capable)
 
 **OpenAI:**
 - gpt-4.1-mini (balanced)
 - gpt-4.1-nano (fast)
 
 <Callout type="warning">
-  OpenAI models require a separate `OPENAI_API_KEY` in your environment.
+  OpenAI models require a separate `OPENAI_API_KEY` in your environment. Anthropic models require an `ANTHROPIC_API_KEY`. Both can be set in `.env` or configured per-project in Project Settings → Providers.
 </Callout>
 
 ### Usage
@@ -683,6 +723,112 @@ Connect nodes like this:
 ```
 
 The LLM can expand simple prompts into detailed generation instructions.
+
+---
+
+## Router
+
+The Router node passes data through your workflow without any transformation. Use it to branch or merge data flow paths. Handles are created dynamically as you connect edges.
+
+### Inputs
+- **Any** (dynamic) — Accepts image, text, video, or audio connections; handles are added automatically as you connect
+
+### Outputs
+- **Any** (dynamic) — Mirrors each input handle; data passes through unchanged
+
+### Features
+- **Dynamic handles** — Input and output handles are created, removed, and reordered as connections change
+- **Multi-type support** — A single Router node can route images, text, video, and audio at the same time
+- **Passthrough** — Data is forwarded without modification; the Router itself has no settings to configure
+- **Gray theme** — Visually distinct from Switch (violet) and Conditional Switch (teal)
+
+### Usage
+1. Drag a connection from any node output toward the canvas
+2. From the connection drop menu, select **Router** to create and connect in one step
+3. Connect the Router's output handles to downstream nodes
+4. Add more inputs or outputs by dragging additional connections to/from the Router
+
+<Callout type="tip">
+  Use a Router to fan out a single image to multiple Generate Image nodes, or to merge several text paths back into one.
+</Callout>
+
+---
+
+## Switch
+
+The Switch node routes data along one or more named outputs that can be individually toggled on or off. Disabled outputs are visually dimmed and skipped during workflow execution.
+
+### Inputs
+- **Any** — One connection of any type (image, text, video, or audio); the type is detected automatically from the connected edge
+
+### Outputs
+- **Named outputs** (multiple) — Each output has a user-editable name and an enable/disable toggle
+
+### Features
+- **Toggle controls** — Click the toggle on each output to enable or disable that path
+- **Visual dimming** — Nodes downstream of a disabled output are dimmed to 40% opacity
+- **Smart cascade** — A downstream node that has at least one active alternate input stays fully visible
+- **Execution skip** — Dimmed nodes are skipped when the workflow runs; only active paths execute
+- **Reorderable outputs** — Drag output rows to change their order
+- **Violet theme** — Visually distinct from Router (gray) and Conditional Switch (teal)
+
+### Usage
+1. Add a Switch node and connect a data source to its input
+2. Connect the output handles to different downstream paths
+3. Toggle individual outputs on or off to control which paths are active
+4. Run the workflow — only enabled paths execute
+
+<Callout type="tip">
+  Use Switch to quickly A/B test two different processing pipelines. Toggle between them without deleting any connections.
+</Callout>
+
+---
+
+## Conditional Switch
+
+The Conditional Switch node routes text along different paths based on rule matching. Each rule defines a match pattern; when the incoming text matches a rule, that output path is activated. A Fallback output activates when no rules match.
+
+### Inputs
+- **Text** — The text value to evaluate against the defined rules
+
+### Outputs
+- **Rule outputs** (one per rule) — Activated when the incoming text matches that rule's pattern
+- **Fallback** — Activated when no rules match
+
+### Features
+- **4 match modes**: `exact`, `contains`, `starts-with`, `ends-with`
+- **Multi-value matching** — Comma-separate values in a rule to match any of them (OR logic)
+- **Case-insensitive** — All matching is case-insensitive
+- **Real-time indicators** — A green checkmark shows which rule is currently matched; unmatched rules show a gray dot
+- **Inline rule editing** — Add, delete, and reorder rules directly on the node
+- **Gate behavior** — Activates downstream paths without passing the input text through; downstream nodes receive a trigger signal only, not the text value
+- **Visual dimming** — Downstream nodes on inactive paths are dimmed to 40% opacity and skipped during execution
+- **Teal/cyan theme** — Visually distinct from Router (gray) and Switch (violet)
+
+### Match Modes
+
+| Mode | Matches when input… |
+|------|---------------------|
+| `exact` | Is exactly equal to the rule value |
+| `contains` | Contains the rule value as a substring |
+| `starts-with` | Begins with the rule value |
+| `ends-with` | Ends with the rule value |
+
+### Usage
+1. Add a Conditional Switch node and connect a text source to its input
+2. Click **Add rule** to create a new rule
+3. Type one or more comma-separated match values and select a match mode
+4. Connect the rule output handles to downstream nodes
+5. Connect the **Fallback** output to handle unmatched cases
+6. Run the workflow — matching rules activate their downstream paths
+
+<Callout type="warning">
+  Conditional Switch is a **gate node**. It triggers downstream paths based on which rule matches, but it does not forward the input text. Connect a separate Prompt node to provide text to downstream nodes that need it.
+</Callout>
+
+<Callout type="tip">
+  **Example**: Connect a Prompt node output to Conditional Switch. Set rules like `contains: "cat"` and `contains: "dog"` to route animal prompts to different Generate Image nodes tuned for each subject.
+</Callout>
 
 ---
 
@@ -934,6 +1080,9 @@ All nodes share these capabilities:
 ### Title Editing
 Click the title to rename any node. Custom names help organize complex workflows.
 
+### Moving Nodes
+Drag a node's floating header to reposition it on the canvas.
+
 ### Comments
 Add comments to nodes for documentation. Hover to see the full comment.
 
@@ -950,7 +1099,7 @@ Use the comment navigation system to move between nodes with comments:
 This feature helps you review feedback and annotations in complex workflows without manually searching for commented nodes.
 
 ### Resizing
-Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically.
+Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically. **Double-click the resize handle** to instantly auto-fit the node to its media content's aspect ratio.
 
 ### Execution Controls
 - **Play button** — Run from this node
