@@ -193,6 +193,18 @@ When you select one or more nodes, the Run dropdown in the floating action bar s
 
 This is useful for testing specific parts of a workflow without running everything.
 
+### Optional Nodes and Skip Propagation
+
+Image Input, Audio Input, and Prompt nodes can be toggled between **Required** (default) and **Optional** using the button in their node header.
+
+When a workflow runs:
+- Optional nodes without data (no image loaded, no audio loaded, or empty prompt) are **skipped**
+- Any downstream node that depends *only* on skipped nodes is also skipped automatically
+- Skipped nodes are shown with a **dimmed appearance** during execution so you can see exactly what was skipped and why
+- Downstream nodes with at least one active (non-skipped) input proceed normally
+
+This makes it easy to build flexible workflows where some inputs are conditionally present without needing separate workflow files.
+
 ### Execution States
 
 Nodes show their current state:
@@ -201,6 +213,7 @@ Nodes show their current state:
 - **Running** — Currently executing (shows spinner)
 - **Complete** — Finished successfully
 - **Error** — Something went wrong (shows error message)
+- **Skipped** — Node was skipped due to an optional empty input upstream (shown dimmed)
 
 ## Groups
 
@@ -216,7 +229,12 @@ Groups let you organize related nodes together.
 
 - **Visual boundary** — Groups have a colored background
 - **Move together** — Dragging the group moves all contained nodes
-- **Lock groups** — Locked groups are skipped during execution
+- **Lock groups** — Locked groups are skipped during execution (lock icon shows in the title pill)
+- **NBP Input** — Mark a group as an NBP Input to visually distinguish it with a dashed border
+
+### Group Context Menu
+
+Click the three-dot button next to a group's title to access group controls: background color, lock/unlock, NBP Input toggle, and delete.
 
 import { Callout } from 'nextra/components'
 
@@ -270,6 +288,32 @@ Node Banana tracks API costs for image and text generation.
 | nano-banana-pro (4K) | $0.24 |
 
 See [Models & Pricing](/guides/models-pricing) for detailed pricing information.
+
+## Workflow Browser
+
+The Workflow Browser lets you discover and open saved projects from a configured workflows directory, without needing to navigate the filesystem manually.
+
+### Opening the Workflow Browser
+
+- **From the Welcome Modal** — Select "Browse workflows" to open the browser before loading a project
+- **From the Header** — Click the "Open project" button while a project is open
+
+### How It Works
+
+- Point the browser at a parent directory that contains your project folders
+- It scans up to **3 levels deep**, so projects organized into subdirectories are found automatically
+- Each project is listed with its name, folder path, and a relative timestamp (e.g. "2 days ago")
+- Click any project to open it — media files (images, video, audio) are automatically rehydrated from the project folder
+
+### Directory-Based Loading
+
+When you open a project through the Workflow Browser, Node Banana loads the workflow JSON and re-links all external media files from the project directory. This means workflows are portable — move the folder and everything still works.
+
+You can also use the **"Open from directory"** button to pick a specific project folder using the native OS directory picker.
+
+<Callout type="tip">
+  The last-used project base directory is remembered and pre-filled the next time you create or browse for projects.
+</Callout>
 
 ## Auto-Save
 

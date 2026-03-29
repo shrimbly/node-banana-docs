@@ -40,6 +40,7 @@ The Image Input node loads images into your workflow from your local filesystem.
 - Click to open file picker
 - Supports PNG, JPG, and WebP formats
 - Maximum file size: 10 MB
+- **Optional/Required toggle** — Click the toggle in the node header to mark the node as Optional. Optional nodes without a loaded image are skipped during execution (shown with a dashed border and "Optional" drop-zone text). Downstream nodes that depend only on skipped nodes are also automatically skipped.
 
 ### Usage
 1. Add an Image Input node to the canvas
@@ -65,10 +66,11 @@ The Audio Input node loads audio files into your workflow for use in video gener
 ### Features
 - Drag and drop audio files directly onto the node
 - Click to open file picker
-- Supports MP3, WAV, and other browser-supported audio formats
+- Supports MP3, WAV, OGG, FLAC, AAC, and other browser-supported audio formats
 - Waveform visualization displays audio content at a glance
 - Built-in audio playback with play/pause controls
 - Duration and file size display
+- **Optional/Required toggle** — Click the toggle in the node header to mark the node as Optional. Optional nodes without loaded audio are skipped during execution, and downstream nodes are skipped too.
 
 ### Usage
 1. Add an Audio Input node to the canvas
@@ -102,6 +104,7 @@ The Prompt node provides text input for your workflow. Use it to write prompts f
   - Placeholder text reads "Text from connected node (editable)..." when connected
   - The node only updates when the upstream connection output actually changes (re-runs)
   - Enables automated prompt workflows and LLM chaining with manual refinement
+- **Optional/Required toggle** — Click the toggle in the node header to mark the node as Optional. When Optional, the placeholder reads "Optional prompt (leave empty to skip)..." and an empty Prompt node is skipped during execution, with skip propagating downstream.
 - **Variable naming**: Assign a variable name to the prompt for use in [Prompt Constructor](#prompt-constructor) templates
   - Click the variable name button in the header to set a name (e.g., `style`, `subject`)
   - Variable names can contain letters, numbers, and underscores (max 30 characters)
@@ -1064,11 +1067,24 @@ Groups aren't nodes, but they're an important organizational feature.
 ### Group Features
 - **Color coding** — Groups have colored backgrounds
 - **Collective movement** — Drag to move all contained nodes
-- **Lock/unlock** — Locked groups skip execution
+- **Lock/unlock** — Locked groups skip execution (lock icon shows in the title pill when locked)
+- **NBP Input** — Mark a group as an NBP Input to visually distinguish it with a dashed border
+
+### Group Context Menu
+
+Group controls are accessed via the three-dot button next to the group title:
+
+| Control | Description |
+|---------|-------------|
+| **Background** | Choose a color for the group background |
+| **Lock / Unlock** | Toggle execution skip for the group |
+| **NBP Input** | Toggle the dashed-border NBP Input visual style |
+| **Delete** | Remove the group (nodes inside are kept) |
 
 ### Use Cases
 - Organize related nodes visually
 - Disable workflow sections without deleting
+- Mark input groups for NBP workflows using the NBP Input toggle
 - Create reusable workflow "modules"
 
 ---
