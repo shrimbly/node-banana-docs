@@ -4,6 +4,31 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.2.0 — 2026-03-29
+
+### Added
+
+- Workflow browser for discovering and opening saved projects from a configurable workflows directory, accessible from the Welcome Modal and Header ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Nested project discovery — workflow browser scans up to 3 levels deep for projects organized in subdirectories ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Optional/Required toggle on Image Input, Audio Input, and Prompt nodes — optional nodes without data are automatically skipped during execution, and downstream nodes are skipped too ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Skipped nodes receive a visual dimmed treatment during execution so you can see what was skipped and why ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Directory-based workflow loading — open workflows by picking a project folder via native OS directory picker, with automatic media rehydration ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- NBP Input toggle for groups — mark a group as an NBP Input to visually distinguish it with a dashed border ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Group controls redesigned as a three-dot context menu (background color, lock/unlock, NBP Input, delete) ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Last-used project directory is remembered and pre-filled when creating new projects ([#107](https://github.com/shrimbly/node-banana/pull/107))
+
+### Changed
+
+- Videos and audio files are now saved alongside images in the `generations/` folder, keeping workflow JSON files small and portable ([#107](https://github.com/shrimbly/node-banana/pull/107))
+
+### Fixed
+
+- Video and audio save-load roundtrip (3 compounding bugs) ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Image externalization for Output Gallery nodes ([#107](https://github.com/shrimbly/node-banana/pull/107))
+- Error state now clears when navigating the generation carousel ([#107](https://github.com/shrimbly/node-banana/pull/107))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed
