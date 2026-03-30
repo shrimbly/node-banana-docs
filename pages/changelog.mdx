@@ -4,6 +4,21 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.3.0 — 2026-03-31
+
+### Added
+
+- Video Input node for uploading and previewing MP4, WebM, and QuickTime video files, with drag-and-drop support, inline playback controls, and Shift+Y keyboard shortcut ([#108](https://github.com/shrimbly/node-banana/pull/108))
+- Undo/redo support — Cmd+Z to undo and Cmd+Shift+Z to redo canvas changes including adding/removing nodes, connecting/disconnecting edges, paste, groups, and edge styling ([#108](https://github.com/shrimbly/node-banana/pull/108))
+- Veo model parameters (aspect ratio, quality, duration) now render in the Generate Video node for Veo models ([#108](https://github.com/shrimbly/node-banana/pull/108))
+
+### Fixed
+
+- Deleting a node with connected edges now creates a single undo entry so Cmd+Z restores everything at once ([#108](https://github.com/shrimbly/node-banana/pull/108))
+- Selected-node execution now correctly hydrates video input nodes from upstream connections ([#108](https://github.com/shrimbly/node-banana/pull/108))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

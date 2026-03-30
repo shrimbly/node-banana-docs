@@ -8,6 +8,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 |------|---------|--------|---------|
 | [Image Input](#image-input) | Load images | — | Image |
 | [Audio Input](#audio-input) | Load audio files | — | Audio |
+| [Video Input](#video-input) | Load video files | Video (optional) | Video |
 | [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
@@ -79,6 +80,37 @@ The Audio Input node loads audio files into your workflow for use in video gener
 
 <Callout type="info">
   Audio files are automatically trimmed or extended to match the final video duration when used with the Video Stitch node.
+</Callout>
+
+---
+
+## Video Input
+
+The Video Input node loads video files into your workflow. Use it to feed video directly into video processing nodes or pass it through a Router.
+
+### Inputs
+- **Video** (optional) — Incoming video from an upstream node (connection takes priority over uploaded file)
+
+### Outputs
+- **Video** — The loaded video
+
+### Features
+- Drag and drop video files directly onto the node
+- Click to open file picker
+- Supports MP4, WebM, and QuickTime (`.mov`) formats
+- Maximum file size: 200 MB
+- Inline preview with native video playback controls
+- Extracts metadata (duration, dimensions) on load
+- Add via the floating action bar **Video** button or press **Shift+Y**
+
+### Usage
+1. Add a Video Input node to the canvas (floating action bar or Shift+Y)
+2. Click the node or drag a video file onto it
+3. The video appears in the node with playback controls
+4. Connect the output to downstream nodes such as Generate Video, Video Stitch, or Router
+
+<Callout type="tip">
+  When a video is connected from an upstream node, that connection takes priority over any uploaded file. This lets you swap the video source just by connecting a different node.
 </Callout>
 
 ---
