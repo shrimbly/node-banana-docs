@@ -11,12 +11,13 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
-| [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
+| [Generate Video](#generate-video) | AI video generation | Image, Audio, Text | Video |
 | [Generate 3D](#generate-3d) | AI 3D model generation | Image, Text | 3D Model |
 | [3D Viewer](#3d-viewer) | View and capture 3D models | 3D Model | Image |
 | [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio | Video |
 | [Ease Curve](#ease-curve) | Apply speed curves | Video, Ease Curve | Video, Ease Curve |
 | [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
+| [Array](#array) | Split text into items and route to nodes | Text | Text (per item) |
 | [Router](#router) | Route data without transformation | Any (dynamic) | Any (dynamic) |
 | [Switch](#switch) | Toggle-controlled routing | Any | Any (multiple, toggleable) |
 | [Conditional Switch](#conditional-switch) | Rule-based text routing | Text | Text (multiple) |
@@ -75,7 +76,7 @@ The Audio Input node loads audio files into your workflow for use in video gener
 2. Click the node or drag an audio file onto it
 3. The waveform visualization appears showing the audio content
 4. Use the playback controls to preview the audio
-5. Connect the audio output to a Video Stitch node to add audio to videos
+5. Connect the audio output to a Video Stitch node to add audio to videos, or to a Generate Video node for audio-driven generation
 
 <Callout type="info">
   Audio files are automatically trimmed or extended to match the final video duration when used with the Video Stitch node.
@@ -313,6 +314,7 @@ The Generate Video node creates videos using AI models from providers that suppo
 
 ### Inputs
 - **Image** (optional, multiple) — Reference images or starting frames
+- **Audio** (optional) — Audio input for audio-driven video generation (requires a model that supports audio-to-video)
 - **Text** — The prompt describing the video to generate
 - **Dynamic inputs** — Additional inputs based on selected model's schema
 
@@ -723,6 +725,44 @@ Connect nodes like this:
 ```
 
 The LLM can expand simple prompts into detailed generation instructions.
+
+---
+
+## Array
+
+The Array node splits a block of text into a list of items and routes each item to downstream nodes. Use it to run a batch of prompts or inputs through generation nodes in a single workflow.
+
+### Inputs
+- **Text** — The source text to split into items
+
+### Outputs
+- **Text** — One item per connected edge (each downstream node receives a different item)
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Split mode** | How to divide the text: Lines, Delimiter, Regex, or JSON |
+| **Trim items** | Strip leading/trailing whitespace from each item |
+| **Remove empty** | Discard blank items after splitting |
+| **Batch** | When enabled, sends all items sequentially to a single downstream node instead of routing each item to a separate node |
+| **Auto-route** | Automatically create and connect one downstream node per item |
+
+### Batch Mode
+
+Enable **Batch** to run all array items through one generate node in sequence. The node executes once per item, and all results accumulate in the output gallery.
+
+Without batch mode (default), each output edge carries a different item — connect multiple downstream nodes to process items in parallel.
+
+### Usage
+1. Add an Array node to the canvas
+2. Connect a Prompt node or LLM output to provide the source text
+3. Choose a split mode and configure delimiter or regex as needed
+4. Either enable **Batch** and connect a single downstream generate node, or use **Auto-route** to create one node per item
+
+<Callout type="tip">
+  Use **Batch** when you want a single generate node to process every item and collect all results. Use the default multi-edge routing when you want items processed in parallel across separate nodes.
+</Callout>
 
 ---
 

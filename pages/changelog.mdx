@@ -4,6 +4,23 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.4.0 — 2026-04-02
+
+### Added
+
+- Video generation nodes now accept audio inputs for audio-driven video workflows with supported models ([#109](https://github.com/shrimbly/node-banana/pull/109))
+- Audio-to-video models are automatically discovered and tagged in the model browser ([#109](https://github.com/shrimbly/node-banana/pull/109))
+- Array node batch mode — enable Batch to send all items sequentially to a single downstream generate node instead of routing each to a separate node ([#109](https://github.com/shrimbly/node-banana/pull/109))
+
+### Fixed
+
+- Memory leak in undo/redo history caused by deep-copying large base64 image blobs on every snapshot; long sessions now use significantly less memory ([#109](https://github.com/shrimbly/node-banana/pull/109))
+- Batch-generated images now accumulate correctly in the output gallery instead of overwriting previous results ([#109](https://github.com/shrimbly/node-banana/pull/109))
+- Batch execution can now be cancelled via the stop button ([#109](https://github.com/shrimbly/node-banana/pull/109))
+- Array node Batch and Auto-route buttons repositioned inline with the Split dropdown for a cleaner layout ([#109](https://github.com/shrimbly/node-banana/pull/109))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed
