@@ -12,6 +12,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
 | [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
+| [Generate Audio](#generate-audio) | AI audio generation | Text | Audio |
 | [Generate 3D](#generate-3d) | AI 3D model generation | Image, Text | 3D Model |
 | [3D Viewer](#3d-viewer) | View and capture 3D models | 3D Model | Image |
 | [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio | Video |
@@ -23,7 +24,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
 | [Output](#output) | Display results | Image, Video | — |
-| [Output Gallery](#output-gallery) | View image collections | Image (multiple) | — |
+| [Output Gallery](#output-gallery) | View image/video collections | Image (multiple) | — |
 | [Image Compare](#image-compare) | Compare two images | Image (2) | — |
 
 ---
@@ -240,6 +241,15 @@ The Generate Image node creates images using AI models from multiple providers i
 | **Provider** | Choose from Gemini, Replicate, or fal.ai |
 | **Model** | Select from available models (use search dialog) |
 | **Custom Parameters** | Model-specific parameters appear dynamically |
+| **Fallback Model** | A backup model used automatically if the primary model fails |
+
+### Fallback Model
+
+All generation nodes have a **Fallback** tab in their settings panel. Configure a secondary provider and model here; if the primary generation request fails (API error, rate limit, etc.), the node automatically retries with the fallback model. A visual indicator on the node shows when the fallback was used.
+
+### Download
+
+A download button on the node header saves the currently displayed image to your local machine.
 
 ### Provider Configuration
 
@@ -326,6 +336,7 @@ The Generate Video node creates videos using AI models from providers that suppo
 | **Provider** | Choose from providers with video capabilities (Gemini, Kie.ai, WaveSpeed, fal.ai, Replicate) |
 | **Model** | Select from available video models |
 | **Custom Parameters** | Model-specific parameters (duration, aspect ratio, resolution, etc.) |
+| **Fallback Model** | A backup model used automatically if the primary model fails |
 
 ### Gemini Veo Models
 
@@ -340,12 +351,28 @@ Gemini is now a native provider for video generation using Google's Veo 3.1 mode
 
 Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
 
+### Kie.ai Video Models
+
+Kie.ai supports a broad range of video generation models:
+
+| Model | Type | Notes |
+|-------|------|-------|
+| Kling 3.0 | Text → Video, Image → Video | 5–10 second clips, pro mode |
+| Kling 3.0 Motion Control | Image → Video | Character orientation and background controls |
+| Kling 2.6 | Text → Video, Image → Video | Previous generation |
+| Wan 2.7 (text-to-video) | Text → Video | 1080p, configurable duration and ratio |
+| Wan 2.7 (image-to-video) | Image + Text → Video | 1080p output |
+| Seedance 2.0 | Text → Video, Image → Video | 720p, audio generation support |
+| Seedance 2.0 Fast | Text → Video, Image → Video | Faster variant of Seedance 2.0 |
+
 ### Video Generation Features
 
 - **Extended timeout** — 10-minute timeout for longer video processing
+- **Client-side polling** — Kie.ai tasks return immediately; the client polls for completion so the UI stays responsive
 - **Video playback** — In-node video player with controls
+- **Download button** — Save the generated video directly from the node header
 - **Format detection** — Automatic handling of various video formats
-- **Generation queue** — Manages video generation tasks
+- **Fallback model** — Configure a backup model in the Fallback settings tab
 
 ### Usage
 1. Add a Generate Video node
@@ -376,6 +403,43 @@ Connect Generate Video to an Output node to:
 
 ---
 
+## Generate Audio
+
+The Generate Audio node creates audio using AI models from providers that support audio generation.
+
+### Inputs
+- **Text** — The prompt describing the audio to generate
+- **Dynamic inputs** — Additional inputs based on selected model's schema
+
+### Outputs
+- **Audio** — The generated audio file
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **Provider** | Choose from providers with audio capabilities |
+| **Model** | Select from available audio models |
+| **Custom Parameters** | Model-specific parameters |
+| **Fallback Model** | A backup model used automatically if the primary model fails |
+
+### Features
+
+- **Audio playback** — Built-in player with waveform visualization
+- **Download button** — Save the generated audio directly from the node header
+- **Fallback model** — Configure a backup model in the Fallback settings tab
+- **Generation history** — Browse previous generations with the carousel
+
+### Usage
+1. Add a Generate Audio node
+2. Select a provider and audio-capable model
+3. Connect a Prompt node describing the audio
+4. Configure model-specific parameters
+5. Run the workflow
+6. Connect the audio output to a Video Stitch node to add it to a video
+
+---
+
 ## Generate 3D
 
 The Generate 3D node creates 3D models using AI models from providers that support 3D generation. This node is separate from image generation and outputs GLB 3D model files.
@@ -395,6 +459,7 @@ The Generate 3D node creates 3D models using AI models from providers that suppo
 | **Provider** | Choose from providers with 3D capabilities (Replicate, fal.ai, WaveSpeed) |
 | **Model** | Select from available 3D models (text-to-3d, image-to-3d) |
 | **Custom Parameters** | Model-specific parameters |
+| **Fallback Model** | A backup model used automatically if the primary model fails |
 
 ### 3D Generation Features
 
@@ -403,6 +468,8 @@ The Generate 3D node creates 3D models using AI models from providers that suppo
 - **Connection validation** — 3D outputs can only connect to 3D inputs (e.g., 3D Viewer node)
 - **Model search badges** — 3D-capable models display 3D capability badges in the Model Search dialog
 - **Multi-provider support** — Works with Replicate, fal.ai, and WaveSpeed providers
+- **Download button** — Save the generated 3D model directly from the node header
+- **Fallback model** — Configure a backup model in the Fallback settings tab
 
 ### How to Create Generate 3D Nodes
 
@@ -675,6 +742,7 @@ The LLM Generate node creates text using large language models. Use it for promp
 | **Model** | Select from available models for the chosen provider |
 | **Temperature** | Controls randomness (0-2) — adjustable in the Parameters section |
 | **Max Tokens** | Maximum output length (256-16384) — adjustable in the Parameters section |
+| **Fallback Model** | A backup model used automatically if the primary model fails |
 
 ### Parameters
 
@@ -964,10 +1032,10 @@ When saving outputs:
 
 ## Output Gallery
 
-The Output Gallery node collects and displays multiple images in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or image collections.
+The Output Gallery node collects and displays multiple images and videos in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or media collections.
 
 ### Inputs
-- **Image** (multiple) — Connect multiple image sources to view them in a grid
+- **Image** (multiple) — Connect multiple image or video sources to view them in a grid
 
 ### Features
 - **Thumbnail grid**: 3-column grid layout with scrollable viewing
@@ -976,21 +1044,26 @@ The Output Gallery node collects and displays multiple images in a scrollable th
   - Download button in top-left corner
   - Previous/Next arrow navigation
   - Keyboard navigation (Left/Right arrows, Escape to close)
-- **Real-time display**: Shows images from connected nodes immediately, not just after execution
-- **Automatic collection**: Gathers images from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
+- **Video support**: Gallery displays videos as well as images
+- **Extract button**: Creates a batch of Image Input nodes on the canvas from all items currently shown in the gallery — useful for feeding gallery results back into a workflow
+- **Real-time display**: Shows media from connected nodes immediately, not just after execution
+- **Automatic collection**: Gathers media from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
 
 ### Usage
 1. Add an Output Gallery node
-2. Connect multiple image sources to its input handle
-   - You can connect multiple Generate Image nodes
-   - Or connect nodes that output multiple images
-3. The gallery automatically displays all connected images as thumbnails
+2. Connect multiple image or video sources to its input handle
+3. The gallery automatically displays all connected media as thumbnails
 4. Click any thumbnail to view full-size
 5. Use keyboard shortcuts or navigation buttons to browse
-6. Click the download button in lightbox to save individual images
+6. Click the download button in lightbox to save individual items
+7. Click **Extract** to create Image Input nodes from all gallery items
 
 <Callout type="tip">
   **Generation Comparison**: Connect multiple Generate Image nodes with different parameters to the Output Gallery to compare results side-by-side. Perfect for evaluating different models, prompts, or settings.
+</Callout>
+
+<Callout type="tip">
+  **Extract to workflow**: Use the Extract button to take gallery results and batch-create Image Input nodes, making it easy to feed multiple generated images into further processing steps.
 </Callout>
 
 ### Lightbox Controls

@@ -4,6 +4,29 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.5.0 — 2026-04-20
+
+### Added
+
+- Loop edges — draw a connection from a downstream node back to an upstream input; loops run for a configurable iteration count shown on an edge toolbar, with magenta styling to distinguish them from normal edges ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Model fallback — all generation nodes (image, video, audio, 3D, LLM) now have a Fallback tab in node settings for configuring a backup model that activates automatically if the primary model fails ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Download button on all media-displaying nodes — Generate Image, Generate Video, Generate Audio, Generate 3D, and Output nodes all have a one-click download ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Extract button on Output Gallery — creates a batch of Image Input nodes from all items currently in the gallery ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Kie.ai model expansion — Kling 3.0, Kling 3.0 Motion Control, Wan 2.7 text-to-video, Wan 2.7 image-to-video, Seedance 2.0, Seedance 2.0 Fast, Imagen 4, Imagen 4 Ultra, Imagen 4 Fast, Seedream 5.0 Lite, and Wan 2.7 Image ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Client-side polling for Kie.ai tasks — long-running generation requests now return immediately and poll for completion, keeping the UI responsive during video and 3D generation ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Handle labels — connection handles show descriptive labels on hover, selection, and drag for easier wiring ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- First-run onboarding flow — new users see a guided setup experience for API key configuration and model defaults ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Interactive tutorial — optional guided walkthrough of the workflow editor with mock execution ([#116](https://github.com/shrimbly/node-banana/pull/116))
+
+### Fixed
+
+- Orphaned edges referencing deleted nodes are now filtered out on workflow load ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Video handle, label, and edge colors unified to consistent pink styling ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Audio preserved in video segments when using Video Stitch ([#116](https://github.com/shrimbly/node-banana/pull/116))
+- Kie.ai compatibility — fixed Seedance 2.0 model ID mapping, schema defaults pre-population, and video/audio upload handling ([#116](https://github.com/shrimbly/node-banana/pull/116))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

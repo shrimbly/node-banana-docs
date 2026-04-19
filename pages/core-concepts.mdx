@@ -89,8 +89,27 @@ Edges are the lines that connect nodes. Data flows through edges from outputs to
 - **Normal** — Gray line, data flows through
 - **Paused** — Dashed line, execution stops here
 - **Error** — Red line, indicates a problem
+- **Loop** — Magenta line, connects a downstream node back to an upstream input
 
 Click an edge to toggle pause state. Right-click to delete.
+
+### Loop Edges
+
+Loop edges let you feed a node's output back into an upstream node, repeating that section of the workflow a configurable number of times.
+
+**Creating a loop edge:**
+1. Drag from any output handle back toward an upstream node's input
+2. Node Banana detects the cycle and renders the edge in magenta
+3. Click the edge to open the EdgeToolbar and set the loop count (default: 1)
+
+**How loop execution works:**
+- When the workflow reaches a loop edge, the enclosed nodes re-execute for the specified number of iterations
+- Each iteration uses the output of the previous run as input
+- The loop count is validated before execution starts
+
+<Callout type="warning">
+  Loops increase total execution time proportionally to the iteration count. Each iteration makes fresh API calls. Use loops for iterative refinement workflows, not for large batch operations.
+</Callout>
 
 ## Handle Types
 
