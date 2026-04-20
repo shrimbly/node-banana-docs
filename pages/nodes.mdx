@@ -340,6 +340,23 @@ Gemini is now a native provider for video generation using Google's Veo 3.1 mode
 
 Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
 
+### Seedance 2 I2V Models (Kie.ai)
+
+ByteDance Seedance 2.0 image-to-video models expose the following input handles:
+
+| Handle | Type | Notes |
+|--------|------|-------|
+| **First Frame** | Image (optional) | Starting frame. Mutually exclusive with Reference Images. |
+| **Last Frame** | Image (optional) | End frame — model interpolates from First to Last. Mutually exclusive with Reference Images. |
+| **Reference Images** | Image (up to 9) | Style/subject reference images. Mutually exclusive with First/Last Frame. |
+| **Reference Videos** | Image handle (up to 3) | Reference videos passed as video data URLs over the image handle. |
+| **Reference Audio** | Audio (up to 3) | Reference audio clips for audio-driven generation. |
+| **Prompt** | Text (optional) | Text description of the video. |
+
+<Callout type="info">
+  First Frame and Reference Images are mutually exclusive — connect one or the other, not both. Last Frame requires First Frame to be connected.
+</Callout>
+
 ### Video Generation Features
 
 - **Extended timeout** — 10-minute timeout for longer video processing
