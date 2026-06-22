@@ -4,6 +4,23 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## Unreleased
+
+### Added
+
+- Generate Video node now has a **Video** input handle, so a video source can drive video-to-video models such as upscalers, restorers, and frame interpolators ([#122](https://github.com/shrimbly/node-banana/pull/122))
+- Replicate video-processing models (upscalers, restorers, interpolators) are now classified as video models and appear under the Generate Video node ([#122](https://github.com/shrimbly/node-banana/pull/122))
+
+### Changed
+
+- Model browser search now covers Replicate's full catalogue — it resolves an exact `owner/name` model id directly and falls back to Replicate's search API, instead of only matching the first pages of results ([#122](https://github.com/shrimbly/node-banana/pull/122))
+
+### Fixed
+
+- Generate Video node no longer requires a connected prompt to run — any one of a text, image, video, or audio input is now sufficient ([#122](https://github.com/shrimbly/node-banana/pull/122))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

@@ -11,7 +11,7 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Prompt](#prompt) | Text prompts | Text (optional) | Text |
 | [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
 | [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
-| [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
+| [Generate Video](#generate-video) | AI video generation | Image, Video, Text, Audio | Video |
 | [Generate 3D](#generate-3d) | AI 3D model generation | Image, Text | 3D Model |
 | [3D Viewer](#3d-viewer) | View and capture 3D models | 3D Model | Image |
 | [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio | Video |
@@ -257,6 +257,10 @@ Click the model selector to open the Model Search dialog:
 - See capability badges (image/video) and model IDs
 - External links to model documentation
 
+<Callout type="info">
+  For Replicate, search covers the full catalogue — not just the most popular models. Type a name fragment to search Replicate's catalogue, or enter an exact `owner/name` id (e.g. `topazlabs/video-upscale`) to resolve a specific model directly even when it isn't in the popular list.
+</Callout>
+
 ### Dynamic Parameters
 
 Each model exposes its own parameters:
@@ -313,11 +317,17 @@ The Generate Video node creates videos using AI models from providers that suppo
 
 ### Inputs
 - **Image** (optional, multiple) — Reference images or starting frames
+- **Video** (optional) — A source video for video-to-video models (upscaling, restoration, interpolation)
 - **Text** — The prompt describing the video to generate
+- **Audio** (optional) — An audio track for models that accept it
 - **Dynamic inputs** — Additional inputs based on selected model's schema
 
 ### Outputs
 - **Video** — The generated video
+
+<Callout type="info">
+  You don't need to connect a prompt to run. Any one of a text, image, video, or audio input is enough — for example, a video-to-video upscaler runs with just a connected video.
+</Callout>
 
 ### Settings
 
@@ -339,6 +349,18 @@ Gemini is now a native provider for video generation using Google's Veo 3.1 mode
 | Veo 3.1 Fast (image-to-video) | Image + Text → Video | Fast image animation |
 
 Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
+
+### Video-to-Video Models
+
+Some providers offer models that transform an existing video rather than generating one from scratch — for example upscalers, restorers, and frame interpolators. To use one:
+
+1. Connect a video source to the node's **Video** input handle.
+2. Select a video-to-video model (these are classified as video models, so they appear in the model browser under video capabilities).
+3. Run the workflow — no prompt is required.
+
+<Callout type="info">
+  Many video-processing models live outside the first pages of a provider's catalogue. Search by the exact model id (e.g. `topazlabs/video-upscale`) to pull it in directly. See [Model Discovery](#model-discovery).
+</Callout>
 
 ### Video Generation Features
 
