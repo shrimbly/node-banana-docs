@@ -202,26 +202,27 @@ Nodes show their current state:
 - **Complete** — Finished successfully
 - **Error** — Something went wrong (shows error message)
 
-## Groups
+## Adding Nodes
 
-Groups let you organize related nodes together.
+There are several ways to add nodes to the canvas:
 
-### Creating Groups
+- **Floating action bar** — Use the buttons and dropdowns at the bottom of the screen
+- **Keyboard shortcuts** — Press the shortcut for a node type (see below)
+- **Connection drop menu** — Drag a connection from a node's handle into empty space to create and connect a compatible node in one step
+- **Searchable node menu** — **Double-click** (or **right-click**) an empty spot on the canvas to open a searchable list of every node type
 
-1. Select multiple nodes
-2. Right-click and select "Create Group"
-3. Name your group
+### Searchable Node Menu
 
-### Group Features
+The node search menu opens wherever you double-click or right-click on empty canvas and adds the chosen node at that position:
 
-- **Visual boundary** — Groups have a colored background
-- **Move together** — Dragging the group moves all contained nodes
-- **Lock groups** — Locked groups are skipped during execution
+- Type to filter the full list of node types
+- Use the **arrow keys** to move through results and **Enter** to add the highlighted node
+- Press **Escape** or click away to dismiss the menu
 
 import { Callout } from 'nextra/components'
 
 <Callout type="tip">
-  Use locked groups to temporarily disable parts of your workflow without deleting them.
+  The searchable node menu is the fastest way to reach less-common nodes without hunting through the action bar — just double-click the canvas and start typing.
 </Callout>
 
 ## Keyboard Shortcuts
