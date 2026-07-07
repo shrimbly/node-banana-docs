@@ -24,8 +24,8 @@ Before installing Node Banana, make sure you have:
   - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
   - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
   - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
+  - OpenAI — [Get API key](https://platform.openai.com/api-keys) (optional, for GPT Image generation)
 - **Anthropic API key** (optional) — Only needed for Claude text generation in LLM nodes
-- **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
 ## Installation Steps
 
@@ -62,9 +62,11 @@ FAL_API_KEY=your_fal_api_key_here
 KIE_API_KEY=your_kie_api_key_here
 WAVESPEED_API_KEY=your_wavespeed_api_key_here
 
+# OpenAI — GPT Image generation and LLM text generation
+OPENAI_API_KEY=your_openai_api_key_here
+
 # Optional for LLM text generation
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 import { Callout } from 'nextra/components'
@@ -163,6 +165,10 @@ You need at least one AI provider API key. You can configure multiple providers 
 2. Sign in or create an account
 3. Click "Create new secret key"
 4. Copy the key and add it to your `.env.local` file
+
+<Callout type="info">
+  OpenAI powers both the GPT Image models in Generate Image nodes and GPT text generation in LLM nodes. Only required if you want to use either.
+</Callout>
 
 ## Verifying Your Installation
 

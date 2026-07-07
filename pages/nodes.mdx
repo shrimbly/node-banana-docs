@@ -223,7 +223,7 @@ Resolved: "elven warrior, watercolor style, determined expression, misty forest 
 
 ## Generate Image
 
-The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, and fal.ai.
+The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, fal.ai, and OpenAI.
 
 ### Inputs
 - **Image** (optional, multiple) — Reference images for the generation (supports image-to-image)
@@ -237,7 +237,7 @@ The Generate Image node creates images using AI models from multiple providers i
 
 | Setting | Description |
 |---------|-------------|
-| **Provider** | Choose from Gemini, Replicate, or fal.ai |
+| **Provider** | Choose from Gemini, Replicate, fal.ai, or OpenAI |
 | **Model** | Select from available models (use search dialog) |
 | **Custom Parameters** | Model-specific parameters appear dynamically |
 
@@ -247,6 +247,7 @@ Configure API keys for each provider in Project Settings → Providers tab:
 - **Gemini** — Google AI API key
 - **Replicate** — Replicate API token
 - **fal.ai** — fal.ai API key
+- **OpenAI** — OpenAI API key (surfaces the GPT Image models)
 
 ### Model Discovery
 
@@ -281,6 +282,21 @@ Three Nano Banana models are available via the Gemini provider:
 - **Up to 10 reference images** for image-to-image generation
 - **Image Search** — enables image-based Google Search grounding (can be used alongside or independently of web search)
 - **Extended aspect ratios** — ultra-wide and ultra-tall ratios (1:4, 1:8, 4:1, 8:1) in addition to the standard set
+
+### OpenAI Models
+
+Two GPT Image models are available via the OpenAI provider once an OpenAI API key is configured:
+
+| Model | Capabilities | Parameters |
+|-------|--------------|------------|
+| **GPT Image 1** | Text-to-image, image-to-image | Size, quality, background |
+| **GPT Image 2** | Text-to-image, image-to-image | Size, quality, background |
+
+- **Size** — 1024x1024, 1024x1536, 1536x1024, or auto
+- **Quality** — low, medium, high, or auto
+- **Background** — transparent, opaque, or auto
+
+See [Models & Pricing](/guides/models-pricing) for cost details.
 
 ### Usage
 1. Add a Generate Image node
