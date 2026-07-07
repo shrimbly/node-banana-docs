@@ -4,6 +4,39 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.2.0 — 2026-07-07
+
+### Added
+
+- Image Resize node — resize a single image to exact dimensions, a max-edge bound, or a percentage scale, with contain/cover/stretch fit, optional PNG/JPEG/WebP re-encoding, and an 8192px safety cap ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- GIF Encoder node — assemble image frames into an animated GIF with a drag-to-reorder filmstrip and FPS, color count, dithering, loop count, and target-file-size controls ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Searchable node menu — double-click or right-click an empty spot on the canvas to open a searchable list of every node type, with arrow-key navigation and Enter to add ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Replicate video model support — text-to-video, image-to-video, and video-to-video (e.g. upscalers) models ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Generate nodes can now run from video- or audio-only inputs without a text prompt, enabling video-to-video workflows ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Output Gallery now collects video results and renders precomputed poster thumbnails for faster browsing ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Per-node error boundaries — a single node that throws now shows an inline recovery card instead of white-screening the app ([#123](https://github.com/shrimbly/node-banana/pull/123))
+
+### Changed
+
+- Replicate model search now covers the full catalogue instead of only the first pages, so many more models are discoverable ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Stop now cancels an in-progress video stitch, trim, or ease-curve encode instead of letting it finish in the background ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Oversized generated media is handled gracefully with size caps on downloads ([#123](https://github.com/shrimbly/node-banana/pull/123))
+
+### Fixed
+
+- Data-loss race that could drop edits made while an auto-save was in flight ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- More reliable workflow resume after a pause edge ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Rotated videos are now handled correctly during processing ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Deleting a gallery item now removes exactly the item you clicked, even when duplicate results are present ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Multiple and looped video outputs now land in the Output Gallery ([#123](https://github.com/shrimbly/node-banana/pull/123))
+- Auth error responses now return the correct HTTP status ([#123](https://github.com/shrimbly/node-banana/pull/123))
+
+### Removed
+
+- Group node removed ([#123](https://github.com/shrimbly/node-banana/pull/123))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

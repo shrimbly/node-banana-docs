@@ -22,8 +22,10 @@ This page documents all available node types in Node Banana. Each node serves a 
 | [Conditional Switch](#conditional-switch) | Rule-based text routing | Text | Text (multiple) |
 | [Annotation](#annotation) | Draw on images | Image | Image |
 | [Split Grid](#split-grid) | Split into grid | Image | Reference |
+| [Image Resize](#image-resize) | Resize and re-encode images | Image | Image |
+| [GIF Encoder](#gif-encoder) | Build animated GIFs from frames | Image (multiple) | Image (GIF) |
 | [Output](#output) | Display results | Image, Video | — |
-| [Output Gallery](#output-gallery) | View image collections | Image (multiple) | — |
+| [Output Gallery](#output-gallery) | View image & video collections | Image, Video (multiple) | — |
 | [Image Compare](#image-compare) | Compare two images | Image (2) | — |
 
 ---
@@ -313,11 +315,16 @@ The Generate Video node creates videos using AI models from providers that suppo
 
 ### Inputs
 - **Image** (optional, multiple) — Reference images or starting frames
-- **Text** — The prompt describing the video to generate
+- **Video** (optional) — A source video for video-to-video models (e.g. upscalers, restyling)
+- **Text** (optional) — The prompt describing the video to generate
 - **Dynamic inputs** — Additional inputs based on selected model's schema
 
 ### Outputs
 - **Video** — The generated video
+
+<Callout type="info">
+  Generation can run from video- or audio-only inputs — a text prompt is no longer required when the connected media is enough to drive the model. This enables **video-to-video** workflows: connect a video output straight into a Generate Video node.
+</Callout>
 
 ### Settings
 
@@ -339,6 +346,10 @@ Gemini is now a native provider for video generation using Google's Veo 3.1 mode
 | Veo 3.1 Fast (image-to-video) | Image + Text → Video | Fast image animation |
 
 Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
+
+### Replicate Video Models
+
+Replicate is supported as a video provider for text-to-video, image-to-video, and video-to-video (e.g. upscalers) models. Model search now covers Replicate's full catalogue rather than only the first pages, so far more video models are discoverable in the Model Search dialog. Look for the video capability badge when browsing.
 
 ### Video Generation Features
 
@@ -913,6 +924,95 @@ Split Grid is primarily for visual organization. It:
 
 ---
 
+## Image Resize
+
+The Image Resize node scales, refits, and optionally re-encodes a single image inside your workflow. Use it to hit exact dimensions for a provider, shrink large inputs, or convert between formats.
+
+### Inputs
+- **Image** — The source image to resize
+
+### Outputs
+- **Image** — The resized (and optionally re-encoded) image
+
+### Resize Modes
+
+| Mode | Description |
+|------|-------------|
+| **Exact** | Resize to a specific width × height |
+| **Max edge** | Scale down so the longest side fits within a maximum length (never upscales) |
+| **Scale** | Resize by a percentage of the original (0–400%) |
+
+### Fit (Exact mode)
+
+When using Exact mode, choose how the image fills the target dimensions:
+
+| Fit | Behavior |
+|-----|----------|
+| **Contain** | Fit the whole image inside, letterboxing empty space with a pad color |
+| **Cover** | Fill the target area, cropping any overflow |
+| **Stretch** | Distort the image to match the exact dimensions |
+
+### Format & Quality
+
+- **Format** — `Keep` (retain the source format), `PNG`, `JPEG`, or `WebP`
+- **Quality** — A 0–1 quality slider appears for JPEG and WebP output
+
+### Features
+- Live output readout showing the resulting dimensions and approximate file size
+- **Safe max-size guard** — the longest edge is capped at 8192px so extreme values can't hang or crash the browser
+
+### Usage
+1. Add an Image Resize node and connect an image source
+2. Pick a resize mode (Exact, Max edge, or Scale) and enter its value
+3. For Exact mode, choose a fit (Contain, Cover, or Stretch) and a pad color if letterboxing
+4. Optionally change the output format and quality
+5. Run the workflow — the resized image flows to connected nodes
+
+<Callout type="tip">
+  Use **Max edge** to keep large uploads under a provider's size limit without having to calculate exact dimensions — the aspect ratio is preserved automatically.
+</Callout>
+
+---
+
+## GIF Encoder
+
+The GIF Encoder node assembles multiple image frames into a single animated GIF. Connect frames in the order you want them to play, tune the timing and palette, and export a shareable GIF.
+
+### Inputs
+- **Image** (multiple) — Frames for the animation; a new `Frame N` input handle appears automatically as you connect each image
+
+### Outputs
+- **Image (GIF)** — The encoded animated GIF
+
+### Features
+- **Filmstrip UI** — Each connected frame appears as a thumbnail tile
+- **Drag-to-reorder** — Drag frame tiles within the filmstrip to change playback order
+- **Progress indicator** — Shows encoding progress while the GIF is built
+
+### Settings
+
+| Setting | Description |
+|---------|-------------|
+| **FPS** | Frames per second (1–30) |
+| **Colors** | Palette size (2–256); fewer colors means a smaller file |
+| **Dither** | Toggle dithering to smooth color banding |
+| **Loop** | Loop count (0 = loop forever, otherwise a fixed number of plays) |
+| **Target ≤** | Optional target maximum file size — the encoder auto-tunes until the GIF fits under it |
+
+### Usage
+1. Add a GIF Encoder node
+2. Connect image sources to its frame inputs (e.g. from Generate Image, Split Grid, or Video Frame Grab nodes)
+3. Drag the filmstrip thumbnails to set the frame order
+4. Adjust FPS, colors, dithering, and loop count to taste
+5. (Optional) Enable **Target ≤** to keep the output under a file-size budget
+6. Run the workflow to encode the GIF
+
+<Callout type="tip">
+  Lower the **Colors** value or enable **Target ≤** to keep GIFs small for sharing. Dithering trades a slightly larger file for smoother gradients.
+</Callout>
+
+---
+
 ## Output
 
 The Output node displays the final result of your workflow. Use it as the endpoint for generated images and videos.
@@ -964,20 +1064,24 @@ When saving outputs:
 
 ## Output Gallery
 
-The Output Gallery node collects and displays multiple images in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or image collections.
+The Output Gallery node collects and displays multiple images and videos in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or media collections.
 
 ### Inputs
 - **Image** (multiple) — Connect multiple image sources to view them in a grid
+- **Video** (multiple) — Connect video sources, including multiple or looped outputs from Generate Video
 
 ### Features
 - **Thumbnail grid**: 3-column grid layout with scrollable viewing
+- **Poster thumbnails**: Video tiles render precomputed poster frames as static images instead of many live video players, keeping the grid fast even with lots of clips
 - **Lightbox viewer**: Click any thumbnail to open full-size viewer
   - Close button (X) in top-right corner
   - Download button in top-left corner
   - Previous/Next arrow navigation
   - Keyboard navigation (Left/Right arrows, Escape to close)
-- **Real-time display**: Shows images from connected nodes immediately, not just after execution
-- **Automatic collection**: Gathers images from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
+  - Videos play with controls in the lightbox
+- **Real-time display**: Shows media from connected nodes immediately, not just after execution
+- **Automatic collection**: Gathers images and videos from all connected media-producing nodes (Image Input, Generate Image, Generate Video, Annotation, etc.), including batched and looped video results
+- **Precise removal**: Deleting a gallery item removes exactly the one you clicked, even when duplicate results are present
 
 ### Usage
 1. Add an Output Gallery node
@@ -1049,27 +1153,6 @@ The Image Compare node provides a side-by-side comparison view with a draggable 
 ```
 
 This workflow lets you compare the original photo (A) with an AI-enhanced version (B) using the interactive slider.
-
----
-
-## Groups
-
-Groups aren't nodes, but they're an important organizational feature.
-
-### Creating Groups
-1. Select multiple nodes
-2. Right-click → "Create Group"
-3. Name your group
-
-### Group Features
-- **Color coding** — Groups have colored backgrounds
-- **Collective movement** — Drag to move all contained nodes
-- **Lock/unlock** — Locked groups skip execution
-
-### Use Cases
-- Organize related nodes visually
-- Disable workflow sections without deleting
-- Create reusable workflow "modules"
 
 ---
 
