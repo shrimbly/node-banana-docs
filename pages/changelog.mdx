@@ -4,6 +4,19 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## Unreleased
+
+### Added
+
+- OpenAI as an image generation provider — GPT Image 1 and GPT Image 2 models with text-to-image and image-to-image, plus size, quality, and background controls ([#125](https://github.com/shrimbly/node-banana/pull/125))
+
+### Fixed
+
+- Updating provider API keys in Settings now clears cached model and schema data so newly available models appear immediately ([#125](https://github.com/shrimbly/node-banana/pull/125))
+- Provider settings now deep-merge per provider when loaded, preserving newly added fields instead of dropping them ([#125](https://github.com/shrimbly/node-banana/pull/125))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

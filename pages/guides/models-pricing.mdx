@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Models & Pricing
 
 This guide covers the AI models available in Node Banana and their associated costs.
@@ -10,7 +12,7 @@ Node Banana supports multiple AI providers for image, video, and text generation
 - **Replicate** — Wide selection of community and custom models
 - **fal.ai** — Fast inference for popular models
 - **Anthropic** — Claude models for text generation in LLM nodes
-- **OpenAI** — GPT models for text generation in LLM nodes
+- **OpenAI** — GPT Image models for image generation, and GPT models for text generation in LLM nodes
 
 Configure API keys for each provider in **Project Settings → Providers** tab.
 
@@ -73,6 +75,27 @@ Replicate and fal.ai provide access to a wide variety of image generation models
 
 Use the model selector in Generate Image nodes to browse and search available models from all providers.
 
+### OpenAI Models
+
+OpenAI's GPT Image models are available for image generation once an `OPENAI_API_KEY` is configured. Both support text-to-image and image-to-image.
+
+| Model | API Model | Capabilities | Cost |
+|-------|-----------|--------------|------|
+| **GPT Image 1** | gpt-image-1 | Text-to-image, image-to-image | ~$0.05 per image |
+| **GPT Image 2** | gpt-image-2 | Text-to-image, image-to-image | ~$0.05 per image |
+
+**Parameters:**
+
+| Parameter | Options | Default |
+|-----------|---------|---------|
+| **Size** | 1024x1024, 1024x1536, 1536x1024, auto | auto |
+| **Quality** | low, medium, high, auto | auto |
+| **Background** | transparent, opaque, auto | auto |
+
+<Callout type="info">
+  OpenAI image pricing varies by size and quality. The ~$0.05 per image shown in cost tracking is a flat estimate — check your [OpenAI usage dashboard](https://platform.openai.com/usage) for actual charges.
+</Callout>
+
 ## Video Generation Models
 
 Video generation is available through compatible models on Replicate, fal.ai, and Gemini providers.
@@ -116,8 +139,6 @@ When selecting a video model, consider:
 
 ### Anthropic Models
 
-import { Callout } from 'nextra/components'
-
 <Callout type="warning">
   Anthropic models require a separate `ANTHROPIC_API_KEY` environment variable.
 </Callout>
@@ -151,7 +172,7 @@ Node Banana tracks costs in several places:
 4. **Generation history** — Tracks cost per generation
 
 The Cost Dialog provides:
-- Costs organized by provider (Gemini, Replicate, fal.ai)
+- Costs organized by provider (Gemini, Replicate, fal.ai, OpenAI)
 - Direct links to external provider pricing pages
 - Detailed pricing data for Gemini and fal.ai models
 - Dollar format for all costs
