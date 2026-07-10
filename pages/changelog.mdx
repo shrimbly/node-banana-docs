@@ -4,6 +4,32 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.8.0 — 2026-07-10
+
+### Added
+
+- Nano Banana 2 Lite model — fast, low-cost image generation on Gemini 3.1 Flash Lite, with text-to-image and image-to-image (up to 10 reference images) at 1K resolution ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Template-driven Split Grid — design a per-cell node graph once and Node Banana instantiates real nodes (Prompt, Generate Image, LLM Generate, Annotate, Remove Background, Resize, Output, Output Gallery) for every cell on the canvas ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Split Grid cells can feed a single shared downstream Router materialized beside the grid, so every cell's output converges onto one onward connection ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Split Grid supports any rows × columns layout, with draggable interior grid lines for non-uniform cell sizes ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Closable minimap — hide or show the canvas minimap with a toggle button ([#128](https://github.com/shrimbly/node-banana/pull/128))
+
+### Changed
+
+- Trackpad panning is now batched per animation frame for smoother navigation, using the same wheel pan/zoom behavior in the main canvas and the Split Grid cell editor ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- At overview zoom (below 15%), edges are hidden and node shadows and transitions are disabled to keep large graphs responsive ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Group headers, menus, and resize handles are hidden while zoomed out to prevent accidental edits ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Split Grid cost is now estimated from the real cell nodes on the canvas instead of a separate grid estimate ([#128](https://github.com/shrimbly/node-banana/pull/128))
+
+### Fixed
+
+- Router and Switch nodes now pass routed inputs into named schema slots, fixing "Failed to fetch result: 422" errors for Generate Video multi-image slots, video inputs, and negative prompts ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- OpenAI gateway errors (such as Cloudflare 520–524) no longer leak raw HTML; upstream server errors now show a concise "temporarily unavailable, please try again" message ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Split Grid nodes without a connected image now report a clear validation error ([#128](https://github.com/shrimbly/node-banana/pull/128))
+- Legacy Split Grid workflows saved before the template editor continue to load correctly ([#128](https://github.com/shrimbly/node-banana/pull/128))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed
