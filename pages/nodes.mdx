@@ -267,13 +267,16 @@ Each model exposes its own parameters:
 
 ### Gemini Models
 
-Three Nano Banana models are available via the Gemini provider:
+Four Nano Banana models are available via the Gemini provider:
 
 | Model | Resolution | Aspect Ratios | Google Search | Image Search |
 |-------|-----------|---------------|--------------|--------------|
 | **Nano Banana** | — | 10 standard | — | — |
 | **Nano Banana 2** | 512px / 1K / 2K / 4K | 14 (adds 1:4, 1:8, 4:1, 8:1) | Yes | Yes |
+| **Nano Banana 2 Lite** | 1K only | 10 standard | — | — |
 | **Nano Banana Pro** | 1K / 2K / 4K | 10 standard | Yes | — |
+
+**Nano Banana 2 Lite** is the fastest, lowest-cost option, built on Gemini 3.1 Flash Lite. It runs at a flat **$0.034 per image** (1K only), supports text-to-image and image-to-image with up to 10 reference images, and is ideal for rapid iteration and large batches such as Split Grid workflows.
 
 **Nano Banana 2** slots between Nano Banana (fast/cheap) and Nano Banana Pro (highest quality). It adds:
 - **512px resolution tier** — lower-cost option alongside 1K, 2K, and 4K
@@ -874,42 +877,46 @@ The Annotation node opens a full-screen drawing editor where you can draw on ima
 
 ## Split Grid
 
-The Split Grid node divides an image into a grid of smaller images. This is useful for contact sheets or batch processing.
+The Split Grid node divides an image into a grid of cells and runs the **same node graph on every cell in parallel**. You design a per-cell template once, and Node Banana materializes real nodes on the canvas for each cell.
 
 ### Inputs
 - **Image** — The image to split
 
-### Outputs
-- **Reference** (multiple) — Visual references to grid cells
-
 ### Grid Options
 
-The Split Grid settings modal offers 7 distinct grid layouts with visual previews and RxC (rows × columns) labels:
+The Split Grid settings modal lets you pick any **rows × columns** layout. Common presets include 2×2 (4 cells), 2×3 and 3×2 (6 cells), 2×4 (8 cells), 3×3 (9 cells), and 2×5 (10 cells). Both 2×3 and 3×2 produce 6 cells but with different aspect ratios.
 
-| Layout | Grid Size | Cells |
-|--------|-----------|-------|
-| 2×2 | 2 rows, 2 columns | 4 cells |
-| 1×5 | 1 row, 5 columns | 5 cells |
-| 2×3 | 2 rows, 3 columns | 6 cells |
-| 3×2 | 3 rows, 2 columns | 6 cells (portrait) |
-| 2×4 | 2 rows, 4 columns | 8 cells |
-| 3×3 | 3 rows, 3 columns | 9 cells |
-| 2×5 | 2 rows, 5 columns | 10 cells |
+You can also drag the interior grid lines in the preview to create **non-uniform cells** — adjacent cells stay perfectly tiled with no seams or overlaps. Leaving the lines untouched keeps the cells evenly sized.
 
-The 3×2 layout is useful for portrait-oriented grids. Note that both 2×3 and 3×2 produce 6 images, but with different aspect ratios.
+### Cell Templates
+
+Each Split Grid node carries a **cell template** — a small node graph that is instantiated once per cell. Every template starts with a base **Cell Image** node that receives that cell's split image. You can add these node types to the template:
+
+| Node | Purpose |
+|------|---------|
+| **Prompt** | Text prompt for the cell |
+| **Generate Image** | AI image generation |
+| **LLM Generate** | AI text generation |
+| **Annotate** | Draw on the cell image |
+| **Remove Background** | Strip the cell image background |
+| **Resize Image** | Resize or re-encode the cell image |
+| **Output** | Display the cell result |
+| **Output Gallery** | Collect cell results |
+
+### Shared Downstream Router
+
+A template can wire one or more of its terminal outputs into a single shared **Router**, materialized once beside the whole grid (not per cell). Every cell's copy of those outputs connects into that Router, so all cell results converge onto one onward connection. The shared Router is preserved and re-wired when you resize the grid.
 
 ### Usage
 1. Connect an image (like a contact sheet) to Split Grid
-2. Select your grid configuration
-3. The node generates output references for each cell
-4. Connect references to organize downstream processing
+2. Choose a rows × columns layout, and optionally drag the grid lines for non-uniform cells
+3. Build the cell template — for example, a Generate Image node wired to a Prompt for per-cell editing
+4. Run the split; Node Banana instantiates the template for each cell and groups the nodes
+5. Optionally route every cell's output through the shared Router into the rest of your workflow
 
-### How It Works
-
-Split Grid is primarily for visual organization. It:
-- Divides the source image into equal cells
-- Creates reference outputs for each cell
-- Helps you visually track which part of an image flows where
+<Callout type="info">
+  Because each cell's nodes are real nodes on the canvas, cost estimates count them directly, so the on-canvas cost indicator reflects exactly what the grid will generate. Workflows saved before the template editor still load correctly.
+</Callout>
 
 ---
 
