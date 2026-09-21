@@ -1,277 +1,142 @@
 # Troubleshooting
 
-This guide covers common issues and their solutions.
+## Missing or invalid provider key
 
-## Installation Issues
+1. Open **Nb → Project settings → Providers**.
+2. Check the key for the node's selected provider.
+3. Save the settings and retry the node.
 
-### "API key not found"
+Browser-entered keys override environment keys.
+If you use `.env.local`, use the exact variable names from [installation](/installation#add-provider-keys).
+For Replicate and fal.ai, those names are `REPLICATE_API_KEY` and `FAL_API_KEY`.
+Restart the browser server after environment-file changes.
 
-**Cause**: Missing or invalid API key configuration.
+**Prompt a workflow** needs a Gemini key.
+A key for another provider does not enable those features.
 
-**Solution**:
-1. Check that `.env.local` exists in the project root
-2. Verify you have at least one provider API key configured
-3. Restart the development server after editing
-4. Ensure no extra spaces or quotes around the key
+## Installation or port errors
 
-```env filename=".env.local"
-# At least one of these is required
-GEMINI_API_KEY=AIza...
-REPLICATE_API_TOKEN=r8_...
-FAL_KEY=...
-```
+If installation fails, check your Node version and the package manager's error message.
+The source-install guide uses Node.js 22.12 or newer.
+Run `npm ci` with the repository's existing lockfile.
 
-### Port 3000 in use
+If browser port 3000 is occupied, start the app with another `PORT` value.
+See the [installation commands](/installation#install-from-source).
+The desktop app uses port 47831 instead.
+Its conflict dialog offers **Retry**, **Open Logs**, and **Quit**.
 
-**Cause**: Another application is using the default port.
+## A node skips execution
 
-**Solution**:
-```bash
-# Use a different port
-npm run dev -- -p 3001
-```
+Missing inputs skip a node instead of disabling Run.
 
-Or find and stop the process using port 3000.
+1. Check that the upstream node has a result.
+2. Check the target socket's type and the selected model.
+3. Check whether an empty input is optional.
+4. Check whether a Switch disables the path or a group is locked.
 
-### Dependencies fail to install
+An empty optional input also skips downstream nodes that depend on it.
+Hidden noodles still carry data.
+A pause noodle stops execution until you select **Run** again.
 
-**Cause**: Node.js version mismatch or network issues.
+## A noodle does not connect
 
-**Solution**:
-1. Verify Node.js version: `node --version` (should be 18+)
-2. Clear npm cache: `npm cache clean --force`
-3. Delete `node_modules` and `package-lock.json`
-4. Run `npm install` again
+1. Check the data type on both socket labels.
+2. Select a model that accepts the available input.
+3. Drag the noodle to its matching socket.
 
-## Generation Issues
+Some model choices change the available sockets.
+You can also drag a noodle to empty canvas space and choose a compatible node.
 
-### "No image generated" / Empty output
+## Generation errors or delays
 
-import { Callout } from 'nextra/components'
+Read the node's error before you retry.
+A rejected key, unavailable model, quota limit, or unsupported input needs a different correction.
 
-**Possible causes**:
-- API quota exceeded
-- Invalid or blocked content in prompt
-- Network timeout
+| Symptom | Action |
+| --- | --- |
+| Missing or renamed model | Reopen model search, refresh its cache, and select a model |
+| Request limit | Reduce Max parallel calls in Settings → Node defaults |
+| Primary model fails | Check the Fallback tab and its provider key |
+| Long video or 3D task | Keep the app open while it polls the existing job |
+| Encode must stop | Select Stop to cancel stitch, trim, or ease-curve encoding |
+| Provider rejects content | Check the reported restriction and revise the prompt or media |
 
-**Solutions**:
-1. Check Google AI Studio for quota status
-2. Simplify your prompt
-3. Check browser console for detailed errors
-4. Try again (temporary API issues)
+Long jobs can continue at a remote provider after the editor stops or loses its session.
+Check that provider's job before you submit it again.
 
-### Generation takes too long
+## An old LLM model changes
 
-**Cause**: Large images, complex prompts, or API congestion.
+The app keeps supported legacy models for saved workflows.
+For a retired model ID, the catalog selects a replacement and shows a note.
+See the [legacy model table](/guides/models-pricing#legacy-text-models).
+If the model ID is unknown, select a current model from the dropdown.
 
-**Solutions**:
-- Use faster models for testing (check model descriptions for speed info)
-- Reduce resolution setting
-- Check provider status pages for outages
-- For video generation, note that processing can take several minutes
+## Video or media preview errors
 
-### Poor quality output
+Videos play inside media nodes on hover.
+An Output node is not required for playback.
+Video Trim, Video Stitch, and Ease Curve require browser encoding support.
+If encoding reports unsupported capabilities, use the error text to identify the unavailable codec or API.
 
-**Solutions**:
-- Write more detailed prompts
-- Try different models — each has different strengths
-- Provide better reference images
-- Increase resolution
-- Experiment with model-specific parameters
+| Input | Accepted upload and limit |
+| --- | --- |
+| Image Input | PNG, JPEG, or WebP, up to 10 MB |
+| Audio Input | Audio files, up to 50 MB |
+| Video Input | MP4, WebM, or MOV, up to 200 MB |
+| 3D Viewer | GLB, up to 100 MB |
 
-### "Content blocked" error
+If external media is missing after load, restore the project media folders to their saved location.
 
-**Cause**: The AI flagged content as potentially violating usage policies.
+## ComfyUI errors
 
-**Solution**:
-- Modify your prompt to avoid restricted content
-- Ensure reference images comply with policies
-- Try rephrasing your request
+1. Open **Settings → ComfyUI**.
+2. Check the selected backend, endpoint, and key.
+3. Select **Test connection**.
+4. Read the reported error before another import or run.
 
-## Connection Issues
+| Error | What to check |
+| --- | --- |
+| Cloud authentication | Use a Comfy Cloud key from platform.comfy.org |
+| Local endpoint unreachable | Start ComfyUI and check its address, normally `http://127.0.0.1:8188` |
+| Editor-save import fails | The server must provide `/api/object_info` |
+| Missing custom node or model | Install it on the selected backend, or choose a compatible backend |
+| API v2 route missing | Disable Behind comfy-api-proxy for a standard ComfyUI server |
+| Partner/API node rejects credentials | Set the Comfy API-node key under Advanced |
+| Job times out | Check the server job and the configured 1–60 minute timeout |
 
-### Can't connect nodes
+The default job timeout is 30 minutes.
+A longer timeout does not install missing models or repair a failed job.
+See the [ComfyUI guide](/guides/comfyui) for formats, Blueprints, and previews.
 
-**Cause**: Incompatible handle types.
+## Save or recovery errors
 
-**Remember**:
-- Text outputs → Text inputs only
-- Image outputs → Image inputs only
-- You can't mix types
+A project needs a name and writable directory before auto-save can save it.
+The app checks changed projects every 90 seconds.
+There is no auto-save toggle in the current Project settings UI.
 
-### Connection disappears
+1. Open **Settings → Project**.
+2. Check the project name and parent directory.
+3. Check free disk space and directory permissions.
+4. Select **Nb → Save project** and read any error notification.
 
-**Cause**: Invalid connection removed automatically.
+If a node crashes, use its inline recovery control.
+If the desktop server stops, choose **Restart Server**.
+If the desktop editor crashes, choose **Recover Editor** and review the recovery session.
+Restoration does not resubmit interrupted generation jobs.
 
-**Solution**: Check that source and target handles are compatible types.
+If desktop secure storage fails, unlock the keychain and retry.
+You can also choose **Use for this session only**.
+See [Desktop app](/desktop) for logs, profile paths, and environment imports.
 
-### Data not flowing through
+## Find nodes and report an error
 
-**Possible causes**:
-- Edge is paused (dashed line)
-- Upstream node hasn't run
-- Connection is to wrong handle
+If nodes are outside the viewport, select **Fit view** in the navigator.
+If the minimap is closed, select **Show minimap**.
+The app has no documented fit-view keyboard shortcut.
 
-**Solutions**:
-1. Click edge to unpause if paused
-2. Run the full workflow
-3. Verify connection endpoints
+For a report, include the app version, operating system, failed step, and exact error text.
+Browser developer tools show failed requests and console errors.
+The desktop app provides **Help → Open Logs**.
+Keep credentials and private workflow content out of the report.
 
-## Canvas Issues
-
-### Nodes disappeared
-
-**Possible causes**:
-- Zoomed out too far
-- Panned away from nodes
-
-**Solutions**:
-- Use minimap to locate nodes
-- Press keyboard shortcut to fit view
-- Check if nodes were accidentally deleted
-
-### Can't select nodes
-
-**Cause**: Selection area or click might be hitting background.
-
-**Solution**: Try clicking directly on node content, not edges.
-
-### Canvas is laggy
-
-**Possible causes**:
-- Too many nodes
-- Large images loaded
-- Browser memory pressure
-
-**Solutions**:
-- Remove unused nodes
-- Use smaller preview images
-- Refresh the page
-- Close other browser tabs
-
-## Save/Load Issues
-
-### Workflow won't save
-
-**Possible causes**:
-- Browser permissions
-- Invalid file path
-- Disk full
-
-**Solutions**:
-1. Check browser download permissions
-2. Try saving to a different location
-3. Check available disk space
-
-### Loaded workflow has missing data
-
-**Cause**: Workflow was saved from a different version or with incompatible settings.
-
-**Solutions**:
-- Check if all expected nodes loaded
-- Re-add missing connections
-- Re-input any missing data
-
-### Auto-save not working
-
-**Possible causes**:
-- Auto-save disabled
-- No project path configured
-- Storage permission issues
-
-**Solutions**:
-1. Enable auto-save in settings
-2. Configure a valid project path
-3. Check browser storage permissions
-
-## Browser-Specific Issues
-
-### Works in Chrome but not Safari/Firefox
-
-<Callout type="info">
-  Chrome is the recommended browser. Other browsers may have compatibility issues during early development.
-</Callout>
-
-**Solution**: Use Chrome for the most stable experience.
-
-### Images not displaying
-
-**Possible causes**:
-- CORS issues
-- Invalid image data
-- Memory limits
-
-**Solutions**:
-- Check browser console for errors
-- Try with smaller images
-- Refresh the page
-
-## API Issues
-
-### Rate limiting
-
-**Symptoms**: Errors about too many requests.
-
-**Solutions**:
-- Wait a few minutes before retrying
-- Reduce batch size
-- Space out generation requests
-
-### API errors (500, 503)
-
-**Cause**: Server-side issues at Google/OpenAI.
-
-**Solutions**:
-- Check API status pages
-- Wait and retry
-- Report persistent issues
-
-## Provider-Specific Issues
-
-### Replicate errors
-
-**"Model not found"**: The model may have been removed or renamed. Use the model search dialog to find current models.
-
-**Slow generation**: Some Replicate models run on cold-start hardware. First generations may take longer.
-
-**Rate limiting**: Replicate has per-account rate limits. Space out requests or upgrade your plan.
-
-### fal.ai errors
-
-**"Invalid API key"**: Verify your FAL_KEY is correct in `.env.local`. Keys are case-sensitive.
-
-**Timeout errors**: Some models (especially video) may exceed default timeouts. The app includes extended timeout support for video generation.
-
-**Stale model list**: If models appear outdated or missing, use the refresh button in the model browser (next to the capability dropdown) to clear caches and reload.
-
-### Video generation issues
-
-**Video won't play**: Ensure the output is connected to an Output node, which supports video playback.
-
-**Generation timeout**: Video generation can take several minutes. The app uses a 10-minute timeout for video models.
-
-**Format not supported**: Some video formats may not play in all browsers. Chrome has the best compatibility.
-
-## Getting More Help
-
-### Check the Console
-
-Open browser developer tools (F12 or Cmd+Option+I) and check:
-- **Console tab**: JavaScript errors and logs
-- **Network tab**: Failed API requests
-- **Application tab**: Storage issues
-
-### Report Bugs
-
-If you've found a bug:
-1. Note the exact steps to reproduce
-2. Copy any error messages
-3. Take a screenshot if helpful
-4. [Open an issue on GitHub](https://github.com/shrimbly/node-banana/issues)
-
-### Community Support
-
-Join the Discord community for:
-- Real-time help from other users
-- Tips and workflow sharing
-- Feature discussions
+Use [GitHub issues](https://github.com/shrimbly/node-banana/issues) or [Discord](https://discord.com/invite/89Nr6EKkTf).
