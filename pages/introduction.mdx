@@ -1,49 +1,53 @@
 # Introduction
 
-Node Banana is a visual workflow editor designed for AI image and video generation. It allows you to create, connect, and execute nodes on an infinite canvas to build complex media generation pipelines.
+Node Banana builds workflows on a canvas.
+A workflow is a set of nodes that pass data from one step to another.
+A node performs one task, such as image generation or video trimming.
+A noodle is a connection between two nodes.
 
-## Why Node Banana?
+## Follow the data
 
-Traditional AI image generation tools often require you to work with single images one at a time. Node Banana takes a different approach:
+A socket is an input or output point on a node.
+Socket types identify the data they accept, such as text, image, video, or audio.
+You drag from an output socket to a compatible input socket.
 
-- **Visual workflows** — See your entire pipeline at a glance
-- **Reusable pipelines** — Save and reuse complex workflows
-- **Batch processing** — Process multiple images through the same pipeline
-- **Iterative refinement** — Annotate and re-generate images without starting over
-- **Cost awareness** — Track your API spending in real-time
+For example, a Prompt node supplies text to a Generate Image node.
+The generated image can feed an Annotation node, another model, or an Output node.
+The app runs the steps in dependency order, so a node receives upstream results first.
 
-## Use Cases
+## Choose your tools
 
-### Product Photography
-Create consistent product shots by building a workflow that takes your product images and generates professional compositions with custom backgrounds and lighting.
+| Work | Nodes and features |
+| --- | --- |
+| Prepare prompts | Prompt, Prompt Constructor, Array, and LLM Generate |
+| Generate media | Generate Image, Generate Video, Generate Audio, and Generate 3D |
+| Edit media | Annotation, Remove Background, Image Resize, and video processing nodes |
+| Control branches | Router, Switch, Conditional Switch, and loop noodles |
+| Collect results | Output, Output Gallery, Image Compare, and 3D Viewer |
+| Reuse ComfyUI workflows | ComfyUI App, Blueprints, and saved nodes |
 
-### Style Transfer
-Build pipelines that apply consistent styling across multiple images — perfect for creating cohesive visual content.
+The [node reference](/nodes) explains each input, output, and setting.
 
-### Image Variations
-Generate multiple variations of a concept by connecting a single prompt to multiple generation nodes with different settings.
+## Run locally and choose providers
 
-### Composite Creation
-Combine multiple input images with annotations and AI generation to create complex composite images.
+You can run the app in a browser or use the [desktop preview](/desktop).
+Your workflows are JSON files that store the canvas and node settings.
+JSON is a text format for structured data.
+Media can live beside the workflow file or inside it.
 
-## How It Works
+An API key authorizes requests to a provider account.
+Add keys in **Nb → Project settings → Providers** for the models you use.
+Generation sends the relevant prompts and media to the selected provider.
+Local files and a local editor do not make remote generation offline.
 
-1. **Add nodes** to the canvas — each node performs a specific function
-2. **Connect nodes** by dragging between handles — data flows through connections
-3. **Configure nodes** with your settings, prompts, and images
-4. **Run the workflow** — nodes execute in dependency order
-5. **View results** in output nodes or image carousels
+The [model guide](/guides/models-pricing) lists providers and the app's cost estimates.
+ComfyUI has separate [backend settings](/guides/comfyui).
+A backend is the service that runs a ComfyUI workflow.
 
-## System Requirements
+## Choose a starting point
 
-- **Browser**: Chrome (recommended), Firefox, Safari, or Edge
-- **Internet**: Required for AI generation (API calls)
-- **API Keys**: At least one provider API key required:
-  - Google Gemini API key (for Gemini models)
-  - Replicate API key (for Replicate models)
-  - fal.ai API key (for fal.ai models)
-  - OpenAI API key (optional, for text generation)
+The Welcome screen offers **New project**, **Load workflow**, **Templates**, and **Prompt a workflow**.
+The first-run setup includes provider keys, model defaults, and an interactive tutorial.
+The tutorial uses simulated execution, so its demonstration does not submit real generation requests.
 
-## What's Next?
-
-Ready to get started? Head to the [Installation](/installation) guide to set up Node Banana on your machine.
+Continue with [installation](/installation) or [your first workflow](/first-workflow).

@@ -1,198 +1,112 @@
 # Installation
 
-This guide walks you through setting up Node Banana on your local machine.
+import { Callout } from 'nextra/components'
 
-<iframe
-  width="100%"
-  height="400"
-  src="https://www.youtube.com/embed/eAYOIX8fZn8"
-  title="Installation Video Guide"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-  style={{ borderRadius: '8px', marginTop: '1rem', marginBottom: '1rem' }}
-/>
+These steps install the app from `develop`, including the unreleased features in these guides.
+For the packaged macOS preview, see [Desktop app](/desktop).
 
-## Prerequisites
+## Install from source
 
-Before installing Node Banana, make sure you have:
+Use Git, npm, and Node.js 22.12 or newer.
+This Node version also supports the desktop tooling.
 
-- **Node.js** 18.0 or later — [Download Node.js](https://nodejs.org/en/download/)
-- **At least one AI provider API key**:
-  - Google Gemini — [Get API key](https://aistudio.google.com/apikey)
-  - Replicate — [Get API key](https://replicate.com/account/api-tokens)
-  - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
-  - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
-  - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
-- **Anthropic API key** (optional) — Only needed for Claude text generation in LLM nodes
-- **OpenAI API key** (optional) — Only needed for OpenAI text generation
-
-## Installation Steps
-
-### 1. Clone the Repository
+1. Clone the app repository and select `develop`.
 
 ```bash
-git clone https://github.com/shrimbly/node-banana.git
+git clone --branch develop https://github.com/shrimbly/node-banana.git
 cd node-banana
 ```
 
-### 2. Install Dependencies
+2. Install the dependencies from the lockfile.
 
 ```bash
-npm install
+npm ci
 ```
 
-### 3. Configure Environment Variables
-
-Create a `.env.local` file in the project root:
-
-```bash
-touch .env.local
-```
-
-Add your API keys (include at least one AI provider):
-
-```env filename=".env.local"
-# AI Providers (at least one required)
-GEMINI_API_KEY=your_gemini_api_key_here
-REPLICATE_API_TOKEN=your_replicate_api_token_here
-FAL_API_KEY=your_fal_api_key_here
-
-# Optional providers
-KIE_API_KEY=your_kie_api_key_here
-WAVESPEED_API_KEY=your_wavespeed_api_key_here
-
-# Optional for LLM text generation
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
-OPENAI_API_KEY=your_openai_api_key_here
-```
-
-import { Callout } from 'nextra/components'
-
-<Callout type="warning">
-  Never commit your `.env.local` file to version control. It's already in `.gitignore` by default.
-</Callout>
-
-### 4. Start the Development Server
+3. Start the browser app.
 
 ```bash
 npm run dev
 ```
 
-Node Banana will be available at [http://localhost:3000](http://localhost:3000).
+4. Open `http://localhost:3000`.
 
-## Getting Your API Keys
-
-You need at least one AI provider API key. You can configure multiple providers to access different models.
-
-### Google Gemini API Key
-
-1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
-2. Sign in with your Google account
-3. Click "Create API Key"
-4. Copy the key and add it to your `.env.local` file
-
-<Callout type="info">
-  Ensure that billing is enabled. Check [Google's pricing](https://ai.google.dev/pricing) for details.
-</Callout>
-
-### Replicate API Token
-
-1. Go to [Replicate](https://replicate.com/account/api-tokens)
-2. Sign in or create an account
-3. Copy your API token
-4. Add it to your `.env.local` file as `REPLICATE_API_TOKEN`
-
-<Callout type="info">
-  Replicate offers pay-per-use pricing with access to thousands of open-source models. Check [Replicate pricing](https://replicate.com/pricing) for details.
-</Callout>
-
-### fal.ai API Key
-
-1. Go to [fal.ai Dashboard](https://fal.ai/dashboard/keys)
-2. Sign in or create an account
-3. Create a new API key
-4. Add it to your `.env.local` file as `FAL_API_KEY`
-
-<Callout type="warning">
-  As of version 0.5.0, the fal.ai API key is now **required** (no longer optional) to use fal.ai models. Previously, fal.ai worked without a key but with rate limits.
-</Callout>
-
-<Callout type="info">
-  fal.ai offers fast inference with competitive pricing. Check [fal.ai pricing](https://fal.ai/pricing) for details.
-</Callout>
-
-### Kie.ai API Key (Optional)
-
-1. Go to [Kie.ai](https://kie.ai/)
-2. Sign in or create an account
-3. Navigate to API keys section
-4. Copy your API key
-5. Add it to your `.env.local` file as `KIE_API_KEY`
-
-<Callout type="info">
-  Kie.ai provides access to cutting-edge video models including Sora, Veo, and Kling 2.5/2.6. Only required if you want to use these models.
-</Callout>
-
-### WaveSpeed API Key (Optional)
-
-1. Go to [WaveSpeed AI](https://wavespeed.ai/)
-2. Sign in or create an account
-3. Generate an API key
-4. Add it to your `.env.local` file as `WAVESPEED_API_KEY`
-
-<Callout type="info">
-  WaveSpeed offers image and video generation through an async task API. Only required if you want to use WaveSpeed models.
-</Callout>
-
-### Anthropic API Key (Optional)
-
-1. Go to [Anthropic Console](https://console.anthropic.com/)
-2. Sign in or create an account
-3. Navigate to API keys
-4. Create a new API key
-5. Add it to your `.env.local` file as `ANTHROPIC_API_KEY`
-
-<Callout type="info">
-  Anthropic provides Claude models for text generation in LLM nodes. Only required if you want to use Claude models. Check [Anthropic pricing](https://anthropic.com/pricing) for details.
-</Callout>
-
-### OpenAI API Key (Optional)
-
-1. Go to [OpenAI Platform](https://platform.openai.com/api-keys)
-2. Sign in or create an account
-3. Click "Create new secret key"
-4. Copy the key and add it to your `.env.local` file
-
-## Verifying Your Installation
-
-After starting the dev server:
-
-1. Open [http://localhost:3000](http://localhost:3000) in Chrome
-2. You should see the Node Banana canvas with a floating action bar at the bottom
-3. Try adding a **Prompt** node and a **Generate** node
-4. If you can add nodes and connect them, your installation is working
-
-## Troubleshooting
-
-### "API key not found" error
-
-Make sure your `.env.local` file is in the project root (same folder as `package.json`) and contains valid API keys.
-
-### Port 3000 already in use
-
-Either stop the other process using port 3000, or start Node Banana on a different port:
+The browser app uses the custom server in `server.js`.
+If port 3000 is occupied, set `PORT` before the command.
 
 ```bash
-npm run dev -- -p 3001
+# macOS or Linux
+PORT=3001 npm run dev
 ```
 
-### Nodes not generating images
+```powershell
+# PowerShell
+$env:PORT = "3001"
+npm run dev
+```
 
-1. Check that your Gemini API key is valid
-2. Verify you have remaining API quota
-3. Check the browser console for error messages
+## Add provider keys
 
-## Next Steps
+1. Complete the first-run welcome step.
+2. Enter a key for each provider you plan to use.
+3. Choose your default models.
+4. Select **Start tutorial**, or select **Skip** to open the editor.
 
-Now that Node Banana is running, continue to [Your First Workflow](/first-workflow) to create your first image generation pipeline.
+You can change keys later in **Nb → Project settings → Providers**.
+Throughout these guides, **Settings** means this Project settings dialog.
+
+| Provider | Environment variable alternative |
+| --- | --- |
+| Google Gemini | `GEMINI_API_KEY` |
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Replicate | `REPLICATE_API_KEY` |
+| fal.ai | `FAL_API_KEY` |
+| Kie.ai | `KIE_API_KEY` |
+| WaveSpeed | `WAVESPEED_API_KEY` |
+
+You only need keys for the providers you use.
+**Prompt a workflow** requires a Gemini key.
+OpenAI supplies image and text models.
+See [Models and pricing](/guides/models-pricing) for the complete provider list.
+
+<Callout type="info">
+  In browser mode, keys entered in Settings stay in browser storage and override environment keys.
+  The desktop app encrypts stored credentials in its own profile.
+</Callout>
+
+### Use an environment file instead
+
+1. Create `.env.local` in the app repository root.
+2. Add only the variables for your selected providers.
+3. Restart the app after you change the file.
+
+```env filename=".env.local"
+GEMINI_API_KEY=your_gemini_key
+OPENAI_API_KEY=your_openai_key
+ANTHROPIC_API_KEY=your_anthropic_key
+REPLICATE_API_KEY=your_replicate_key
+FAL_API_KEY=your_fal_key
+KIE_API_KEY=your_kie_key
+WAVESPEED_API_KEY=your_wavespeed_key
+```
+
+These values are placeholders.
+Keep your real keys out of shared workflow notes and public repositories.
+
+## Connect ComfyUI
+
+ComfyUI uses **Settings → ComfyUI**, separately from provider keys.
+Choose **Comfy Cloud**, **This computer**, or **Remote**.
+The [ComfyUI guide](/guides/comfyui) covers keys, endpoints, and workflow imports.
+
+## Create your project
+
+1. Select **New project** on the Welcome screen.
+2. Enter a project name and choose its parent directory.
+3. Save the project settings.
+4. Follow [Your first workflow](/first-workflow).
+
+The app creates a project subfolder inside the selected directory.
+The directory must use an absolute path.
+For installation errors, see [Troubleshooting](/guides/troubleshooting).
