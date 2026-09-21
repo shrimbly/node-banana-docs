@@ -1,1112 +1,612 @@
 # Nodes Reference
 
-This page documents all available node types in Node Banana. Each node serves a specific purpose in your workflow.
+A node performs one workflow step.
+This reference covers all 28 node types on the checked `develop` snapshot.
+A noodle is a connection between compatible input and output sockets.
 
-## Overview
+## Common controls
 
-| Node | Purpose | Inputs | Outputs |
-|------|---------|--------|---------|
-| [Image Input](#image-input) | Load images | — | Image |
-| [Audio Input](#audio-input) | Load audio files | — | Audio |
-| [Prompt](#prompt) | Text prompts | Text (optional) | Text |
-| [Prompt Constructor](#prompt-constructor) | Template-based prompts | Text (multiple) | Text |
-| [Generate Image](#generate-image) | AI image generation | Image, Text | Image |
-| [Generate Video](#generate-video) | AI video generation | Image, Text | Video |
-| [Generate 3D](#generate-3d) | AI 3D model generation | Image, Text | 3D Model |
-| [3D Viewer](#3d-viewer) | View and capture 3D models | 3D Model | Image |
-| [Video Stitch](#video-stitch) | Combine videos | Video (multiple), Audio | Video |
-| [Ease Curve](#ease-curve) | Apply speed curves | Video, Ease Curve | Video, Ease Curve |
-| [LLM Generate](#llm-generate) | AI text generation | Text, Image | Text |
-| [Router](#router) | Route data without transformation | Any (dynamic) | Any (dynamic) |
-| [Switch](#switch) | Toggle-controlled routing | Any | Any (multiple, toggleable) |
-| [Conditional Switch](#conditional-switch) | Rule-based text routing | Text | Text (multiple) |
-| [Annotation](#annotation) | Draw on images | Image | Image |
-| [Split Grid](#split-grid) | Split into grid | Image | Reference |
-| [Output](#output) | Display results | Image, Video | — |
-| [Output Gallery](#output-gallery) | View image collections | Image (multiple) | — |
-| [Image Compare](#image-compare) | Compare two images | Image (2) | — |
+Double-click or right-click empty canvas space to search for a node.
+You can also drag a noodle onto empty space to create a compatible node.
 
----
+A media node has a preview card, history or scrub controls, and a collapsible controls card.
+Drag a resize edge to change width.
+Double-click the edge to restore the default width.
+Videos play inline on hover, and media nodes provide download buttons.
+
+Generation nodes keep result history and provide a Fallback tab for another model.
+A failed primary model can trigger an automatic retry with the fallback settings.
+Generation notifications report progress or errors.
+The Recent generations panel shows results across the canvas.
+
+If a node has no usable input, execution skips it.
+For optional inputs, pauses, groups, and partial runs, see [Core concepts](/core-concepts#workflow-execution).
+
+## Find a node
+
+| Category | Nodes |
+| --- | --- |
+| Inputs and prompts | Image Input, Audio Input, Video Input, Prompt, Array, Prompt Constructor |
+| Generation | Generate Image, Generate Video, Generate Audio, LLM Generate, Generate 3D, ComfyUI App |
+| Image processing | Annotation, Split Grid, Remove Background, Image Resize, GIF Encoder |
+| Video processing | Video Stitch, Ease Curve, Video Trim, Frame Grab |
+| Routing | Router, Switch, Conditional Switch |
+| Results | Output, Output Gallery, Image Compare, 3D Viewer |
 
 ## Image Input
 
-The Image Input node loads images into your workflow from your local filesystem.
+Load a source image or receive one from another node.
 
-### Outputs
-- **Image** — The loaded image as base64 data
+**Inputs:** A local file or a reference image noodle.
 
-### Features
-- Drag and drop images directly onto the node
-- Click to open file picker
-- Supports PNG, JPG, and WebP formats
-- Maximum file size: 10 MB
+**Outputs:** One image.
 
-### Usage
-1. Add an Image Input node to the canvas
-2. Click the node or drag an image file onto it
-3. The image appears in the node preview
-4. Connect the output to downstream nodes
+### Settings
 
-import { Callout } from 'nextra/components'
+| Setting | Effect |
+| --- | --- |
+| Image | PNG, JPEG, or WebP, up to 10 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
 
-<Callout type="tip">
-  **Image Paste Support**: Press `Cmd+V` (Mac) or `Ctrl+V` (Windows/Linux) to paste images directly from your clipboard. If an Image Input node is selected, it will update with the pasted image. Otherwise, a new Image Input node is created at the viewport center with the pasted image.
-</Callout>
+### Tips
 
----
+- Reuse one image output across several generators.
+- Use the download button to save the current image.
 
 ## Audio Input
 
-The Audio Input node loads audio files into your workflow for use in video generation.
+Load or preview an audio file.
 
-### Outputs
-- **Audio** — The loaded audio file
+**Inputs:** A local audio file or an audio noodle.
 
-### Features
-- Drag and drop audio files directly onto the node
-- Click to open file picker
-- Supports MP3, WAV, and other browser-supported audio formats
-- Waveform visualization displays audio content at a glance
-- Built-in audio playback with play/pause controls
-- Duration and file size display
-
-### Usage
-1. Add an Audio Input node to the canvas
-2. Click the node or drag an audio file onto it
-3. The waveform visualization appears showing the audio content
-4. Use the playback controls to preview the audio
-5. Connect the audio output to a Video Stitch node to add audio to videos
-
-<Callout type="info">
-  Audio files are automatically trimmed or extended to match the final video duration when used with the Video Stitch node.
-</Callout>
-
----
-
-## Prompt
-
-The Prompt node provides text input for your workflow. Use it to write prompts for image or text generation, or to receive text from other nodes like LLM Generate.
-
-### Inputs
-- **Text** (optional) — Incoming text from another node (e.g., LLM output)
-
-### Outputs
-- **Text** — The prompt text string
-
-### Features
-- Inline text editing
-- Expand button for larger editor (modal)
-- Full-screen editing mode for complex prompts with persistent font size preference
-- **Text input connection**: Receive text from LLM Generate or other text-producing nodes
-  - When connected, the incoming text pre-fills the prompt but remains fully editable
-  - Placeholder text reads "Text from connected node (editable)..." when connected
-  - The node only updates when the upstream connection output actually changes (re-runs)
-  - Enables automated prompt workflows and LLM chaining with manual refinement
-- **Variable naming**: Assign a variable name to the prompt for use in [Prompt Constructor](#prompt-constructor) templates
-  - Click the variable name button in the header to set a name (e.g., `style`, `subject`)
-  - Variable names can contain letters, numbers, and underscores (max 30 characters)
-  - Named prompts can be referenced as `@variableName` in Prompt Constructor templates
-
-### Usage
-
-**Manual entry:**
-1. Add a Prompt node
-2. Type your prompt in the text area
-3. Click the expand icon for a larger editor
-4. Connect to Generate Image or LLM Generate nodes
-
-**Receiving text from other nodes:**
-1. Add a Prompt node
-2. Connect an LLM Generate (or other text output) to the Prompt's text input handle
-3. The Prompt automatically receives and displays the connected text
-4. Use the Prompt output to feed into Generate Image nodes or other text consumers
-
-<Callout type="tip">
-  **LLM-to-Prompt Chaining**: Connect an LLM Generate output to a Prompt input to create automated prompt enhancement workflows. For example: `[Initial Prompt] → [LLM: "enhance this prompt"] → [Enhanced Prompt] → [Generate Image]`
-</Callout>
-
-### Writing Effective Prompts
-
-For image generation:
-- Be specific about subject, style, and composition
-- Include lighting and mood descriptions
-- Mention camera angle or perspective
-
-```
-A professional headshot of a business executive,
-studio lighting, neutral gray background,
-sharp focus, high resolution
-```
-
----
-
-## Prompt Constructor
-
-The Prompt Constructor node builds prompts from templates with variable placeholders. Use it to create reusable prompt templates that can be populated with values from multiple Prompt nodes.
-
-### Inputs
-- **Text** (multiple) — Prompt nodes with variable names that supply values for `@variable` placeholders
-
-### Outputs
-- **Text** — The resolved prompt with all variables substituted
-
-### Features
-- **Template-based prompts**: Define reusable templates with `@variable` placeholders
-- **@variable autocomplete**: Start typing `@` to see available variables from connected Prompt nodes
-  - Keyboard navigation (arrow keys, Enter, Escape)
-  - Shows variable name and current value in autocomplete dropdown
-- **Expand modal**: Click the expand button to open a full-screen editor
-  - Adjustable font size
-  - Clickable variable pills in toolbar for quick insertion
-  - Live "Resolved Preview" panel showing final prompt with substituted variables
-  - Unsaved changes confirmation dialog when closing with edits
-- **Inline variable highlights**: Resolved `@variables` are highlighted in blue; unresolved ones are highlighted in red directly in the template text
-- **Real-time preview**: Hover over the node to see the resolved prompt as a tooltip
-
-### Usage
-
-**Basic template workflow:**
-1. Add Prompt nodes and assign them variable names (e.g., `style`, `subject`, `mood`)
-2. Add a Prompt Constructor node
-3. Connect the Prompt nodes to the Prompt Constructor's text input
-4. In the Prompt Constructor, type your template using `@variableName` syntax:
-   ```
-   A @style photograph of @subject with @mood lighting
-   ```
-5. The template automatically resolves to the final prompt
-6. Connect the Prompt Constructor output to Generate Image or other nodes
-
-**Using the expand modal:**
-1. Click the expand button on a Prompt Constructor node
-2. Type your template - use `@` to trigger autocomplete and insert variables
-3. Click variable pills in the toolbar to insert them at cursor position
-4. View the "Resolved Preview" panel to see the final prompt in real-time
-5. Click "Save Template" to apply changes (or "Cancel" to discard)
-
-<Callout type="tip">
-  **Reusable Templates**: Create complex prompt templates with multiple variables for consistent generation. For example: `A @style photo of @subject, @pose, @lighting, @background` can be reused with different combinations of style, subject, pose, lighting, and background values.
-</Callout>
-
-<Callout type="warning">
-  `@variables` highlighted in red are unresolved — they don't match any connected Prompt node's variable name. Check that your Prompt nodes have matching variable names assigned. Resolved variables appear in blue.
-</Callout>
-
-### Example Workflows
-
-**Product photography variations:**
-```
-Template: "Product photography of @product, @angle angle, @lighting lighting, @background background"
-
-Connected prompts:
-- product: "luxury watch"
-- angle: "45-degree"
-- lighting: "soft studio"
-- background: "white seamless"
-
-Resolved: "Product photography of luxury watch, 45-degree angle, soft studio lighting, white seamless background"
-```
-
-**Character portraits:**
-```
-Template: "@character_name, @art_style style, @expression expression, @setting"
-
-Connected prompts:
-- character_name: "elven warrior"
-- art_style: "watercolor"
-- expression: "determined"
-- setting: "misty forest background"
-
-Resolved: "elven warrior, watercolor style, determined expression, misty forest background"
-```
-
----
-
-## Generate Image
-
-The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, and fal.ai.
-
-### Inputs
-- **Image** (optional, multiple) — Reference images for the generation (supports image-to-image)
-- **Text** — The prompt describing what to generate
-- **Dynamic inputs** — Additional inputs based on selected model's schema
-
-### Outputs
-- **Image** — The generated image
+**Outputs:** One audio result.
 
 ### Settings
 
-| Setting | Description |
-|---------|-------------|
-| **Provider** | Choose from Gemini, Replicate, or fal.ai |
-| **Model** | Select from available models (use search dialog) |
-| **Custom Parameters** | Model-specific parameters appear dynamically |
+| Setting | Effect |
+| --- | --- |
+| Audio | Upload or drop an audio file, up to 50 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
 
-### Provider Configuration
+### Tips
 
-Configure API keys for each provider in Project Settings → Providers tab:
-- **Gemini** — Google AI API key
-- **Replicate** — Replicate API token
-- **fal.ai** — fal.ai API key
+- Preview the audio before you connect it to a video model or Video Stitch.
 
-### Model Discovery
+## Video Input
 
-Click the model selector to open the Model Search dialog:
-- Browse models from all configured providers
-- Filter by provider using icon buttons
-- View recently used models for quick access
-- See capability badges (image/video) and model IDs
-- External links to model documentation
+Load a video for generation or processing.
 
-### Dynamic Parameters
+**Inputs:** A local video file or a video noodle.
 
-Each model exposes its own parameters:
-- Parameters update automatically when changing models
-- Input handles appear/disappear based on schema
-- Parameter validation prevents invalid configurations
-- Custom UI for model-specific settings
-
-### Gemini Models
-
-Three Nano Banana models are available via the Gemini provider:
-
-| Model | Resolution | Aspect Ratios | Google Search | Image Search |
-|-------|-----------|---------------|--------------|--------------|
-| **Nano Banana** | — | 10 standard | — | — |
-| **Nano Banana 2** | 512px / 1K / 2K / 4K | 14 (adds 1:4, 1:8, 4:1, 8:1) | Yes | Yes |
-| **Nano Banana Pro** | 1K / 2K / 4K | 10 standard | Yes | — |
-
-**Nano Banana 2** slots between Nano Banana (fast/cheap) and Nano Banana Pro (highest quality). It adds:
-- **512px resolution tier** — lower-cost option alongside 1K, 2K, and 4K
-- **Pricing by resolution** — $0.045 (512px) · $0.067 (1K) · $0.101 (2K) · $0.151 (4K)
-- **Up to 10 reference images** for image-to-image generation
-- **Image Search** — enables image-based Google Search grounding (can be used alongside or independently of web search)
-- **Extended aspect ratios** — ultra-wide and ultra-tall ratios (1:4, 1:8, 4:1, 8:1) in addition to the standard set
-
-### Usage
-1. Add a Generate Image node
-2. Select a provider and model
-3. Connect a Prompt node to the text input
-4. Optionally connect Image Input nodes for image-to-image
-5. Configure model-specific parameters
-6. Run the workflow
-
-<Callout type="info">
-  Image-to-image generation works across all providers. Large images are automatically converted to temporary URLs for provider compatibility.
-</Callout>
-
-### Image Carousel
-
-After generating, use the carousel to:
-- Browse previous generations (arrow buttons)
-- See generation history for this node
-- Select a previous result as the current output
-
-### Legacy Workflows
-
-Workflows using the old NanoBananaNode automatically migrate to GenerateImageNode on load.
-
----
-
-## Generate Video
-
-The Generate Video node creates videos using AI models from providers that support video generation.
-
-### Inputs
-- **Image** (optional, multiple) — Reference images or starting frames
-- **Text** — The prompt describing the video to generate
-- **Dynamic inputs** — Additional inputs based on selected model's schema
-
-### Outputs
-- **Video** — The generated video
+**Outputs:** One video.
 
 ### Settings
 
-| Setting | Description |
-|---------|-------------|
-| **Provider** | Choose from providers with video capabilities (Gemini, Kie.ai, WaveSpeed, fal.ai, Replicate) |
-| **Model** | Select from available video models |
-| **Custom Parameters** | Model-specific parameters (duration, aspect ratio, resolution, etc.) |
-
-### Gemini Veo Models
-
-Gemini is now a native provider for video generation using Google's Veo 3.1 models:
-
-| Model | Type | Notes |
-|-------|------|-------|
-| Veo 3.1 (text-to-video) | Text → Video | Highest quality; supports 720p/1080p/4K, 4–8 second clips |
-| Veo 3.1 (image-to-video) | Image + Text → Video | Animate a reference image |
-| Veo 3.1 Fast (text-to-video) | Text → Video | Faster generation at slightly lower quality |
-| Veo 3.1 Fast (image-to-video) | Image + Text → Video | Fast image animation |
-
-Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
-
-### Video Generation Features
-
-- **Extended timeout** — 10-minute timeout for longer video processing
-- **Video playback** — In-node video player with controls
-- **Format detection** — Automatic handling of various video formats
-- **Generation queue** — Manages video generation tasks
-
-### Usage
-1. Add a Generate Video node
-2. Select a provider and video-capable model
-3. Connect a Prompt node describing the video
-4. Optionally connect Image Input for reference frames
-5. Configure video parameters (duration, style, etc.)
-6. Run the workflow
-
-<Callout type="warning">
-  Video generation typically takes longer than image generation and may have higher costs. Check provider pricing before running.
-</Callout>
-
-### Video Carousel
-
-After generating, use the carousel to:
-- Browse previous video generations
-- Play/pause videos directly in the node
-- Navigate through video generation history
-- Select a previous result as the current output
-
-### Output Display
-
-Connect Generate Video to an Output node to:
-- Display videos in a larger preview area
-- Access download controls
-- View video metadata (duration, resolution)
-
----
-
-## Generate 3D
-
-The Generate 3D node creates 3D models using AI models from providers that support 3D generation. This node is separate from image generation and outputs GLB 3D model files.
-
-### Inputs
-- **Image** (optional, multiple) — Reference images for image-to-3d generation
-- **Text** — The prompt describing the 3D model to generate
-- **Dynamic inputs** — Additional inputs based on selected model's schema
-
-### Outputs
-- **3D Model** — The generated 3D model in GLB format
-
-### Settings
-
-| Setting | Description |
-|---------|-------------|
-| **Provider** | Choose from providers with 3D capabilities (Replicate, fal.ai, WaveSpeed) |
-| **Model** | Select from available 3D models (text-to-3d, image-to-3d) |
-| **Custom Parameters** | Model-specific parameters |
-
-### 3D Generation Features
-
-- **Dedicated 3D pipeline** — Separate from image generation with its own executor and validation
-- **Orange handles** — 3D connections use distinct orange handles to differentiate from image (green) and text (blue)
-- **Connection validation** — 3D outputs can only connect to 3D inputs (e.g., 3D Viewer node)
-- **Model search badges** — 3D-capable models display 3D capability badges in the Model Search dialog
-- **Multi-provider support** — Works with Replicate, fal.ai, and WaveSpeed providers
-
-### How to Create Generate 3D Nodes
-
-There are two ways to create a Generate 3D node:
-
-1. **From the Generate dropdown**:
-   - Click the **Generate** dropdown in the floating action bar
-   - Select **3D** from the menu
-   - A Generate 3D node appears on the canvas
-
-2. **From Model Search**:
-   - Open the Model Search dialog
-   - Browse models with 3D capabilities (look for 3D badges)
-   - Select a 3D-capable model
-   - A Generate 3D node is automatically created with that model
-
-### Usage
-1. Add a Generate 3D node using one of the methods above
-2. Select a provider and 3D-capable model
-3. Connect a Prompt node describing the 3D object
-4. Optionally connect Image Input for image-to-3d generation
-5. Configure model-specific parameters
-6. Run the workflow
-7. Connect the output to a 3D Viewer node to visualize the result
-
-<Callout type="info">
-  3D model generation uses orange connection handles. You'll need to connect the output to a 3D Viewer node to see and interact with the generated model.
-</Callout>
-
-### Supported Providers
-
-- **Replicate** — Various 3D generation models
-- **fal.ai** — 3D-capable models
-- **WaveSpeed** — 3D generation support
-
-Configure API keys for these providers in Project Settings → Providers tab.
-
----
-
-## 3D Viewer
-
-The 3D Viewer node displays and interacts with 3D models in GLB format. It renders an interactive 3D viewport where you can rotate, zoom, and capture snapshots of the model.
-
-### Inputs
-- **3D Model** — A GLB file from a Generate 3D node or file upload
-
-### Outputs
-- **Image** — Captured snapshot of the 3D viewport as PNG
-
-### Features
-
-- **Interactive viewport** — Orbit controls let you rotate, zoom, and pan the 3D model
-- **Drag-and-drop** — Drop GLB files directly onto the node to load them
-- **Auto-normalization** — Models are automatically centered and scaled to fit the viewport
-- **Lighting** — Ambient and spot lighting for proper model visualization
-- **Capture button** — Snapshots the current viewport view as a PNG image
-- **Lazy loading** — Three.js library loads only when 3D nodes are used (no bundle cost for users who don't use 3D)
-- **Resource cleanup** — Proper disposal of 3D resources and blob URLs
-
-### How to Create 3D Viewer Nodes
-
-There are two ways to create a 3D Viewer node:
-
-1. **Auto-create from connection**:
-   - Drag a connection from a Generate 3D node's output
-   - The connection drop menu appears
-   - Select **3D Viewer** and it's automatically created and connected
-
-2. **Manual creation**:
-   - Add from the node menu or floating action bar
-   - Drop a `.glb` file onto the node to load it
-   - Or connect to a Generate 3D node output
-
-### Usage
-1. Connect a Generate 3D node's output to a 3D Viewer input (or drop a GLB file)
-2. The 3D model renders in the interactive viewport
-3. Use mouse to orbit, zoom, and pan:
-   - **Left drag** — Rotate the model
-   - **Right drag** — Pan the camera
-   - **Scroll** — Zoom in/out
-4. Click the **Capture** button to snapshot the current view
-5. Connect the image output to downstream nodes (e.g., Output node, Generate Image)
-
-<Callout type="tip">
-  The Capture feature lets you use 3D models as reference images for further image generation. Generate a 3D model, rotate it to the desired angle, capture it, and feed the snapshot into a Generate Image node.
-</Callout>
-
-### Technical Details
-
-- **Format** — GLB (binary GLTF) only
-- **Renderer** — Three.js WebGL renderer
-- **Controls** — OrbitControls for camera manipulation
-- **Lighting** — Ambient light + directional spot light
-- **Normalization** — Automatic bounding box calculation and scaling
-
----
-
-## Video Stitch
-
-The Video Stitch node combines multiple video clips into a single continuous video. It's useful for creating sequences, montages, or stitching together generated video clips.
-
-### Inputs
-- **Video** (multiple, minimum 2) — Video clips to concatenate
-- **Audio** (optional) — Audio track to add to the final video
-
-### Outputs
-- **Video** — The stitched output video
-
-### Settings
-
-| Setting | Description |
-|---------|-------------|
-| **Loop** | Repeat the entire clip sequence 1x, 2x, or 3x |
-
-### Features
-
-- **Filmstrip UI** — Thumbnail previews for each connected video clip
-- **Drag-and-drop reordering** — Rearrange clips by dragging thumbnails within the filmstrip
-- **Dynamic handle creation** — New video input handles appear automatically as you connect clips
-- **Batch multi-connect** — Connect multiple video sources at once
-- **Audio mixing** — Optional audio input is automatically trimmed to match final video duration
-- **Duration tracking** — Shows duration for each clip and total duration
-- **Hardware encoding support** — Uses hardware acceleration when available
-- **Rotation handling** — Respects video rotation metadata (0°, 90°, 180°, 270°)
-- **Progress indicator** — Shows stitching progress percentage during processing
-- **Output preview** — Play the stitched video directly in the node
-
-### Loop Feature
-
-The Loop selector allows you to duplicate the entire clip sequence:
-- **1x** (default) — Single playthrough of all clips
-- **2x** — Entire sequence plays twice back-to-back
-- **3x** — Entire sequence plays three times
-
-For example, if you have 3 video clips of 2 seconds each:
-- 1x loop = 6 seconds total
-- 2x loop = 12 seconds total (clips play: 1, 2, 3, 1, 2, 3)
-- 3x loop = 18 seconds total (clips play: 1, 2, 3, 1, 2, 3, 1, 2, 3)
-
-### Usage
-
-1. Add a Video Stitch node to the canvas
-2. Connect at least 2 video sources (e.g., from Generate Video nodes)
-3. (Optional) Connect an Audio Input node to add background music
-4. Drag thumbnails in the filmstrip to reorder clips
-5. (Optional) Set the Loop control to 2x or 3x to repeat the sequence
-6. Click **Stitch** or run the workflow to combine the videos
-7. The output video appears in the preview and flows to connected nodes
-
-<Callout type="info">
-  All video clips must have consistent dimensions. If clips have different resolutions, the Video Stitch node will display an error.
-</Callout>
-
-<Callout type="tip">
-  Use the loop feature to create seamless repeating animations or extend short video sequences without manually duplicating clips. Audio from the Audio Input is automatically adjusted to match the final video length.
-</Callout>
-
-### Technical Details
-
-- **Format**: Outputs MP4 with H.264 encoding
-- **Frame rate**: Up to 60fps (matches source clips)
-- **Bitrate**: Automatically selected based on source quality
-- **Audio format**: AAC audio codec
-
----
-
-## Ease Curve
-
-The Ease Curve node applies speed ramping and easing effects to videos, creating smooth acceleration and deceleration. Use it to add cinematic slow-motion, time-lapse effects, or custom speed variations.
-
-### Inputs
-- **Video** — The video to apply the ease curve to
-- **Ease Curve** (optional) — Inherit easing configuration from another Ease Curve node
-
-### Outputs
-- **Video** — The speed-adjusted video
-- **Ease Curve** — The easing configuration for passing to other Ease Curve nodes
-
-### Features
-
-- **Interactive bezier curve editor** — Drag control points to create custom easing curves
-- **30+ preset easing functions** — Including sine, quad, cubic, expo, and asymmetric variations
-- **Real-time curve visualization** — See the speed multiplier over time
-- **Easing inheritance** — Chain multiple Ease Curve nodes to build complex effects
-- **Duration control** — Set output video duration (default: 1.5s)
-- **Input/output duration display** — Track how the easing affects video length
-- **Hardware encoding support** — Uses hardware acceleration when available
-- **Video preview** — Preview the eased video directly in the node
-
-### Settings
-
-| Setting | Description |
-|---------|-------------|
-| **Preset** | Select from 30+ built-in easing functions |
-| **Custom Curve** | Define cubic bezier control points (x1, y1, x2, y2) |
-| **Output Duration** | Target duration for the output video (default: 1.5s) |
-
-### Available Easing Presets
-
-**Basic:**
-- `linear` — Constant speed (no easing)
-- `easeIn`, `easeOut`, `easeInOut` — Standard easing curves
-
-**Sine:** easeInSine, easeOutSine, easeInOutSine
-
-**Quadratic:** easeInQuad, easeOutQuad, easeInOutQuad
-
-**Cubic:** easeInCubic, easeOutCubic, easeInOutCubic
-
-**Quartic:** easeInQuart, easeOutQuart, easeInOutQuart
-
-**Quintic:** easeInQuint, easeOutQuint, easeInOutQuint
-
-**Exponential:** easeInExpo, easeOutExpo, easeInOutExpo
-
-**Asymmetric:** easeInExpoOutCubic, easeInQuartOutQuad, and more
-
-### Usage
-
-**Basic usage:**
-1. Add an Ease Curve node to the canvas
-2. Connect a video source to the video input
-3. Select a preset easing function or create a custom curve
-4. Adjust the output duration if needed
-5. Run the workflow to generate the eased video
-
-**Chaining ease curves:**
-1. Add multiple Ease Curve nodes
-2. Connect the easeCurve output of one node to the easeCurve input of the next
-3. The second node inherits the curve from the first and can further modify it
-4. Build complex speed variations by stacking multiple effects
-
-<Callout type="tip">
-  Use easeInExpo for dramatic slow-motion starts, easeOutExpo for sudden stops, or easeInOutSine for smooth, natural-looking speed variations.
-</Callout>
-
-### How It Works
-
-The Ease Curve node resamples video frames according to the easing curve:
-- **Steep curve sections** = faster playback (time-lapse effect)
-- **Flat curve sections** = slower playback (slow-motion effect)
-- The curve's Y-axis represents time in the source video
-- The X-axis represents time in the output video
-
-### Technical Details
-
-- **Frame resampling**: Creates new frames by selecting from source based on curve
-- **Smooth interpolation**: Uses cubic bezier curves for natural motion
-- **Format**: Outputs MP4 with H.264 encoding
-- **Frame rate**: Matches source frame rate (up to 60fps)
-
----
-
-## LLM Generate
-
-The LLM Generate node creates text using large language models. Use it for prompt enhancement, descriptions, or any text generation task.
-
-### Inputs
-- **Text** — Input prompt or context
-- **Image** (optional, multiple) — Images for multimodal generation
-
-### Outputs
-- **Text** — The generated text
-
-### Settings
-
-| Setting | Description |
-|---------|-------------|
-| **Provider** | Choose from Google, OpenAI, or Anthropic |
-| **Model** | Select from available models for the chosen provider |
-| **Temperature** | Controls randomness (0-2) — adjustable in the Parameters section |
-| **Max Tokens** | Maximum output length (256-16384) — adjustable in the Parameters section |
-
-### Parameters
-
-The Parameters section contains:
-- **Temperature** slider (0-2) — Controls output randomness
-- **Max Tokens** slider (256-16384) — Controls maximum output length
-
-### Features
-- **Copy to clipboard** — Click the copy button on generated text output. A green checkmark confirms the copy.
-
-### Available Models
-
-**Google Gemini:**
-- gemini-2.5-flash (fast, capable)
-- gemini-3-flash-preview (latest flash)
-- gemini-3.1-pro (most capable)
-- gemini-3-pro-preview
-
-**Anthropic:**
-- claude-3-5-haiku (fast)
-- claude-3-5-sonnet (balanced)
-- claude-3-7-sonnet (most capable)
-
-**OpenAI:**
-- gpt-4.1-mini (balanced)
-- gpt-4.1-nano (fast)
-
-<Callout type="warning">
-  OpenAI models require a separate `OPENAI_API_KEY` in your environment. Anthropic models require an `ANTHROPIC_API_KEY`. Both can be set in `.env` or configured per-project in Project Settings → Providers.
-</Callout>
-
-### Usage
-1. Add an LLM Generate node
-2. Connect a Prompt node with your instructions
-3. Optionally connect images for multimodal input
-4. Configure model and parameters
-5. Run to generate text
-
-### Example: Prompt Enhancement
-
-Connect nodes like this:
-```
-[Prompt: "enhance this prompt for image generation: cat on roof"]
-    → [LLM Generate]
-    → [Nano Banana]
-```
-
-The LLM can expand simple prompts into detailed generation instructions.
-
----
-
-## Router
-
-The Router node passes data through your workflow without any transformation. Use it to branch or merge data flow paths. Handles are created dynamically as you connect edges.
-
-### Inputs
-- **Any** (dynamic) — Accepts image, text, video, or audio connections; handles are added automatically as you connect
-
-### Outputs
-- **Any** (dynamic) — Mirrors each input handle; data passes through unchanged
-
-### Features
-- **Dynamic handles** — Input and output handles are created, removed, and reordered as connections change
-- **Multi-type support** — A single Router node can route images, text, video, and audio at the same time
-- **Passthrough** — Data is forwarded without modification; the Router itself has no settings to configure
-- **Gray theme** — Visually distinct from Switch (violet) and Conditional Switch (teal)
-
-### Usage
-1. Drag a connection from any node output toward the canvas
-2. From the connection drop menu, select **Router** to create and connect in one step
-3. Connect the Router's output handles to downstream nodes
-4. Add more inputs or outputs by dragging additional connections to/from the Router
-
-<Callout type="tip">
-  Use a Router to fan out a single image to multiple Generate Image nodes, or to merge several text paths back into one.
-</Callout>
-
----
-
-## Switch
-
-The Switch node routes data along one or more named outputs that can be individually toggled on or off. Disabled outputs are visually dimmed and skipped during workflow execution.
-
-### Inputs
-- **Any** — One connection of any type (image, text, video, or audio); the type is detected automatically from the connected edge
-
-### Outputs
-- **Named outputs** (multiple) — Each output has a user-editable name and an enable/disable toggle
-
-### Features
-- **Toggle controls** — Click the toggle on each output to enable or disable that path
-- **Visual dimming** — Nodes downstream of a disabled output are dimmed to 40% opacity
-- **Smart cascade** — A downstream node that has at least one active alternate input stays fully visible
-- **Execution skip** — Dimmed nodes are skipped when the workflow runs; only active paths execute
-- **Reorderable outputs** — Drag output rows to change their order
-- **Violet theme** — Visually distinct from Router (gray) and Conditional Switch (teal)
-
-### Usage
-1. Add a Switch node and connect a data source to its input
-2. Connect the output handles to different downstream paths
-3. Toggle individual outputs on or off to control which paths are active
-4. Run the workflow — only enabled paths execute
-
-<Callout type="tip">
-  Use Switch to quickly A/B test two different processing pipelines. Toggle between them without deleting any connections.
-</Callout>
-
----
-
-## Conditional Switch
-
-The Conditional Switch node routes text along different paths based on rule matching. Each rule defines a match pattern; when the incoming text matches a rule, that output path is activated. A Fallback output activates when no rules match.
-
-### Inputs
-- **Text** — The text value to evaluate against the defined rules
-
-### Outputs
-- **Rule outputs** (one per rule) — Activated when the incoming text matches that rule's pattern
-- **Fallback** — Activated when no rules match
-
-### Features
-- **4 match modes**: `exact`, `contains`, `starts-with`, `ends-with`
-- **Multi-value matching** — Comma-separate values in a rule to match any of them (OR logic)
-- **Case-insensitive** — All matching is case-insensitive
-- **Real-time indicators** — A green checkmark shows which rule is currently matched; unmatched rules show a gray dot
-- **Inline rule editing** — Add, delete, and reorder rules directly on the node
-- **Gate behavior** — Activates downstream paths without passing the input text through; downstream nodes receive a trigger signal only, not the text value
-- **Visual dimming** — Downstream nodes on inactive paths are dimmed to 40% opacity and skipped during execution
-- **Teal/cyan theme** — Visually distinct from Router (gray) and Switch (violet)
-
-### Match Modes
-
-| Mode | Matches when input… |
-|------|---------------------|
-| `exact` | Is exactly equal to the rule value |
-| `contains` | Contains the rule value as a substring |
-| `starts-with` | Begins with the rule value |
-| `ends-with` | Ends with the rule value |
-
-### Usage
-1. Add a Conditional Switch node and connect a text source to its input
-2. Click **Add rule** to create a new rule
-3. Type one or more comma-separated match values and select a match mode
-4. Connect the rule output handles to downstream nodes
-5. Connect the **Fallback** output to handle unmatched cases
-6. Run the workflow — matching rules activate their downstream paths
-
-<Callout type="warning">
-  Conditional Switch is a **gate node**. It triggers downstream paths based on which rule matches, but it does not forward the input text. Connect a separate Prompt node to provide text to downstream nodes that need it.
-</Callout>
-
-<Callout type="tip">
-  **Example**: Connect a Prompt node output to Conditional Switch. Set rules like `contains: "cat"` and `contains: "dog"` to route animal prompts to different Generate Image nodes tuned for each subject.
-</Callout>
-
----
+| Setting | Effect |
+| --- | --- |
+| Video | MP4, WebM, or MOV, up to 200 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
+
+### Tips
+
+- Use the preview and scrubber to inspect the clip.
+- Connect Frame Grab to extract a reference image.
 
 ## Annotation
 
-The Annotation node opens a full-screen drawing editor where you can draw on images.
+Draw instructions or marks over an image.
 
-### Inputs
-- **Image** — The image to annotate
+**Inputs:** A connected image or an uploaded PNG, JPEG, or WebP file, up to 10 MB.
 
-### Outputs
-- **Image** — The annotated image
-
-### Drawing Tools
-
-| Tool | Description |
-|------|-------------|
-| **Rectangle** | Draw rectangular shapes |
-| **Circle** | Draw circular shapes |
-| **Arrow** | Draw arrows for highlighting |
-| **Freehand** | Free drawing with mouse/pen |
-| **Text** | Add text labels |
-
-### Features
-- 8 color presets
-- 3 stroke width options
-- Undo/redo support
-- Shape selection and transformation
-- Save or cancel changes
-
-### Usage
-1. Connect an image source to the Annotation input
-2. Click the **Edit** button on the node
-3. Use drawing tools to annotate
-4. Click **Save** to apply changes
-5. The annotated image flows to connected nodes
-
-<Callout type="tip">
-  Use annotations to mask areas, add reference marks, or highlight regions for AI generation. The AI will see and respond to your annotations.
-</Callout>
-
----
-
-## Split Grid
-
-The Split Grid node divides an image into a grid of smaller images. This is useful for contact sheets or batch processing.
-
-### Inputs
-- **Image** — The image to split
-
-### Outputs
-- **Reference** (multiple) — Visual references to grid cells
-
-### Grid Options
-
-The Split Grid settings modal offers 7 distinct grid layouts with visual previews and RxC (rows × columns) labels:
-
-| Layout | Grid Size | Cells |
-|--------|-----------|-------|
-| 2×2 | 2 rows, 2 columns | 4 cells |
-| 1×5 | 1 row, 5 columns | 5 cells |
-| 2×3 | 2 rows, 3 columns | 6 cells |
-| 3×2 | 3 rows, 2 columns | 6 cells (portrait) |
-| 2×4 | 2 rows, 4 columns | 8 cells |
-| 3×3 | 3 rows, 3 columns | 9 cells |
-| 2×5 | 2 rows, 5 columns | 10 cells |
-
-The 3×2 layout is useful for portrait-oriented grids. Note that both 2×3 and 3×2 produce 6 images, but with different aspect ratios.
-
-### Usage
-1. Connect an image (like a contact sheet) to Split Grid
-2. Select your grid configuration
-3. The node generates output references for each cell
-4. Connect references to organize downstream processing
-
-### How It Works
-
-Split Grid is primarily for visual organization. It:
-- Divides the source image into equal cells
-- Creates reference outputs for each cell
-- Helps you visually track which part of an image flows where
-
----
-
-## Output
-
-The Output node displays the final result of your workflow. Use it as the endpoint for generated images and videos.
-
-### Inputs
-- **Image** — Images to display
-- **Video** — Videos to display (connects directly to video outputs from Generate Video, Video Stitch, or Ease Curve nodes)
+**Outputs:** The image with your annotations.
 
 ### Settings
 
-| Setting | Description |
-|---------|-------------|
-| **outputFilename** | Custom filename for saved outputs (without extension). If empty, uses timestamp-based naming. |
+| Setting | Effect |
+| --- | --- |
+| Editor tools | Select, rectangle, circle, arrow, freehand, and text. |
+| Color and width | Eight colors and three stroke widths. |
 
-### Features
-- Large preview area
-- Click to open lightbox viewer
-- Download button for saving results
-- Shows image dimensions or video metadata
-- Video playback controls with format detection
-- Carousel for browsing media history
-- **Auto-execute on connect**: Automatically runs and displays results when you connect an edge to the Output node — no need to run the full workflow first
-- **Run button**: A play icon in the node header lets you manually re-fetch and refresh the output at any time
-- **Auto-save to outputs folder**: When your workflow has a project path configured, Output nodes automatically save results to an `/outputs` directory
-- **Custom filenames**: Set a custom `outputFilename` parameter to control the output filename (special characters are sanitized)
-- **Auto-directory creation**: The `/outputs` directory is automatically created if it doesn't exist
+### Tips
 
-### File Naming
+- Connect the result to Generate Image as a visual reference.
+- Without annotations, the source image passes through.
 
-When saving outputs:
-- **With custom filename**: `{customFilename}_{hash}.{extension}`
-- **Without custom filename**: `generated-{timestamp}.{extension}`
-- Special characters in custom filenames are replaced with underscores
-- Multiple consecutive underscores are collapsed to a single underscore
+## Prompt
 
-### Usage
-1. Add an Output node at the end of your workflow
-2. Connect the final image or video source
-3. (Optional) Set a custom `outputFilename` in the node settings
-4. Run the workflow
-5. View and download results from the Output node
-6. If your workflow has a project path, outputs are automatically saved to the `/outputs` folder
+Provide text for another node.
 
-<Callout type="info">
-  While you can view images and videos in any node, Output nodes provide a cleaner display area and make it clear where your workflow ends. When a project path is configured, they also handle automatic saving to the `/outputs` directory.
-</Callout>
+**Inputs:** Typed text or a text noodle.
 
----
+**Outputs:** Prompt text.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Prompt | Text in the node or its larger editor. |
+| Variable name | A name that Prompt Constructor can reference. |
+| Optional | Allows an empty prompt to skip its dependent branch. |
+
+### Tips
+
+- Use a variable name such as subject for reusable prompt templates.
+- A connected text input updates the prompt.
+
+## Array
+
+Split text into items for separate branches or repeated generation.
+
+**Inputs:** Typed text or a text noodle.
+
+**Outputs:** Text as the full JSON array, one selected item per noodle, or sequential batch items.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Split mode | Delimiter, Newline, or Regex. Regex means a regular expression, which is a text-matching pattern. |
+| Delimiter | The initial delimiter is *. |
+| Trim and remove empty | Both start enabled. |
+| Batch | Runs each item through a supported generator. Initially disabled. |
+| Selected item | Applies that item to the next noodle you create. |
+| Auto-route to Prompts | Creates a wired Prompt node for each item. |
+
+### Tips
+
+- Batch supports Generate Image, Generate Video, Generate Audio, and LLM Generate.
+- Use Auto-route to Prompts for separate branches that you can edit.
+
+## Prompt Constructor
+
+Build one prompt from named text values.
+
+**Inputs:** Text from connected Prompt nodes or other text sources.
+
+**Outputs:** The resolved prompt.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Template | Use @name to insert a named variable. |
+| Preview | Shows the resolved text and supports copying from the editor. |
+
+### Tips
+
+- Name a Prompt variable, connect it, then use its @name in the template.
+- Check unresolved variables before generation.
+
+## Generate Image
+
+Generate or edit an image with the selected model.
+
+**Inputs:** Text and reference images, as supported by the selected model.
+
+**Outputs:** One generated image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Choose a model from the model browser. |
+| Aspect ratio and resolution | Available values depend on the model. |
+| Search | Google Search on direct Nano Banana Pro and Nano Banana 2. Image Search on Nano Banana 2. |
+| Model settings | Open the controls card for settings supplied by the selected model. |
+| Fallback | An alternative model and its own settings for an automatic retry. |
+
+### Tips
+
+- Use the [model tables](/guides/models-pricing) to check provider-specific settings.
+- Use the node history to compare earlier results.
+
+## Generate Video
+
+Generate, edit, or extend video with a selected model.
+
+**Inputs:** Text, images, video, or audio through the model-specific sockets.
+
+**Outputs:** One video.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Select a video model to expose its sockets. |
+| Model settings | Duration, aspect ratio, resolution, and other fields depend on the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- For Seedance 2 I2V, use First/Last Frame or Reference Images, not both modes together.
+- Seedance reference limits are nine images, three videos, and three audio inputs.
+
+## Generate Audio
+
+Generate speech, sound effects, or other audio from a selected model.
+
+**Inputs:** Text by default, with extra sockets where the model defines them.
+
+**Outputs:** One audio result.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Choose an audio model from Kie.ai, fal.ai, Replicate, or another discovered provider. |
+| Model settings | Voice, format, and other fields depend on the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Use Array batch mode for a list of speech prompts.
+- Send the result to Output or Video Stitch.
+
+## LLM Generate
+
+Use a large language model (LLM) to generate text or describe an image.
+
+**Inputs:** Text and optional images.
+
+**Outputs:** Generated text.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Google, OpenAI, or Anthropic. See the [current catalog](/guides/models-pricing#text-models). |
+| Temperature | Controls variation. Range 0–1 for Anthropic, or 0–2 for Google and OpenAI. |
+| Max tokens | Limits output length from 256 to 16,384 tokens. Tokens are units of text used by the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Send generated lists to Array for batch prompts.
+- A retired saved model ID triggers a replacement note.
+
+## Split Grid
+
+Split an image into cells and create a node set for each cell.
+
+**Inputs:** One source image.
+
+**Outputs:** Cell images supplied to the generated per-cell node sets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Rows and columns | 1–16 on each axis. The initial grid is 2 rows × 3 columns. |
+| Slice lines | Drag boundaries to create unequal cells. |
+| Open cell editor | Edit the reusable node template for each cell. The initial template contains Image Input. |
+| Layout | Grid, vertical, or horizontal placement for the generated node sets. |
+| Shared Router | Template terminal outputs can feed one shared downstream Router. |
+| Split rows × columns now | Creates the cell groups and fills their base Image Input nodes. |
+
+### Tips
+
+- Build a processing chain once in the cell editor, which supports every node type.
+- With unchanged dimensions and template, another split preserves cell edits. A changed layout or template can rebuild the node sets.
+
+## Output
+
+Show and save a final media result.
+
+**Inputs:** Image, video, or audio.
+
+**Outputs:** No output sockets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Output filename | Custom name for the saved or downloaded result. |
+
+### Tips
+
+- With a project directory, execution saves output files in outputs/.
+- Video nodes already play inline, so Output is optional for preview.
 
 ## Output Gallery
 
-The Output Gallery node collects and displays multiple images in a scrollable thumbnail grid with a full-size lightbox viewer. Use it to inspect and compare multiple generations or image collections.
+Collect image and video results in one place.
 
-### Inputs
-- **Image** (multiple) — Connect multiple image sources to view them in a grid
+**Inputs:** Images and videos from connected nodes.
 
-### Features
-- **Thumbnail grid**: 3-column grid layout with scrollable viewing
-- **Lightbox viewer**: Click any thumbnail to open full-size viewer
-  - Close button (X) in top-right corner
-  - Download button in top-left corner
-  - Previous/Next arrow navigation
-  - Keyboard navigation (Left/Right arrows, Escape to close)
-- **Real-time display**: Shows images from connected nodes immediately, not just after execution
-- **Automatic collection**: Gathers images from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
+**Outputs:** No output sockets.
 
-### Usage
-1. Add an Output Gallery node
-2. Connect multiple image sources to its input handle
-   - You can connect multiple Generate Image nodes
-   - Or connect nodes that output multiple images
-3. The gallery automatically displays all connected images as thumbnails
-4. Click any thumbnail to view full-size
-5. Use keyboard shortcuts or navigation buttons to browse
-6. Click the download button in lightbox to save individual images
+### Settings
 
-<Callout type="tip">
-  **Generation Comparison**: Connect multiple Generate Image nodes with different parameters to the Output Gallery to compare results side-by-side. Perfect for evaluating different models, prompts, or settings.
-</Callout>
+| Setting | Effect |
+| --- | --- |
+| Gallery | Shows collected results, with the newest first. |
+| Extract | Creates input nodes from gallery items. |
+| Item actions | Open, download, or remove a result. |
 
-### Lightbox Controls
+### Tips
 
-| Control | Action |
-|---------|--------|
-| **Click thumbnail** | Open lightbox at that image |
-| **Left arrow / ←** | Previous image |
-| **Right arrow / →** | Next image |
-| **Escape / X button** | Close lightbox |
-| **Download button** | Save current image |
-
----
+- Connect batch generators to collect their results.
+- Use Extract to reuse gallery media elsewhere on the canvas.
 
 ## Image Compare
 
-The Image Compare node provides a side-by-side comparison view with a draggable slider for comparing two images. Useful for before/after comparisons or evaluating generation variations.
+Compare two images with a movable divider.
 
-### Inputs
-- **Image A** — First image to compare (top handle labeled "A")
-- **Image B** — Second image to compare (bottom handle labeled "B")
+**Inputs:** The first two images connected to its image input.
 
-### Features
-- **Draggable slider**: Interactive slider to reveal/hide portions of each image
-- **Real-time comparison**: Works with live connections, updates as source nodes change
-- **Labeled inputs**: Handles are labeled "A" and "B" for clarity
-- **Corner labels**: Images are labeled in the comparison view
-- **Automatic ordering**: First connected image becomes A, second becomes B
+**Outputs:** No output sockets.
 
-### Usage
-1. Add an Image Compare node
-2. Connect two image sources:
-   - Connect the first image to the top handle (A)
-   - Connect the second image to the bottom handle (B)
-3. Drag the slider left or right to compare the images
-4. The node displays A on the left side and B on the right side of the slider
+### Settings
 
-<Callout type="tip">
-  **Before/After Workflows**: Create powerful before/after demonstrations by connecting an original Image Input to handle A and a processed/generated result to handle B. Perfect for showcasing edits, style transfers, or AI enhancements.
-</Callout>
+| Setting | Effect |
+| --- | --- |
+| Divider | Drag the slider to reveal each image. |
 
-### Use Cases
+### Tips
 
-- **Generation comparison**: Compare two different AI generations of the same prompt
-- **Model comparison**: Test the same prompt with different models
-- **Before/after**: Show original vs. processed/annotated images
-- **Parameter tuning**: Compare results with different generation parameters
-- **Style variations**: Compare different style applications to the same subject
+- Connect an original image and its edited result to compare them.
 
-### Example Workflow
+## Video Stitch
 
-```
-[Image Input: Original Photo] → [Image Compare A]
-                                        ↓
-[Generate Image: Enhanced]    → [Image Compare B]
-```
+Join several video clips into one video.
 
-This workflow lets you compare the original photo (A) with an AI-enhanced version (B) using the interactive slider.
+**Inputs:** At least two ordered video clips and optional audio.
 
----
+**Outputs:** One combined video.
 
-## Groups
+### Settings
 
-Groups aren't nodes, but they're an important organizational feature.
+| Setting | Effect |
+| --- | --- |
+| Clip order | Reorder the clips in the filmstrip. |
+| Loop | Repeat the sequence 1×, 2×, or 3×. The default is 1×. |
 
-### Creating Groups
-1. Select multiple nodes
-2. Right-click → "Create Group"
-3. Name your group
+### Tips
 
-### Group Features
-- **Color coding** — Groups have colored backgrounds
-- **Collective movement** — Drag to move all contained nodes
-- **Lock/unlock** — Locked groups skip execution
+- Check clip order before you run the node.
+- Connect audio for a soundtrack. The encoder also preserves embedded clip audio.
 
-### Use Cases
-- Organize related nodes visually
-- Disable workflow sections without deleting
-- Create reusable workflow "modules"
+## Ease Curve
 
----
+Change a video's playback speed over time.
 
-## Common Node Features
+**Inputs:** Video and, optionally, an ease curve from another node.
 
-All nodes share these capabilities:
+**Outputs:** Processed video and reusable ease-curve data.
 
-### Title Editing
-Click the title to rename any node. Custom names help organize complex workflows.
+### Settings
 
-### Moving Nodes
-Drag a node's floating header to reposition it on the canvas.
+| Setting | Effect |
+| --- | --- |
+| Preset or custom curve | Choose a preset or edit the Bézier curve. A Bézier curve uses control points to shape a smooth path. |
+| Output duration | 0.1–30 seconds. The default is 1.5 seconds. |
+| Incoming curve | Inherits the upstream curve, preset, and duration. |
 
-### Comments
-Add comments to nodes for documentation. Hover to see the full comment.
+### Tips
 
-#### Comment Navigation
+- Connect the curve output to another Ease Curve node to share timing.
+- Use Stop to cancel an active encode.
 
-Use the comment navigation system to move between nodes with comments:
-- **Header icon**: Shows unviewed comment count badge in the header
-- **Previous/Next controls**: Navigate between comments using arrow buttons in comment tooltips
-- **Comment preview**: Hover over nodes to see comment previews in tooltips
-- **View tracking**: Unread comments are highlighted, and viewed comments are tracked during your session
-- **Auto-centering**: The viewport automatically centers on the target comment node when navigating
-- **Comment order**: Comments are sorted by position (top-to-bottom, left-to-right)
+## Video Trim
 
-This feature helps you review feedback and annotations in complex workflows without manually searching for commented nodes.
+Keep a selected part of a video.
 
-### Resizing
-Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically. **Double-click the resize handle** to instantly auto-fit the node to its media content's aspect ratio.
+**Inputs:** One video.
 
-### Execution Controls
-- **Play button** — Run from this node
-- **Regenerate** — Re-run with current inputs
+**Outputs:** The trimmed video, including its audio.
 
-### Error States
-When a node encounters an error:
-- Red border appears
-- Error message displays
-- Check the browser console for details
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Start | First retained time in seconds. The default is 0. |
+| End | Last retained time in seconds. It must exceed Start and 0. |
+
+### Tips
+
+- Use the range preview before encoding.
+- Trim clips before you send them to Video Stitch.
+
+## Frame Grab
+
+Extract the first or last frame of a video.
+
+**Inputs:** One video.
+
+**Outputs:** A full-resolution PNG image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Frame | First or Last. The default is First. |
+
+### Tips
+
+- Use the last frame as the first-frame reference for another video generation.
+
+## Remove Background
+
+Remove an image background in the browser.
+
+**Inputs:** One image.
+
+**Outputs:** The image with its background removed.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Model | Fast, Balanced, or Quality. The default is Balanced. |
+
+### Tips
+
+- Start with Balanced. Use Fast or Quality to change the speed and quality tradeoff.
+
+## Image Resize
+
+Resize an image before another processing step.
+
+**Inputs:** One image.
+
+**Outputs:** One resized image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Mode | Exact dimensions, Max edge, or Scale %. |
+| Dimensions | Positive pixel dimensions. Scale accepts 1–400%. |
+| Exact fit | Contain, Cover, or Stretch. |
+| Format | Keep, PNG, JPEG, or WebP. |
+| Quality | 0.1–1 for JPEG and WebP. The default is 0.9. |
+
+### Tips
+
+- Use Max edge to preserve proportions. The longest output edge cannot exceed 8192 pixels.
+- The initial settings are Exact, 128×128, Contain, and PNG.
+
+## GIF Encoder
+
+Combine image frames into an animated GIF.
+
+**Inputs:** At least two ordered image frames.
+
+**Outputs:** An animated GIF through an image socket.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Frame order | Reorder the filmstrip before encoding. |
+| FPS | Frames per second, from 1 to 30. The default is 8. |
+| Colors | Palette size from 2 to 256. The default is 128. |
+| Dithering | Adds a pattern to approximate missing colors. Initially disabled. |
+| Target size | Optional size tuning. The default target is 128 KiB. |
+
+### Tips
+
+- Resize frames consistently first. The encoder caps the longest edge at 1024 pixels.
+- Target-size tuning can reduce colors, dimensions, and frame count. It does not guarantee the target size.
+
+## Router
+
+Pass inputs onward without generation or processing.
+
+**Inputs:** Image, text, video, audio, 3D, or ease-curve data.
+
+**Outputs:** The same data types.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Typed lanes | The initial Any socket expands into lanes for connected data types. |
+
+### Tips
+
+- Use a Router to share a source across branches.
+- Use a noodle bundle when you only want to change how the lines look.
+
+## Switch
+
+Enable or disable named output branches.
+
+**Inputs:** One dynamically typed input.
+
+**Outputs:** The same data through enabled outputs.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Outputs | Add and rename output branches. |
+| Enabled | Toggle each output. The initial Output 1 is enabled. |
+
+### Tips
+
+- Disable a branch without deleting its noodles.
+
+## Conditional Switch
+
+Route text to every rule that matches it.
+
+**Inputs:** Text.
+
+**Outputs:** Text through matching rule outputs, or Fallback when no rule matches.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Rule type | Exact, Contains, Starts with, or Ends with. |
+| Rule values | Comma-separated alternatives. Matching ignores case and trims text. |
+| Evaluation pause | Pause to inspect the rule result. |
+
+### Tips
+
+- Several rules can match the same text.
+- Connect Fallback to handle unmatched text.
+
+## Generate 3D
+
+Generate a 3D model from text or an image.
+
+**Inputs:** Text or images through model-specific sockets.
+
+**Outputs:** A 3D model.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Select a compatible Replicate, fal.ai, or WaveSpeed model. |
+| Model settings | Fields depend on the selected model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Connect the 3D output to 3D Viewer to inspect it and capture an image.
+- Generate 3D does not use Array batch mode.
+
+## 3D Viewer
+
+Inspect a GLB file and capture a view as an image.
+
+**Inputs:** A 3D model noodle or a local .glb file up to 100 MB.
+
+**Outputs:** A captured PNG image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| View | Orbit the model to choose the camera angle. |
+| Auto-rotate | Rotate the model automatically. |
+| Capture | Capture the current view as an image. |
+
+### Tips
+
+- GLB is a binary file format for 3D scenes.
+- Before you use the image output in another node, select Capture.
+
+## ComfyUI App
+
+Run an imported ComfyUI workflow as one node.
+
+**Inputs:** Typed sockets selected from the imported workflow. An empty node has no sockets.
+
+**Outputs:** Selected workflow results, including image, text, video, audio, or 3D data.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Workflow | Attach an editor save, API export, Blueprint, or saved node. |
+| Exposed controls | Choose inputs, settings, and outputs in the import or edit dialog. |
+| Backend | Set Comfy Cloud, This computer, or Remote in Settings → ComfyUI. |
+
+### Tips
+
+- Use [saved nodes](/guides/comfyui#save-and-reuse-a-configured-node) to reuse an attached workflow and its values.
+- The [ComfyUI guide](/guides/comfyui) covers setup, formats, previews, and the curve editor.

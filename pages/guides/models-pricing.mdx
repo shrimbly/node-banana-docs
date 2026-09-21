@@ -1,254 +1,272 @@
-# Models & Pricing
-
-This guide covers the AI models available in Node Banana and their associated costs.
-
-## Multi-Provider Support
-
-Node Banana supports multiple AI providers for image, video, and text generation:
-
-- **Gemini** — Google's image and video generation models
-- **Replicate** — Wide selection of community and custom models
-- **fal.ai** — Fast inference for popular models
-- **Anthropic** — Claude models for text generation in LLM nodes
-- **OpenAI** — GPT models for text generation in LLM nodes
-
-Configure API keys for each provider in **Project Settings → Providers** tab.
-
-## Image Generation Models
-
-### Gemini Models
-
-Node Banana uses Google Gemini models for image generation.
-
-### nano-banana
-
-The standard model for everyday use.
-
-| Feature | Value |
-|---------|-------|
-| **API Model** | gemini-2.5-flash-image |
-| **Resolution** | 1K only |
-| **Speed** | Fast |
-| **Cost** | $0.039 per image |
-| **Best for** | Testing, iteration, drafts |
-
-### nano-banana-pro
-
-The premium model for high-quality output.
-
-| Feature | Value |
-|---------|-------|
-| **API Model** | gemini-3-pro-image-preview |
-| **Resolution** | 1K, 2K, 4K |
-| **Speed** | Slower |
-| **Cost** | $0.134 - $0.24 per image |
-| **Best for** | Final renders, high-res output |
-
-#### Pro Model Resolution Pricing
-
-| Resolution | Cost per Image |
-|------------|---------------|
-| 1K | $0.134 |
-| 2K | $0.134 |
-| 4K | $0.240 |
-
-#### Google Search Feature
-
-The Pro model can use Google Search to inform generation:
-- Enables current, real-world references
-- Useful for recognizable subjects
-- Toggle in node settings
-
-### Replicate & fal.ai Models
-
-Replicate and fal.ai provide access to a wide variety of image generation models:
-
-- **Model Discovery** — Browse available models via the Model Search dialog
-- **Dynamic Parameters** — Each model exposes its own configuration options
-- **Image-to-Image** — Many models support image input for style transfer and modifications
-- **Pricing** — Varies by model; check provider documentation for current rates
-- **Recently Used** — Quick access to your frequently used models
-- **Caching** — Model lists and schemas are cached for 48 hours to reduce API calls
-- **Manual Refresh** — Use the refresh button in the model browser to clear caches and reload fresh data
-
-Use the model selector in Generate Image nodes to browse and search available models from all providers.
-
-## Video Generation Models
-
-Video generation is available through compatible models on Replicate, fal.ai, and Gemini providers.
-
-### Features
-- **Extended processing** — 10-minute timeout for video generation
-- **Format support** — Automatic handling of various video formats
-- **Video preview** — In-node and Output node video playback
-- **Carousel history** — Browse previous video generations
-
-### Pricing Considerations
-
-Video generation typically:
-- Takes longer than image generation (minutes vs. seconds)
-- Costs more per generation
-- Varies significantly by model and video length
-- Check specific model pricing on provider websites
-
-### Gemini Video Models
-
-Google Gemini Veo 3.1 models are available for video generation directly through the Gemini provider — no additional API key required beyond your existing Gemini API key.
-
-### Choosing Video Models
-
-When selecting a video model, consider:
-- **Duration** — Longer videos cost more
-- **Resolution** — Higher resolution increases cost and processing time
-- **FPS** — Frame rate affects both quality and cost
-- **Provider** — Compare pricing between Gemini, Replicate, and fal.ai
-
-## Text Generation Models
-
-### Google Gemini Models
-
-| Model | Speed | Capability | Best For |
-|-------|-------|------------|----------|
-| gemini-2.5-flash | Fast | Good | Quick prompts |
-| gemini-3-flash-preview | Fast | Better | General use |
-| gemini-3.1-pro | Slower | Best | Complex tasks |
-| gemini-3-pro-preview | Slower | Best | Complex tasks |
-
-### Anthropic Models
-
-import { Callout } from 'nextra/components'
-
-<Callout type="warning">
-  Anthropic models require a separate `ANTHROPIC_API_KEY` environment variable.
-</Callout>
-
-| Model | Speed | Capability | Best For |
-|-------|-------|------------|----------|
-| claude-3-5-haiku | Fastest | Good | Quick prompts |
-| claude-3-5-sonnet | Fast | Better | General use |
-| claude-3-7-sonnet | Slower | Best | Complex tasks |
-
-### OpenAI Models
-
-<Callout type="warning">
-  OpenAI models require a separate `OPENAI_API_KEY` environment variable.
-</Callout>
-
-| Model | Speed | Capability | Best For |
-|-------|-------|------------|----------|
-| gpt-4.1-mini | Fast | Good | General tasks |
-| gpt-4.1-nano | Fastest | Basic | Simple prompts |
-
-## Cost Tracking
-
-### Viewing Costs
-
-Node Banana tracks costs in several places:
-
-1. **Header** — Shows total workflow cost in dollar format
-2. **Cost Dialog** — Provider-grouped breakdown with detailed cost information
-3. **Node preview** — Shows estimated cost before running
-4. **Generation history** — Tracks cost per generation
-
-The Cost Dialog provides:
-- Costs organized by provider (Gemini, Replicate, fal.ai)
-- Direct links to external provider pricing pages
-- Detailed pricing data for Gemini and fal.ai models
-- Dollar format for all costs
-
-### How Costs Are Calculated
-
-- **Before running**: Estimated based on model and settings
-- **After running**: Actual cost recorded
-- **Cumulative**: All costs tracked across sessions
-- **Provider-specific**: Different providers may have different pricing structures
-
-### Managing Costs
-
-**Tips to reduce costs:**
-
-1. **Use nano-banana for testing** — It's ~3x cheaper than Pro
-2. **Lower resolution** — 1K is often sufficient for iteration
-3. **Batch carefully** — Review prompts before running multiple generations
-4. **Lock groups** — Skip unnecessary nodes during partial runs
-
-## Choosing the Right Model
-
-### For Iteration/Testing
-- Model: nano-banana
-- Resolution: 1K
-- Cost: ~$0.04/image
-
-### For Quality Previews
-- Model: nano-banana-pro
-- Resolution: 2K
-- Cost: ~$0.13/image
-
-### For Final Output
-- Model: nano-banana-pro
-- Resolution: 4K
-- Google Search: If beneficial
-- Cost: ~$0.24/image
-
-## Aspect Ratios
-
-Both models support these aspect ratios:
-
-| Ratio | Use Case |
-|-------|----------|
-| 1:1 | Square, social media |
-| 16:9 | Landscape, presentations |
-| 9:16 | Portrait, stories, mobile |
-| 4:3 | Standard photos |
-| 3:4 | Portrait photos |
-| 3:2 | Classic photography |
-| 2:3 | Vertical prints |
-| 4:5 | Instagram portrait |
-| 5:4 | Medium format |
-| 21:9 | Ultrawide, cinematic |
-
-## API Quotas
-
-### Google Gemini
-- Free tier available with generous limits
-- Check [Google AI pricing](https://ai.google.dev/pricing) for current quotas
-- Rate limits apply to requests per minute
-
-### Replicate
-- Pay-per-use pricing based on compute time
-- Check [Replicate pricing](https://replicate.com/pricing) for current rates
-- Costs vary by model hardware requirements
-
-### fal.ai
-- Fast inference with per-request pricing
-- Check [fal.ai pricing](https://fal.ai/pricing) for current rates
-- Optimized for speed and cost efficiency
-
-### Anthropic
-- Pay-per-use pricing
-- Check [Anthropic pricing](https://anthropic.com/pricing) for current rates
-- Rate limits based on your plan tier
-
-### OpenAI
-- Pay-per-use pricing
-- Check [OpenAI pricing](https://openai.com/pricing) for current rates
-- Rate limits based on your plan tier
-
-## Example Cost Scenarios
-
-### Quick Test Session
-- 10 generations with nano-banana
-- Cost: ~$0.39
-
-### Standard Workflow Run
-- 5 nano-banana (iteration)
-- 2 nano-banana-pro (finals)
-- Cost: ~$0.47
-
-### Production Batch
-- 20 nano-banana-pro at 2K
-- Cost: ~$2.68
-
-<Callout type="info">
-  Prices are approximate and may change. Check your actual usage in the cost tracker and API provider dashboards.
-</Callout>
+# Models and Pricing
+
+The tables describe the app's `develop` catalog checked on September 21, 2026.
+Prices are the app's USD estimates, not a provider quote or a complete billing record.
+A missing price means unknown, not free.
+
+## Providers
+
+Add keys in **Settings → Providers**.
+A provider is the service that receives a generation request.
+The same model family can have different settings and prices on different providers.
+
+| Provider | Uses in Node Banana | Environment alternative |
+| --- | --- | --- |
+| Google Gemini | Images, Veo and Omni video, text, and workflow assistant | `GEMINI_API_KEY` |
+| OpenAI | GPT Image generation and editing, and text | `OPENAI_API_KEY` |
+| Anthropic | Claude text models | `ANTHROPIC_API_KEY` |
+| Replicate | Discovered image, video, audio, and 3D models | `REPLICATE_API_KEY` |
+| fal.ai | Discovered image, video, audio, and 3D models | `FAL_API_KEY` |
+| Kie.ai | The image, video, and audio catalog listed below | `KIE_API_KEY` |
+| WaveSpeed | Discovered media models, including image, video, and 3D | `WAVESPEED_API_KEY` |
+
+ComfyUI uses a separate backend and key under **Settings → ComfyUI**.
+See the [ComfyUI guide](/guides/comfyui) for Cloud, local, and remote workflows.
+
+## Choose a model
+
+1. Open **All models** on the action bar, or the model selector on a generation node.
+2. Filter by provider and capability.
+3. Select a model and check its input sockets.
+4. Open the controls card to set its parameters.
+
+A capability describes a task, such as text-to-image or image-to-video.
+The browser also shows recently used models and provider-page links.
+Model lists use a 48-hour cache.
+Use the refresh control to clear cached lists and fetch them again.
+
+Replicate, fal.ai, and WaveSpeed fetch catalogs from their services.
+Their lists can change independently of an app release.
+Some capability labels come from model descriptions, so check the actual model inputs.
+For Replicate, an exact owner/model search can find entries outside the loaded list.
+
+## Gemini image models
+
+All four direct Gemini image models accept text and reference images.
+
+| Model | App ID | Supported resolution | Estimated USD per image |
+| --- | --- | --- | --- |
+| Nano Banana | `nano-banana` | 1K | $0.039 |
+| Nano Banana Pro | `nano-banana-pro` | 1K / 2K / 4K | $0.134 / $0.134 / $0.240 |
+| Nano Banana 2 | `nano-banana-2` | 512 / 1K / 2K / 4K | $0.045 / $0.067 / $0.101 / $0.151 |
+| Nano Banana 2 Lite | `nano-banana-2-lite` | 1K | $0.034 |
+
+Nano Banana Pro supports Google Search.
+Nano Banana 2 supports Google Search and Image Search.
+Nano Banana and Nano Banana 2 Lite have no search or resolution controls.
+
+### Aspect ratios
+
+An aspect ratio is image width divided by height.
+Available values depend on the model and provider.
+
+| Models | Ratios |
+| --- | --- |
+| All direct Gemini image models | 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 |
+| Nano Banana 2 also supports | 1:4, 1:8, 4:1, 8:1 |
+
+The direct Nano Banana 2 model supports the 512 tier.
+The Kie version offers 1K, 2K, and 4K, with its own settings and pricing.
+
+## OpenAI image models
+
+| Model | ID | Cost representation in the app |
+| --- | --- | --- |
+| GPT Image 2.5 Sunburst | `gpt-image-2.5-sunburst` | Estimate from returned token usage |
+| GPT Image 2.5 Flare | `gpt-image-2.5-flare` | Estimate from returned token usage |
+| GPT Image 2 | `gpt-image-2` | Approximate $0.05 per run |
+| GPT Image 1 | `gpt-image-1` | Approximate $0.05 per run |
+
+GPT Image models support text-to-image and image editing.
+Each direct OpenAI run requests one output.
+The app accepts up to 16 reference images in PNG, JPEG, or WebP format.
+Each reference must be smaller than 50 MB.
+Load references through Image Input rather than supplying external image URLs.
+
+| Setting | GPT Image 1 / 2 | GPT Image 2.5 |
+| --- | --- | --- |
+| Size | Auto, 1024×1024, 1024×1536, 1536×1024 | Auto, presets through 3840×2160 or 2160×3840, and valid custom sizes |
+| Quality | Auto, Low, Medium, High | Also XHigh and Max |
+| Background | Auto, Opaque, Transparent | Auto, Opaque, Transparent |
+| Output format | Model default | PNG, JPEG, WebP |
+| Compression | Model default | 0–100 for JPEG or WebP |
+
+A GPT Image 2.5 custom dimension must be a positive multiple of 16 and no greater than 3840.
+Its aspect ratio must stay between 1:3 and 3:1.
+Its area must be 655,360–8,294,400 pixels.
+The app describes sizes above 2560×1440 as experimental.
+JPEG does not support a transparent background.
+
+The GPT Image 2.5 estimate uses $5 per million text-input tokens and $8 per million image-input tokens.
+It uses $30 per million image-output tokens.
+Tokens are units the provider reports for text or image processing.
+The estimate uses uncached rates and needs complete token counts.
+
+## Gemini video models
+
+| Model labels | Inputs | Registry estimate |
+| --- | --- | --- |
+| Veo 3.1 / Veo 3.1 I2V | Text / image-guided video | $0.40 per second |
+| Veo 3.1 Fast / Veo 3.1 Fast I2V | Text / image-guided video | $0.15 per second |
+| Gemini Omni 1.1 Flash | Text, images, optional video and audio | Unknown |
+| Gemini Omni Flash Preview | Text, images, optional video and audio | Unknown |
+
+I2V means image-to-video.
+Veo offers 4-, 6-, or 8-second duration, 16:9 or 9:16 ratio, and 720p, 1080p, or 4k resolution.
+Its image-to-video path uses the first reference image.
+At the registry rate, eight seconds costs an estimated $3.20 for Veo 3.1 or $1.20 for Fast.
+
+Omni offers automatic task selection, text-to-video, image-to-video, reference-to-video, edit, and extend tasks.
+It uses the Gemini Interactions API.
+Its resolution choices are 360p, 720p, 1080p, and 4k.
+The model descriptions identify 1080p and 4k as upscaled outputs.
+Desired duration becomes part of the prompt rather than a fixed duration parameter.
+
+## Kie.ai catalog
+
+The app registers 47 Kie models: 19 image, 24 video, and four audio models.
+The following amounts are registry estimates per run.
+Unknown entries have no fixed price in the app registry.
+
+### Kie image models
+
+| Picker label | Model ID | Estimated USD per run |
+| --- | --- | --- |
+| Z-Image | `z-image` | $0.004 |
+| Seedream 4.5 | `seedream/4.5-text-to-image` | $0.032 |
+| Seedream 4.5 Edit | `seedream/4.5-edit` | $0.032 |
+| GPT Image 1.5 | `gpt-image/1.5-text-to-image` | $0.06 |
+| GPT Image 1.5 Edit | `gpt-image/1.5-image-to-image` | $0.06 |
+| FLUX.2 Pro | `flux-2/pro-text-to-image` | Unknown |
+| FLUX.2 Pro Edit | `flux-2/pro-image-to-image` | Unknown |
+| FLUX.2 Flex | `flux-2/flex-text-to-image` | Unknown |
+| FLUX.2 Flex Edit | `flux-2/flex-image-to-image` | Unknown |
+| Nano Banana Pro | `nano-banana-pro` | Unknown |
+| Nano Banana 2 (Kie) | `nano-banana-2` | Unknown |
+| Imagen 4 | `google/imagen4` | Unknown |
+| Imagen 4 Fast | `google/imagen4-fast` | Unknown |
+| Imagen 4 Ultra | `google/imagen4-ultra` | Unknown |
+| Seedream 5.0 Lite | `seedream/5-lite-text-to-image` | Unknown |
+| Seedream 5.0 Lite Edit | `seedream/5-lite-image-to-image` | Unknown |
+| Wan 2.7 Image | `wan/2-7-image` | Unknown |
+| Grok Imagine | `grok-imagine/text-to-image` | Unknown |
+| Grok Imagine Edit | `grok-imagine/image-to-image` | Unknown |
+
+### Kie video models
+
+| Picker label | Model ID | Estimated USD per run |
+| --- | --- | --- |
+| Seedance 2.0 | `bytedance/seedance-2/text-to-video` | Unknown |
+| Seedance 2.0 I2V | `bytedance/seedance-2/image-to-video` | Unknown |
+| Seedance 2.0 Fast | `bytedance/seedance-2-fast/text-to-video` | Unknown |
+| Seedance 2.0 Fast I2V | `bytedance/seedance-2-fast/image-to-video` | Unknown |
+| Grok Imagine Video | `grok-imagine/text-to-video` | Unknown |
+| Grok Imagine I2V | `grok-imagine/image-to-video` | Unknown |
+| Kling 2.6 | `kling-2.6/text-to-video` | $0.60 |
+| Kling 2.6 Image-to-Video | `kling-2.6/image-to-video` | $0.60 |
+| Kling 2.6 Motion Control | `kling-2.6/motion-control` | Unknown |
+| Kling 3.0 | `kling-3.0/video/text-to-video` | Unknown |
+| Kling 3.0 I2V | `kling-3.0/video/image-to-video` | Unknown |
+| Kling 3.0 Motion Control | `kling-3.0/motion-control` | Unknown |
+| Kling 2.5 Turbo | `kling/v2-5-turbo-text-to-video-pro` | Unknown |
+| Kling 2.5 Turbo I2V | `kling/v2-5-turbo-image-to-video-pro` | Unknown |
+| Wan 2.6 | `wan/2-6-text-to-video` | $0.90 |
+| Wan 2.6 Image-to-Video | `wan/2-6-image-to-video` | $0.90 |
+| Wan 2.6 V2V | `wan/2-6-video-to-video` | Unknown |
+| Wan 2.7 | `wan/2-7-text-to-video` | Unknown |
+| Wan 2.7 I2V | `wan/2-7-image-to-video` | Unknown |
+| Topaz Video Upscale | `topaz/video-upscale` | Unknown |
+| Veo 3 | `veo3/text-to-video` | Unknown |
+| Veo 3 I2V | `veo3/image-to-video` | Unknown |
+| Veo 3 Fast | `veo3-fast/text-to-video` | Unknown |
+| Veo 3 Fast I2V | `veo3-fast/image-to-video` | Unknown |
+
+### Kie audio models
+
+| Picker label | Model ID | Estimated USD per run |
+| --- | --- | --- |
+| ElevenLabs Turbo v2.5 | `elevenlabs/turbo-v2.5` | $0.05 |
+| ElevenLabs Multilingual v2 | `elevenlabs/multilingual-v2` | $0.05 |
+| ElevenLabs Eleven V3 | `elevenlabs/text-to-dialogue-v3` | $0.06 |
+| ElevenLabs Sound Effects v2 | `elevenlabs/sound-effect-v2` | $0.02 |
+
+Kie models expose different sockets and settings from their direct-provider counterparts.
+Wan 2.6 V2V and Topaz Video Upscale process video, despite the registry's broad image-to-video category.
+V2V means video-to-video.
+
+Seedance 2 I2V models expose First Frame, Last Frame, Reference Images, Reference Videos, and Reference Audio.
+Use First/Last Frame mode or Reference Images mode, not both together.
+The reference limits are nine images, three videos, and three audio inputs.
+
+## Audio and 3D
+
+Generate Audio uses model-specific settings for voice, format, and other controls.
+Kie's ElevenLabs catalog covers speech, dialogue, and sound effects.
+The Sound Effects model exposes a 0.5–22 second duration and a loop setting.
+Replicate and fal.ai also expose audio models through discovery.
+The app groups speech, music, and sound-effect categories under text-to-audio.
+
+Generate 3D uses discovered text-to-3D or image-to-3D models from Replicate, fal.ai, and WaveSpeed.
+Connect its 3D output to **3D Viewer** to inspect a GLB result.
+You can capture a view as an image for another node.
+
+## Text models
+
+LLM Generate uses a separate text catalog.
+A large language model (LLM) reads and generates text.
+These are the 16 current dropdown entries.
+
+| Provider | Model | ID |
+| --- | --- | --- |
+| Google | Gemini 3.8 Flash | `gemini-3.8-flash` |
+| Google | Gemini 3.7 Flash | `gemini-3.7-flash` |
+| Google | Gemini 3.6 Flash | `gemini-3.6-flash` |
+| Google | Gemini 3.5 Flash | `gemini-3.5-flash` |
+| Google | Gemini 3.5 Flash-Lite | `gemini-3.5-flash-lite` |
+| Google | Gemini 3.1 Pro (preview) | `gemini-3.1-pro-preview` |
+| Google | Gemini 2.5 Pro | `gemini-2.5-pro` |
+| Google | Gemini 2.5 Flash | `gemini-2.5-flash` |
+| OpenAI | GPT-5.6 Terra | `gpt-5.6-terra` |
+| OpenAI | GPT-5.6 Luna | `gpt-5.6-luna` |
+| OpenAI | GPT-5.6 Sol | `gpt-5.6-sol` |
+| OpenAI | GPT-6 Astra | `gpt-6-astra` |
+| Anthropic | Claude Sonnet 5 | `claude-sonnet-5` |
+| Anthropic | Claude Haiku 4.5 | `claude-haiku-4-5` |
+| Anthropic | Claude Opus 5 | `claude-opus-5` |
+| Anthropic | Claude Fable 5.1 | `claude-fable-5-1` |
+
+The default is Google Gemini 3.8 Flash.
+The workflow assistant also uses that model and requires a Gemini key.
+Temperature ranges from 0 to 1 for Anthropic, or 0 to 2 for Google and OpenAI.
+Max tokens ranges from 256 to 16,384.
+
+### Legacy text models
+
+Legacy models stay selectable when a saved node already uses them.
+They do not appear as ordinary choices for a new node.
+Retired IDs resolve to replacements, and the app shows a substitution note.
+
+| Saved ID | Behavior |
+| --- | --- |
+| `gemini-3-flash-preview` | Kept as a supported legacy ID |
+| `gemini-3-pro-preview` | Replaced by `gemini-3.1-pro-preview` |
+| `gpt-4.1-mini` | Kept as a supported legacy ID |
+| `gpt-4.1-nano` | Kept as a supported legacy ID |
+| `claude-sonnet-4.5` | Kept as a supported legacy ID |
+| `claude-opus-4.6` | Kept as a supported legacy ID |
+| `claude-haiku-4.5` | Replaced by `claude-haiku-4-5` |
+
+## Cost tracking limits
+
+The cost indicator opens **Workflow Costs** where supported.
+The dialog separates Gemini estimates, external-provider links, and incurred cost.
+Saved workflows retain the incurred total.
+
+These figures are partial estimates.
+The prediction code counts image and video generation nodes, but does not fully price batches, loops, text, audio, or 3D.
+Per-second video rates also need the clip duration to produce a full estimate.
+Some execution paths record provider costs, while others do not.
+For example, the audio executor records fal pricing but does not add the static Kie audio rates.
+
+A fallback can submit another provider request after the primary model fails.
+Before a large batch or loop, check provider pricing and your account's billed usage.
