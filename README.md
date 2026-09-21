@@ -1,23 +1,28 @@
-# Nextra Docs Template 
+# Node Banana Documentation
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+This repository contains the [Node Banana documentation site](https://node-banana-docs.vercel.app/).
+It uses Nextra 2, Next.js 13, React 18, and pnpm.
+The app source lives in [shrimbly/node-banana](https://github.com/shrimbly/node-banana).
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+## Work on the docs
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+```bash
+pnpm install --frozen-lockfile
+pnpm build
+```
 
-## Quick Start
+The build compiles MDX pages and checks types.
+This repository has no separate test or lint script.
+In a main checkout, `pnpm dev` starts the preview on port 3000.
+Do not start a dev server or run browser tests from a linked worktree.
 
-Click the button to clone this repository and deploy it on Vercel:
+## Files
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+- `pages/*.mdx`: introductory guides, canvas concepts, nodes, desktop, and changelog.
+- `pages/guides/*.mdx`: model, ComfyUI, workflow, and troubleshooting guides.
+- `pages/_meta.json` and `pages/guides/_meta.json`: sidebar titles and order.
+- `theme.config.tsx`: site theme and repository links.
+- `public/images/`: existing site images.
 
-## Local Development
-
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
-
-## License
-
-This project is licensed under the MIT License.
+Use the app's `develop` source to check behavior before you change a page.
+Follow [CLAUDE.md](./CLAUDE.md) for writing and verification rules.
