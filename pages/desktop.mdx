@@ -1,0 +1,116 @@
+# Desktop App
+
+import { Callout } from 'nextra/components'
+
+The desktop preview runs Node Banana in an Electron window with a local server.
+The packaged preview supports macOS on Apple Silicon.
+It is unsigned and does not include automatic updates.
+
+<Callout type="info">
+  Desktop support is on `develop` after version 1.9.0.
+  These instructions describe the preview and source builds, not a download bundled with the 1.9.0 release.
+</Callout>
+
+## Install a preview package
+
+A DMG is a macOS disk image.
+A ZIP is a compressed archive.
+
+If you have a preview DMG or ZIP, you do not need Node.js, npm, or the app repository.
+
+1. Open the DMG and drag **Node Banana** into **Applications**.
+2. Alternatively, extract the ZIP and move the app into **Applications**.
+3. Open the installed app.
+4. If macOS blocks a trusted preview, use **System Settings → Privacy & Security → Open Anyway**.
+5. Enter provider keys during setup or in **Settings → Providers**.
+
+## Run from source
+
+Use Node.js 22.12 or newer in an app checkout on `develop`.
+
+```bash
+npm ci
+npm run electron:dev
+```
+
+The command starts both the desktop window and its local server.
+UI edits reload automatically.
+After changes inside `electron/`, restart the command.
+
+For a local production build:
+
+```bash
+npm run build
+npm run electron:start
+```
+
+On an Apple Silicon Mac, create the preview artifacts with:
+
+```bash
+npm run electron:package
+```
+
+The command writes an app, DMG, and ZIP to `dist-electron/`.
+Intel Mac, Windows, and Linux packages are outside this preview.
+
+## Credentials and environment import
+
+The desktop profile is separate from your browser profile.
+Provider keys and ComfyUI credentials use encrypted storage.
+If secure storage fails, unlock the keychain and retry, or choose **Use for this session only**.
+Session-only credentials disappear after you close the app.
+
+1. Open **Settings → Providers → Import from .env**.
+2. Choose an existing `.env` or `.env.local` file.
+3. Check the imported provider and ComfyUI settings.
+
+The import leaves the source file unchanged and keeps existing non-empty credentials.
+Imported credentials take effect immediately.
+Canceling the settings dialog does not undo the import.
+
+The import supports all seven [provider variables](/installation#add-provider-keys).
+It also supports these ComfyUI variables:
+
+| Purpose | Variables |
+| --- | --- |
+| Keys | `COMFY_CLOUD_API_KEY`, `COMFY_API_KEY`, `COMFY_ORG_API_KEY` |
+| Endpoints | `COMFY_CLOUD_URL`, `COMFY_LOCAL_URL`, `COMFY_REMOTE_URL` |
+| Preferences | `COMFY_MODE`, `COMFY_API_V2` |
+
+## Save and recover work
+
+Workflows remain ordinary files that the browser app can also open.
+The desktop app uses native folder dialogs.
+Recovery checkpoints record unsaved tabs after one second without edits, or every five seconds during continuous edits.
+Large media and slow storage can delay checkpoints.
+
+After a crash, **Restore Session** restores the saved tabs, noodles, viewport, media, and costs.
+Interrupted nodes show a stopped explanation.
+Recovery does not submit requests again or resume remote jobs.
+If a provider still has an active job, check that job before you run it again.
+
+If you confirm a tab discard, its unsaved edits do not return through recovery.
+Recovery supplements normal saves.
+
+## Data and diagnostics
+
+| Data | Location |
+| --- | --- |
+| Preferences, encrypted keys, recovery, and window state | `~/Library/Application Support/Node Banana/` |
+| Writable server copies and caches | `~/Library/Application Support/Node Banana/runtimes/` |
+| Workflows and generated outputs | Your selected project folders |
+| Desktop and server logs | **Help → Open Logs** |
+
+Recovery content is private to your user account, but it is not encrypted.
+
+The local server uses `http://127.0.0.1:47831` and accepts authenticated desktop-session requests.
+If that port is occupied, the app offers **Retry**, **Open Logs**, and **Quit**.
+It does not stop the other process or choose another port.
+
+If the server stops, choose **Restart Server**.
+If the editor crashes, choose **Recover Editor** to open checkpoint recovery.
+
+For development, `NODE_BANANA_ELECTRON_PORT` changes the port.
+Each port has separate browser-origin storage.
+`NODE_BANANA_ELECTRON_USER_DATA` selects an alternative absolute profile directory.
+Keep the defaults for ordinary use.
