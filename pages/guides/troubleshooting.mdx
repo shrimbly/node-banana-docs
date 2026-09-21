@@ -124,7 +124,10 @@ If the desktop server stops, choose **Restart Server**.
 If the desktop editor crashes, choose **Recover Editor** and review the recovery session.
 Restoration does not resubmit interrupted generation jobs.
 
-If desktop secure storage fails, unlock the keychain and retry.
+If desktop secure storage fails on macOS, unlock the keychain and retry.
+If Windows credentials become unreadable, the app offers **Reset stored keys**.
+Reset preserves the unreadable file and starts an empty store.
+Enter your keys again after reset.
 You can also choose **Use for this session only**.
 See [Desktop app](/desktop) for logs, profile paths, and environment imports.
 
@@ -136,7 +139,9 @@ The app has no documented fit-view keyboard shortcut.
 
 For a report, include the app version, operating system, failed step, and exact error text.
 Browser developer tools show failed requests and console errors.
-The desktop app provides **Help → Open Logs**.
+On macOS, the desktop app provides **Help → Open Logs**.
+On Windows, logs are in `%APPDATA%\Node Banana\logs\`.
+The disconnected-server banner also provides **Open logs**.
 Keep credentials and private workflow content out of the report.
 
 Use [GitHub issues](https://github.com/shrimbly/node-banana/issues) or [Discord](https://discord.com/invite/89Nr6EKkTf).

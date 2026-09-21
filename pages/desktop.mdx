@@ -3,7 +3,7 @@
 import { Callout } from 'nextra/components'
 
 The desktop preview runs Node Banana in an Electron window with a local server.
-The packaged preview supports macOS on Apple Silicon.
+The packaged preview supports Windows x64 and macOS on Apple Silicon.
 It is unsigned and does not include automatic updates.
 
 <Callout type="info">
@@ -13,10 +13,27 @@ It is unsigned and does not include automatic updates.
 
 ## Install a preview package
 
-A DMG is a macOS disk image.
 A ZIP is a compressed archive.
+Preview packages include the local server, so you do not need Node.js, npm, or the app repository.
 
-If you have a preview DMG or ZIP, you do not need Node.js, npm, or the app repository.
+### Windows x64
+
+Windows packages include an `.exe` installer and a ZIP.
+The preview is verified on Windows 11 x64.
+
+1. Open the preview `.exe` installer.
+2. Choose the installation folder, or keep the default.
+3. Open **Node Banana**.
+4. Enter provider keys during setup or in **Settings → Providers**.
+
+The installer installs for your Windows account without administrator access.
+Its default folder is `%LOCALAPPDATA%\Programs\Node Banana\`.
+You can also extract the ZIP and open the app inside it.
+The unsigned installer can trigger a Windows SmartScreen warning.
+
+### macOS on Apple Silicon
+
+A DMG is a macOS disk image.
 
 1. Open the DMG and drag **Node Banana** into **Applications**.
 2. Alternatively, extract the ZIP and move the app into **Applications**.
@@ -44,21 +61,53 @@ npm run build
 npm run electron:start
 ```
 
-On an Apple Silicon Mac, create the preview artifacts with:
+### Build preview packages
+
+Run packaging on the target platform: Windows x64 or an Apple Silicon Mac.
+On Windows, install ImageMagick 7 and make its `magick` command available on your `PATH`.
+The Windows packaging check uses Windows 11 x64 with Node.js 23.
 
 ```bash
 npm run electron:package
 ```
 
-The command writes an app, DMG, and ZIP to `dist-electron/`.
-Intel Mac, Windows, and Linux packages are outside this preview.
+The command writes these artifacts to `dist-electron/`:
+
+| Platform | Artifacts |
+| --- | --- |
+| Windows x64 | `.exe` installer, ZIP, and `win-unpacked/` app folder |
+| macOS on Apple Silicon | App, DMG, and ZIP |
+
+Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+
+## Window controls
+
+On Windows, the app has no native title bar or visible menu bar.
+Drag the workflow tab strip to move the window.
+Double-click the strip to maximise or restore it.
+The top-right buttons minimise, maximise or restore, and close the window.
+Press **F11** to toggle fullscreen.
 
 ## Credentials and environment import
 
 The desktop profile is separate from your browser profile.
 Provider keys and ComfyUI credentials use encrypted storage.
-If secure storage fails, unlock the keychain and retry, or choose **Use for this session only**.
+If secure storage fails on macOS, unlock the keychain and choose **Retry secure storage**.
+On either platform, **Use for this session only** keeps credentials in memory.
 Session-only credentials disappear after you close the app.
+
+### Recover unreadable stored keys
+
+On Windows, a changed encryption key can make existing stored credentials unreadable.
+Retrying does not repair that file.
+If the app offers **Reset stored keys**, you can start with an empty credential store.
+Reset moves the unreadable file aside instead of deleting it.
+Enter your keys again in **Settings → Providers**.
+
+The reset option appears only for unreadable encrypted credentials.
+Other storage errors preserve the existing file and do not offer reset.
+
+### Import environment settings
 
 1. Open **Settings → Providers → Import from .env**.
 2. Choose an existing `.env` or `.env.local` file.
@@ -94,12 +143,14 @@ Recovery supplements normal saves.
 
 ## Data and diagnostics
 
-| Data | Location |
-| --- | --- |
-| Preferences, encrypted keys, recovery, and window state | `~/Library/Application Support/Node Banana/` |
-| Writable server copies and caches | `~/Library/Application Support/Node Banana/runtimes/` |
-| Workflows and generated outputs | Your selected project folders |
-| Desktop and server logs | **Help → Open Logs** |
+| Data | Windows | macOS |
+| --- | --- | --- |
+| Preferences, encrypted keys, recovery, and window state | `%APPDATA%\Node Banana\` | `~/Library/Application Support/Node Banana/` |
+| Writable server copies and caches | `%APPDATA%\Node Banana\runtimes\` | `~/Library/Application Support/Node Banana/runtimes/` |
+| Workflows and generated outputs | Your selected project folders | Your selected project folders |
+| Desktop and server logs | `%APPDATA%\Node Banana\logs\` | **Help → Open Logs** |
+
+On Windows, you can also select **Open logs** in the disconnected-server banner.
 
 Recovery content is private to your user account, but it is not encrypted.
 
