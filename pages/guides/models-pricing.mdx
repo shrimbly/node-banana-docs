@@ -9,6 +9,7 @@ Node Banana supports multiple AI providers for image, video, and text generation
 - **Gemini** — Google's image and video generation models
 - **Replicate** — Wide selection of community and custom models
 - **fal.ai** — Fast inference for popular models
+- **ComfyUI** — 150+ image, video, audio, and 3D partner models via Comfy Router, under one key
 - **Anthropic** — Claude models for text generation in LLM nodes
 - **OpenAI** — GPT models for text generation in LLM nodes
 
@@ -72,6 +73,18 @@ Replicate and fal.ai provide access to a wide variety of image generation models
 - **Manual Refresh** — Use the refresh button in the model browser to clear caches and reload fresh data
 
 Use the model selector in Generate Image nodes to browse and search available models from all providers.
+
+### ComfyUI Models (Comfy Router)
+
+A single ComfyUI API key gives you access to 150+ image, video, audio, and 3D models that Comfy hosts through [Comfy Router](https://docs.comfy.org/development/comfy-router/quickstart) — including FLUX.2, GPT Image, Nano Banana, Seedream/Seedance, Kling, Veo, Grok Imagine, Runway, Luma, LTX, MiniMax, Recraft, Ideogram, Qwen Image, and Meshy.
+
+- **Live discovery** — The model browser lists whichever Comfy models the Router is currently serving.
+- **Schema-driven settings** — Each model's parameters (values, ranges, defaults, and descriptions) come straight from the Router's published schema, so node settings always match what the Router accepts.
+- **Full media inputs** — Image and video nodes expose extra handles for every media a model takes (masks, last frames, reference and garment images, video-to-video).
+- **Choose who serves a model** — Models that more than one service can run gain a **Model Provider** setting on the node, letting you pick between fal, Higgsfield, Runware, or WaveSpeed.
+- **Pricing** — Varies by model and serving provider; see the cost dialog and model page links in the app, or check Comfy Router pricing.
+
+Enter your key in **Project Settings → Providers**, or leave it blank to fall back to the Comfy Cloud key from the ComfyUI settings tab.
 
 ## Video Generation Models
 
