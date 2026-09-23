@@ -4,6 +4,23 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 1.10.0 — 2026-09-24
+
+### Added
+
+- ComfyUI is now a model provider, backed by Comfy Router — one Comfy API key unlocks 150+ image, video, audio, and 3D models from partners including FLUX.2, GPT Image, Nano Banana, Seedream/Seedance, Kling, Veo, Runway, LTX, MiniMax, Recraft, Ideogram, Luma, and Meshy ([#172](https://github.com/shrimbly/node-banana/pull/172))
+- Comfy models expose their full parameter set (values, ranges, defaults, and descriptions) directly from the Router's published schemas, so node settings always match what the Router accepts ([#172](https://github.com/shrimbly/node-banana/pull/172))
+- Comfy image and video nodes gain extra input handles for every media a model takes — masks, last frames, reference and garment images, and video-to-video ([#172](https://github.com/shrimbly/node-banana/pull/172))
+- Models that more than one service can run gain a Model Provider setting on the node, letting you serve them through fal, Higgsfield, Runware, or WaveSpeed ([#172](https://github.com/shrimbly/node-banana/pull/172))
+- `COMFY_API_KEY` environment variable enables ComfyUI-hosted models; leaving the Providers key empty falls back to the Comfy Cloud key from the ComfyUI tab ([#172](https://github.com/shrimbly/node-banana/pull/172))
+
+### Changed
+
+- Async generations now honour the server's `Retry-After` polling hint (capped at 60 seconds), so long video jobs survive connection limits ([#172](https://github.com/shrimbly/node-banana/pull/172))
+- Video and audio results larger than 20MB are now returned as a URL instead of being inlined; images are always inlined ([#172](https://github.com/shrimbly/node-banana/pull/172))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

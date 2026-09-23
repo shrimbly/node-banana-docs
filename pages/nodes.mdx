@@ -223,7 +223,7 @@ Resolved: "elven warrior, watercolor style, determined expression, misty forest 
 
 ## Generate Image
 
-The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, and fal.ai.
+The Generate Image node creates images using AI models from multiple providers including Gemini, Replicate, fal.ai, and ComfyUI (Comfy Router).
 
 ### Inputs
 - **Image** (optional, multiple) — Reference images for the generation (supports image-to-image)
@@ -237,8 +237,9 @@ The Generate Image node creates images using AI models from multiple providers i
 
 | Setting | Description |
 |---------|-------------|
-| **Provider** | Choose from Gemini, Replicate, or fal.ai |
+| **Provider** | Choose from Gemini, Replicate, fal.ai, or ComfyUI |
 | **Model** | Select from available models (use search dialog) |
+| **Model Provider** | For ComfyUI models that more than one service can run, choose who serves them (fal, Higgsfield, Runware, or WaveSpeed) |
 | **Custom Parameters** | Model-specific parameters appear dynamically |
 
 ### Provider Configuration
@@ -247,6 +248,16 @@ Configure API keys for each provider in Project Settings → Providers tab:
 - **Gemini** — Google AI API key
 - **Replicate** — Replicate API token
 - **fal.ai** — fal.ai API key
+- **ComfyUI** — Comfy Router API key (or the Comfy Cloud key from the ComfyUI tab)
+
+### ComfyUI Models (Comfy Router)
+
+A single ComfyUI key unlocks 150+ image, video, audio, and 3D partner models through [Comfy Router](https://docs.comfy.org/development/comfy-router/quickstart) — FLUX.2, GPT Image, Nano Banana, Seedream, Kling, Veo, Runway, LTX, and more:
+
+- **Live discovery** — the model browser lists whichever Comfy models the Router is currently serving.
+- **Schema-driven settings** — parameters come from the Router's published schema, so node settings always match what the Router accepts.
+- **Extra media handles** — models that take more than one image (masks, references, garment images) or a video (video-to-video) get their own input handles.
+- **Model Provider setting** — models that more than one service can run let you serve them through fal, Higgsfield, Runware, or WaveSpeed.
 
 ### Model Discovery
 
@@ -323,9 +334,12 @@ The Generate Video node creates videos using AI models from providers that suppo
 
 | Setting | Description |
 |---------|-------------|
-| **Provider** | Choose from providers with video capabilities (Gemini, Kie.ai, WaveSpeed, fal.ai, Replicate) |
+| **Provider** | Choose from providers with video capabilities (Gemini, Kie.ai, WaveSpeed, fal.ai, Replicate, ComfyUI) |
 | **Model** | Select from available video models |
+| **Model Provider** | For ComfyUI models that more than one service can run, choose who serves them (fal, Higgsfield, Runware, or WaveSpeed) |
 | **Custom Parameters** | Model-specific parameters (duration, aspect ratio, resolution, etc.) |
+
+ComfyUI video models (Seedance, Kling, Veo, Runway, LTX, MiniMax, Wan, Luma, and more) are available through Comfy Router and support video-to-video via an extra video input handle.
 
 ### Gemini Veo Models
 
@@ -392,7 +406,7 @@ The Generate 3D node creates 3D models using AI models from providers that suppo
 
 | Setting | Description |
 |---------|-------------|
-| **Provider** | Choose from providers with 3D capabilities (Replicate, fal.ai, WaveSpeed) |
+| **Provider** | Choose from providers with 3D capabilities (Replicate, fal.ai, WaveSpeed, ComfyUI) |
 | **Model** | Select from available 3D models (text-to-3d, image-to-3d) |
 | **Custom Parameters** | Model-specific parameters |
 
@@ -402,7 +416,7 @@ The Generate 3D node creates 3D models using AI models from providers that suppo
 - **Orange handles** — 3D connections use distinct orange handles to differentiate from image (green) and text (blue)
 - **Connection validation** — 3D outputs can only connect to 3D inputs (e.g., 3D Viewer node)
 - **Model search badges** — 3D-capable models display 3D capability badges in the Model Search dialog
-- **Multi-provider support** — Works with Replicate, fal.ai, and WaveSpeed providers
+- **Multi-provider support** — Works with Replicate, fal.ai, WaveSpeed, and ComfyUI (Comfy Router, e.g. Meshy) providers
 
 ### How to Create Generate 3D Nodes
 
@@ -437,6 +451,7 @@ There are two ways to create a Generate 3D node:
 - **Replicate** — Various 3D generation models
 - **fal.ai** — 3D-capable models
 - **WaveSpeed** — 3D generation support
+- **ComfyUI** — 3D models via Comfy Router (e.g. Meshy)
 
 Configure API keys for these providers in Project Settings → Providers tab.
 

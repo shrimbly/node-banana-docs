@@ -24,6 +24,7 @@ Before installing Node Banana, make sure you have:
   - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
   - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
   - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
+  - ComfyUI — [Get API key](https://platform.comfy.org/) (optional, for ComfyUI-hosted models via Comfy Router)
 - **Anthropic API key** (optional) — Only needed for Claude text generation in LLM nodes
 - **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
@@ -61,6 +62,7 @@ FAL_API_KEY=your_fal_api_key_here
 # Optional providers
 KIE_API_KEY=your_kie_api_key_here
 WAVESPEED_API_KEY=your_wavespeed_api_key_here
+COMFY_API_KEY=your_comfy_api_key_here
 
 # Optional for LLM text generation
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
@@ -143,6 +145,17 @@ You need at least one AI provider API key. You can configure multiple providers 
 
 <Callout type="info">
   WaveSpeed offers image and video generation through an async task API. Only required if you want to use WaveSpeed models.
+</Callout>
+
+### ComfyUI API Key (Optional)
+
+1. Go to [platform.comfy.org](https://platform.comfy.org/profile/api-keys?onboarding=router)
+2. Sign in or create an account
+3. Create a Comfy Router API key
+4. Add it to your `.env.local` file as `COMFY_API_KEY`
+
+<Callout type="info">
+  A single Comfy key runs the 150+ image, video, audio, and 3D partner models that Comfy hosts through [Comfy Router](https://docs.comfy.org/development/comfy-router/quickstart) (FLUX, GPT Image, Nano Banana, Seedream, Kling, Veo, Runway, LTX, and more). The same key also serves ComfyUI cloud workflows — if you leave the Providers key blank, the Comfy Cloud key from the ComfyUI settings tab is used instead.
 </Callout>
 
 ### Anthropic API Key (Optional)
