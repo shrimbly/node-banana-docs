@@ -5,24 +5,37 @@ The imported workflow defines its inputs, settings, and outputs.
 A noodle is a connection between nodes.
 You can connect the ComfyUI App node to your canvas with typed noodles.
 
+## One key for Cloud and hosted models
+
+Enter your Comfy account key under **Settings → Providers → ComfyUI**, then save the settings.
+It covers Comfy Cloud workflows, hosted models through Comfy Router, and partner nodes inside workflows.
+For hosted models, choose ComfyUI on Generate Image or Generate Video instead of importing a workflow.
+See the [hosted model catalog](/guides/models-pricing#comfyui-hosted-models).
+
 ## Choose a backend
 
 A backend is the service that runs the imported workflow.
 
-1. Open **Nb → Project settings → ComfyUI**.
-2. Choose where the workflow runs.
-3. Enter the required endpoint or key.
-4. Select **Test connection**.
-5. Save the settings.
+1. For Cloud, save the account key under **Settings → Providers → ComfyUI** first.
+2. Open **Nb → Project settings → ComfyUI**.
+3. Choose where the workflow runs.
+4. For a local or remote server, enter its endpoint and any remote authentication.
+5. Select **Test connection**.
+6. Save the settings.
+
+Save the Providers page before you return to ComfyUI.
+Switching settings pages alone does not save a draft key.
 
 | Backend | Setup |
 | --- | --- |
-| Comfy Cloud | Default choice. Add a key from [platform.comfy.org](https://platform.comfy.org/profile/api-keys). |
+| Comfy Cloud | Default choice. Add a [Comfy account key](https://platform.comfy.org/profile/api-keys) under Providers → ComfyUI. |
 | This computer | Run your own ComfyUI, normally at `http://127.0.0.1:8188`. |
 | Remote | Enter the address of another ComfyUI server and its authentication key, if required. |
 
 Comfy Cloud needs no local graphics processor (GPU) or ComfyUI installation.
 A local or remote server needs the models and custom nodes that your workflow uses.
+Ordinary local nodes need no Comfy Cloud key.
+Partner nodes can still need an account key.
 Custom nodes are ComfyUI extensions installed on that server.
 
 For a standard ComfyUI server, leave **Behind comfy-api-proxy** off.
@@ -39,7 +52,7 @@ A standard server uses the older ComfyUI API.
 
 A seed is a number that controls a model's random choices.
 An explicit seed on a node takes precedence over the randomization preference.
-The API-node key falls back to your Cloud key when no separate key is set.
+The API-node key falls back to your shared Comfy account key when no override is set.
 
 ## Import a workflow
 

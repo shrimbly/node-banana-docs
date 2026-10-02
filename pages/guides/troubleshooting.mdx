@@ -11,8 +11,24 @@ If you use `.env.local`, use the exact variable names from [installation](/insta
 For Replicate and fal.ai, those names are `REPLICATE_API_KEY` and `FAL_API_KEY`.
 Restart the browser server after environment-file changes.
 
-**Prompt a workflow** needs a Gemini key.
-A key for another provider does not enable those features.
+The Agent uses its own Claude Code or Codex account sign-in.
+Provider keys enable generation nodes, not Agent access.
+
+## Agent sign-in or installation errors
+
+| Status | What to do |
+| --- | --- |
+| Tool not installed | Run the installation command shown in the Agent panel, then check again |
+| Signed out | Use Open Claude Code sign-in or Sign in with ChatGPT and finish in your browser |
+| API billing selected | Sign in with the supported subscription account instead of an API key |
+| Subscription unconfirmed | Check the selected account and retry the status check |
+| Sign-in failed | Read the panel's error and use its terminal sign-in fallback if offered |
+| Plan limit reached | Wait for the plan limit to reset; generation-provider keys do not extend it |
+
+Claude Code needs a paid Claude subscription; Codex needs a ChatGPT plan with Codex access.
+If a turn stops or fails, queued messages wait for **Send now**.
+Closing the Agent window does not stop its turn.
+See [AI Quickstart and Agent](/guides/ai-quickstart) for setup and controls.
 
 ## Installation or port errors
 
@@ -54,11 +70,11 @@ A rejected key, unavailable model, quota limit, or unsupported input needs a dif
 
 | Symptom | Action |
 | --- | --- |
-| Missing or renamed model | Reopen model search, refresh its cache, and select a model |
+| Missing or renamed model | Use Retry on a provider notice, or Search Replicate / Search fal.ai for other results |
 | Request limit | Reduce Max parallel calls in Settings → Node defaults |
 | Primary model fails | Check the Fallback tab and its provider key |
 | Long video or 3D task | Keep the app open while it polls the existing job |
-| Encode must stop | Select Stop to cancel stitch, trim, or ease-curve encoding |
+| Encode must stop | Select Stop; if a repeated run shows Stopping, select it again to stop immediately |
 | Provider rejects content | Check the reported restriction and revise the prompt or media |
 
 Long jobs can continue at a remote provider after the editor stops or loses its session.
@@ -90,13 +106,14 @@ If external media is missing after load, restore the project media folders to th
 ## ComfyUI errors
 
 1. Open **Settings → ComfyUI**.
-2. Check the selected backend, endpoint, and key.
-3. Select **Test connection**.
-4. Read the reported error before another import or run.
+2. Check the selected backend, endpoint, and any remote-server authentication.
+3. For Cloud, check the account key under **Settings → Providers → ComfyUI**.
+4. Select **Test connection**.
+5. Read the reported error before another import or run.
 
 | Error | What to check |
 | --- | --- |
-| Cloud authentication | Use a Comfy Cloud key from platform.comfy.org |
+| Cloud authentication | Enter your platform.comfy.org account key in Providers → ComfyUI |
 | Local endpoint unreachable | Start ComfyUI and check its address, normally `http://127.0.0.1:8188` |
 | Editor-save import fails | The server must provide `/api/object_info` |
 | Missing custom node or model | Install it on the selected backend, or choose a compatible backend |
@@ -110,12 +127,15 @@ See the [ComfyUI guide](/guides/comfyui) for formats, Blueprints, and previews.
 
 ## Save or recovery errors
 
-A project needs a name and writable directory before auto-save can save it.
-The app checks changed projects every 90 seconds.
-There is no auto-save toggle in the current Project settings UI.
+Save the project once before you rely on auto-save.
+Its directory must remain writable.
+Check **Settings → Project → Save automatically**.
+Auto-save normally waits about three seconds after edits.
+It waits during runs, concurrent saves, and media writes.
+If repeated saves fail, it backs off and reports the error.
 
 1. Open **Settings → Project**.
-2. Check the project name and parent directory.
+2. Check the project name, location, and Save automatically switch.
 3. Check free disk space and directory permissions.
 4. Select **Nb → Save project** and read any error notification.
 
@@ -130,6 +150,27 @@ Reset preserves the unreadable file and starts an empty store.
 Enter your keys again after reset.
 You can also choose **Use for this session only**.
 See [Desktop app](/desktop) for logs, profile paths, and environment imports.
+
+## Missing assets or projects
+
+**Recent generations** only shows the current tab's recent results.
+Open **Nb → Assets** for the full library.
+If a result appears under **Missing files**, restore its original media location.
+If an older project is absent from Open, open **Settings → Storage**.
+Under **Bring in projects from another folder**, select **Choose folder…**.
+Choose **Leave them where they are** to register projects without moving them.
+
+If a folder move fails, read its report before you remove files or try another move.
+See [Assets and Storage](/guides/assets) for move choices, Trash, and permanent deletion.
+
+## Desktop update errors
+
+If an update fails, use the notice's release link to get the installer manually.
+An unsigned Mac preview cannot update in place.
+Development runs do not install updates, and isolated test profiles do not check automatically.
+A downloaded update installs on restart or the next normal quit.
+Save your work before either action.
+See [Desktop updates](/desktop#update-the-app).
 
 ## Find nodes and report an error
 

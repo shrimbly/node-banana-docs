@@ -13,7 +13,9 @@ Hover over an icon to see its label.
 
 The navigator contains the minimap, zoom controls, **Fit view**, and **Lock canvas**.
 Use **Hide minimap** or **Show minimap** to change its visibility.
-**Recent generations** opens the history panel at the top right.
+**Recent generations** opens the current tab's history panel at the top right.
+**Nb → Assets** opens the full [asset library](/guides/assets).
+Click a point in the minimap to move the canvas view there.
 
 ### Add and select nodes
 
@@ -49,7 +51,8 @@ Router, Switch, Conditional Switch, and Array use a single card with socket-alig
 ### Arrange several nodes
 
 Select at least two nodes to open the multi-select toolbar.
-It provides horizontal and vertical stacking, a grid layout, and a spacing slider.
+Open **Arrange nodes** for horizontal stacking, vertical stacking, or a grid.
+The toolbar also provides a spacing slider.
 You can also run the selection, create a group, or remove nodes from a group.
 The model control changes models across selected generators.
 The download control collects selected images into a ZIP archive.
@@ -85,6 +88,11 @@ Each iteration can make more provider requests.
 
 Hidden noodles still carry data and remain in saved workflows.
 The editor shows short labeled stubs beside their sockets.
+Hidden noodles with the same handle and label share a stack.
+Click its pill to expand it, or hover to preview its noodles.
+Double-click a stack label to rename every member; an individual pill renames one noodle.
+Press `Enter` to save a name, or `Escape` to cancel.
+The downstream pill's upstream-jump control centers the source end on the canvas.
 Select a stub and choose **Show** to restore its noodle.
 The action-bar visibility control hides or shows all noodles.
 
@@ -125,11 +133,27 @@ That setting accepts 1 to 10 concurrent calls.
 
 | Run control | Scope |
 | --- | --- |
-| Run / `Cmd/Ctrl + Enter` | Entire workflow, or resume a pause |
-| Run from selected node | Selected node and its downstream path |
-| Run selected node only | One selected node |
-| Run selected nodes | The selected set |
-| Stop | Stops the current run and cancels active stitch, trim, and ease-curve encodes |
+| Run all / `Cmd/Ctrl + Enter` | Entire workflow, or resume a pause |
+| Run from selected | Selected node and its downstream path |
+| Run selected / `Alt/Option + Enter` | The selected node or set |
+| Run group | The nodes in the selected group |
+| Runs | Repeat the selected scope 1–50 times |
+| Stop | End repeated runs after the current run; a second click stops immediately |
+
+The Run menu shares one **Runs** count across workflow, selection, and group actions.
+The workflow file saves that count.
+Repetitions run in order, and outputs show **Run n of N**.
+Each repetition can make new billed provider requests.
+
+If repetitions remain, the first **Stop** lets the current run finish and prevents the next.
+The button changes to **Stopping**; another click stops immediately.
+During the final repetition or a single run, **Stop** stops immediately.
+Immediate Stop also cancels active stitch, trim, and ease-curve encodes.
+Remote provider jobs can continue after the editor stops.
+
+You can start different nodes concurrently with their own Run buttons.
+You cannot start the same node twice, or add these runs during a workflow or selection run.
+The global Stop control stops these independent node runs.
 
 Missing inputs do not disable Run.
 If a node has no usable input, the app skips it instead of blocking the workflow.
@@ -149,7 +173,7 @@ See [Troubleshooting](/guides/troubleshooting) before you submit the same job ag
 ## Groups and comments
 
 A group keeps related nodes together and moves them as a set.
-Its menu provides six colors, a lock, and the **NBP Input** flag.
+Its menu provides six color swatches, a lock, **Run group**, and the **NBP Input** flag.
 The flag marks inputs for Node Banana Pro.
 A locked group skips execution.
 The multi-select toolbar can remove nodes from a group without deleting them.
@@ -159,13 +183,14 @@ Node comments explain a step's purpose.
 
 ## Settings
 
-Open **Nb → Project settings** to access all six tabs.
+Open **Nb → Project settings** to access all seven tabs.
 Save changes with the dialog's save control.
 
 | Tab | What you set |
 | --- | --- |
-| Project | Project name, parent directory, and Embed images as base64 |
-| Providers | Keys for the seven model providers |
+| Project | Project name, location, Save automatically, and Embed images as base64 |
+| Storage | Shared Node Banana folder, existing projects, moves, and library cleanup |
+| Providers | Keys for the eight model providers |
 | ComfyUI | Backend, authentication, job timeout, and seed behavior |
 | Node defaults | New image/video models, LLM settings, and Max parallel calls |
 | Canvas | Pan, zoom, and selection gestures |
@@ -180,11 +205,15 @@ On macOS, trackpad gestures also pan the canvas.
 ## Keyboard shortcuts
 
 Use `Cmd` on macOS and `Ctrl` on Windows or Linux.
-Canvas shortcuts do not act while you type in an input field.
+Most canvas shortcuts do not act while you type in an input field.
+Save also works during text editing outside the Agent window.
 
 | Shortcut or gesture | Action |
 | --- | --- |
 | `Cmd/Ctrl + Enter` | Run workflow or resume a pause |
+| `Alt/Option + Enter` | Run selected nodes |
+| `Cmd/Ctrl + S` | Save, or open first-save setup |
+| `A` | Show or hide Assets |
 | `Cmd/Ctrl + C` | Copy selected nodes |
 | `Cmd/Ctrl + V` | Paste nodes, an image, or text |
 | `Cmd/Ctrl + Z` | Undo |
@@ -194,6 +223,8 @@ Canvas shortcuts do not act while you type in an input field.
 | `Shift + I` | Add Image Input |
 | `Shift + G` | Add Generate Image |
 | `Shift + V` | Add Generate Video |
+| `Shift + D` | Add Generate 3D |
+| `Shift + O` | Add Output |
 | `Shift + L` | Add LLM Generate |
 | `Shift + A` | Add Annotation |
 | `Shift + T` | Add Generate Audio |
@@ -210,12 +241,20 @@ Canvas shortcuts do not act while you type in an input field.
 The app's shortcut dialog currently labels `Shift + R` as Array.
 The canvas handler creates a Router.
 Use the multi-select toolbar for horizontal stacking.
-Use **Nb → Save project** or the save button to save.
+You can also save through **Nb → Save project** or the save button.
 
 ## Files, auto-save, and costs
 
-A named project with a directory saves changed work every 90 seconds.
-Auto-save is enabled by default.
+Auto-save is enabled by default under **Settings → Project → Save automatically**.
+After the first save, it waits about three seconds after your last edit.
+During continuous edits, it attempts a save within 30 seconds of the first edit.
+That limit waits while a run, another save, or a media write is active.
+Leaving the window or hiding its tab also requests a save.
+If saving fails repeatedly, the app backs off and shows an error.
+Use `Cmd/Ctrl + S` to save important changes and inspect any error.
+
+New projects default to the shared Node Banana folder.
+[Assets and Storage](/guides/assets) explains its location, generation history, and project moves.
 The Project tab controls whether images use external files or embedded base64 data.
 Base64 encodes binary media as text and makes the workflow file larger.
 External media lives beside the workflow, including the `generations/` and `outputs/` folders.

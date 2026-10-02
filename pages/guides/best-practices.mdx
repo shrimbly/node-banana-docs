@@ -9,7 +9,7 @@
 5. Save the project before you expand it into a batch.
 
 A small workflow makes missing inputs and model errors easier to locate.
-Use **Run selected node only** or **Run from selected node** for focused checks.
+Use **Run selected** or **Run from selected** for focused checks.
 
 ## Reuse prompts
 
@@ -44,7 +44,7 @@ The multi-select toolbar can change the model across several selected generators
 
 ## Process a list with Array
 
-1. Enter or connect a list of prompts to an Array node.
+1. Connect a Prompt or LLM Generate text output to an Array node.
 2. Choose the delimiter, newline, or regular-expression split mode.
 3. Check the parsed items.
 4. Enable **Batch** and connect the Array to a supported generator.
@@ -52,8 +52,25 @@ The multi-select toolbar can change the model across several selected generators
 
 Array batches run sequentially through Generate Image, Generate Video, Generate Audio, or LLM Generate.
 Generate 3D does not use this batch path.
-For separate editable branches, use **Auto-route to Prompts** instead.
+For separate editable branches, turn Batch off and use **Make Prompts**.
+Click a parsed item to read its full text.
+Each outgoing noodle shows the item it carries.
 An Output Gallery collects image and video results.
+
+## Repeat a workflow or selection
+
+1. Open the Run menu.
+2. Set **Runs** to a small count between 1 and 50.
+3. Select **Run all**, **Run from selected**, or **Run selected** to start immediately.
+4. Inspect the outputs marked **Run n of N**.
+
+Groups also offer **Run group** with the shared Runs count.
+This repeats the chosen graph; Array Batch repeats its text items through a generator.
+Both mechanisms can increase provider usage.
+
+If repetitions remain, the first Stop finishes the current run and prevents later runs.
+A second Stop stops immediately.
+See [workflow execution](/core-concepts#workflow-execution) for the full stopping behavior.
 
 ## Split an image into cell workflows
 
@@ -87,8 +104,11 @@ Check that the fallback's provider key and inputs are available.
 
 Use node names and comments that describe each step's purpose.
 Groups keep related nodes together.
-The multi-select toolbar controls stacking, grid placement, and spacing.
+Use **Arrange nodes** in the multi-select toolbar for stacking or grid placement.
+Its spacing slider adjusts the gaps between selected nodes.
 Noodle labels and bundles make shared inputs easier to trace.
+Double-click a hidden stack's label to rename its noodles together.
+Use its upstream jump to find the source on a large canvas.
 
 Use [saved ComfyUI nodes](/guides/comfyui#save-and-reuse-a-configured-node) for workflows with repeated ComfyUI settings.
 Use **Output Gallery → Extract** to turn gallery items into reusable input nodes.
@@ -99,7 +119,8 @@ Check [Models and pricing](/guides/models-pricing) before you run batches, loops
 The app's cost totals do not cover every provider or model.
 The provider account remains the record of billed usage.
 
-Save important changes with **Nb → Save project**.
+Save important changes with `Cmd/Ctrl + S` or **Nb → Save project**.
+Use [Assets](/guides/assets) to find earlier results and their generating workflow snapshots.
 For portable projects, keep workflow files and external media folders together.
 For embedded images, enable **Settings → Project → Embed images as base64**.
 Large embedded workflows use more memory.

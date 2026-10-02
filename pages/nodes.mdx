@@ -137,9 +137,9 @@ Provide text for another node.
 
 Split text into items for separate branches or repeated generation.
 
-**Inputs:** Typed text or a text noodle.
+**Inputs:** Text from an upstream Prompt, LLM Generate, or another text node.
 
-**Outputs:** Text as the full JSON array, one selected item per noodle, or sequential batch items.
+**Outputs:** Text as the full JSON array, an item assigned to each noodle, or sequential batch items.
 
 ### Settings
 
@@ -147,15 +147,17 @@ Split text into items for separate branches or repeated generation.
 | --- | --- |
 | Split mode | Delimiter, Newline, or Regex. Regex means a regular expression, which is a text-matching pattern. |
 | Delimiter | The initial delimiter is *. |
-| Trim and remove empty | Both start enabled. |
+| Trim spaces / Drop empty | Clean parsed items. Both start enabled. |
 | Batch | Runs each item through a supported generator. Initially disabled. |
-| Selected item | Applies that item to the next noodle you create. |
-| Auto-route to Prompts | Creates a wired Prompt node for each item. |
+| Item list | Click an item to expand or collapse its full text. |
+| Make Prompts | With Batch off, creates a wired Prompt node for each item. |
 
 ### Tips
 
 - Batch supports Generate Image, Generate Video, Generate Audio, and LLM Generate.
-- Use Auto-route to Prompts for separate branches that you can edit.
+- Use Make Prompts for separate branches that you can edit.
+- New noodles cycle through the items and show **Array n** labels. Batch noodles show **All n**.
+- Clicking an item expands it; it does not choose the next noodle's item.
 
 ## Prompt Constructor
 
@@ -321,12 +323,14 @@ Collect image and video results in one place.
 | --- | --- |
 | Gallery | Shows collected results, with the newest first. |
 | Extract | Creates input nodes from gallery items. |
-| Item actions | Open, download, or remove a result. |
+| Item actions | Open the shared viewer, add to graph, download, remove, or open in Assets. |
 
 ### Tips
 
 - Connect batch generators to collect their results.
 - Use Extract to reuse gallery media elsewhere on the canvas.
+- In the viewer, press `Enter` for Add to graph or `D` for Download.
+- Use the arrow keys to browse results. Add to graph reuses one item; Extract handles the gallery.
 
 ## Image Compare
 

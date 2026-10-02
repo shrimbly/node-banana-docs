@@ -1,6 +1,6 @@
 # Models and Pricing
 
-The tables describe the app's `develop` catalog checked on September 21, 2026.
+The tables describe the app's `develop` catalog checked on October 3, 2026.
 Prices are the app's USD estimates, not a provider quote or a complete billing record.
 A missing price means unknown, not free.
 
@@ -12,15 +12,17 @@ The same model family can have different settings and prices on different provid
 
 | Provider | Uses in Node Banana | Environment alternative |
 | --- | --- | --- |
-| Google Gemini | Images, Veo and Omni video, text, and workflow assistant | `GEMINI_API_KEY` |
+| Google Gemini | Images, Veo and Omni video, and text | `GEMINI_API_KEY` |
 | OpenAI | GPT Image generation and editing, and text | `OPENAI_API_KEY` |
 | Anthropic | Claude text models | `ANTHROPIC_API_KEY` |
+| ComfyUI | Hosted image/video models through Comfy Router, and Comfy Cloud workflows | `COMFY_API_KEY` for hosted models; `COMFY_CLOUD_API_KEY` for Cloud workflows |
 | Replicate | Discovered image, video, audio, and 3D models | `REPLICATE_API_KEY` |
 | fal.ai | Discovered image, video, audio, and 3D models | `FAL_API_KEY` |
 | Kie.ai | The image, video, and audio catalog listed below | `KIE_API_KEY` |
 | WaveSpeed | Discovered media models, including image, video, and 3D | `WAVESPEED_API_KEY` |
 
-ComfyUI uses a separate backend and key under **Settings → ComfyUI**.
+The ComfyUI key under **Settings → Providers** covers hosted models, Comfy Cloud workflows, and partner nodes.
+**Settings → ComfyUI** chooses the workflow backend and any remote-server authentication.
 See the [ComfyUI guide](/guides/comfyui) for Cloud, local, and remote workflows.
 
 ## Choose a model
@@ -32,12 +34,17 @@ See the [ComfyUI guide](/guides/comfyui) for Cloud, local, and remote workflows.
 
 A capability describes a task, such as text-to-image or image-to-video.
 The browser also shows recently used models and provider-page links.
-Model lists use a 48-hour cache.
-Use the refresh control to clear cached lists and fetch them again.
+Stored model lists appear immediately and refresh in the background.
+The browser cache lasts 48 hours; server catalogs stay fresh for six hours.
+If a provider refresh fails, its previous list remains available.
+The provider notice shows the list's age and offers **Retry**.
+Use the refresh control to request updated lists.
 
 Replicate, fal.ai, and WaveSpeed fetch catalogs from their services.
 Their lists can change independently of an app release.
 Some capability labels come from model descriptions, so check the actual model inputs.
+Typing in search first filters the loaded list.
+For other matches, enter at least two characters and select **Search Replicate**, **Search fal.ai**, or the combined action.
 For Replicate, an exact owner/model search can find entries outside the loaded list.
 
 ## Gemini image models
@@ -121,6 +128,70 @@ It uses the Gemini Interactions API.
 Its resolution choices are 360p, 720p, 1080p, and 4k.
 The model descriptions identify 1080p and 4k as upscaled outputs.
 Desired duration becomes part of the prompt rather than a fixed duration parameter.
+
+## ComfyUI hosted models
+
+Select **ComfyUI** in the model browser to use Comfy Router.
+This runs a hosted model through Generate Image or Generate Video.
+Importing a ComfyUI workflow uses the separate [ComfyUI App node](/guides/comfyui).
+Both paths can use the account key in **Settings → Providers → ComfyUI**.
+
+The catalog contains 19 image models and 19 video models.
+The app supplies no fixed price for these entries.
+Direct-provider prices elsewhere on this page do not establish Comfy Router prices.
+Check the selected model's parameters and sockets before you run it.
+
+### ComfyUI image models
+
+| Picker label | Model ID |
+| --- | --- |
+| FLUX.2 Pro | `bfl/flux-2-pro` |
+| FLUX.2 Max | `bfl/flux-2-max` |
+| FLUX Kontext Pro | `bfl/flux-kontext-pro` |
+| FLUX Kontext Max | `bfl/flux-kontext-max` |
+| FLUX 1.1 Pro | `bfl/flux-pro-1.1` |
+| FLUX 1.1 Pro Ultra | `bfl/flux-pro-1.1-ultra` |
+| GPT Image 2 | `openai/gpt-image-2` |
+| GPT Image 1.5 | `openai/gpt-image-1.5` |
+| Nano Banana Pro | `vertexai/gemini-3-pro-image` |
+| Nano Banana 2 | `vertexai/gemini-3.1-flash-image` |
+| Nano Banana | `vertexai/gemini-2.5-flash-image` |
+| Seedream 5.0 | `byteplus/seedream-5-0-260128` |
+| Seedream 4.5 | `byteplus/seedream-4-5-251128` |
+| Grok Imagine Image 2.0 | `xai/grok-imagine-image-2.0` |
+| Grok Imagine Image | `xai/grok-imagine-image` |
+| Ideogram v4 | `ideogram/ideogram-v4` |
+| Recraft V4 | `recraft/recraftv4` |
+| Qwen Image 3.0 | `qwen/qwen-image-3.0` |
+| Kling Image O1 | `kling/kling-image-o1` |
+
+### ComfyUI video models
+
+| Picker label | Model ID |
+| --- | --- |
+| Seedance 2.5 | `byteplus/dreamina-seedance-2-5-260628` |
+| Seedance 2.0 | `byteplus/dreamina-seedance-2-0-260128` |
+| Seedance 2.0 Fast | `byteplus/dreamina-seedance-2-0-fast-260128` |
+| Seedance 1.5 Pro | `byteplus/seedance-1-5-pro-251215` |
+| Kling V3 | `kling/kling-v3` |
+| Kling V2.6 | `kling/kling-v2-6` |
+| Kling V3 Omni | `kling/kling-v3-omni` |
+| Kling 3.0 Turbo | `kling/kling-3.0-turbo` |
+| Veo 3.1 | `veo/veo-3.1-generate-001` |
+| Veo 3.1 Fast | `veo/veo-3.1-fast-generate-001` |
+| Veo 3 | `veo/veo-3.0-generate-001` |
+| Grok Imagine Video 1.5 | `xai/grok-imagine-video-1.5` |
+| Runway Gen-4 Turbo | `runway/gen4_turbo` |
+| LTX 2.5 Pro | `ltx/ltx-2-5-pro` |
+| LTX 2.5 Fast | `ltx/ltx-2-5-fast` |
+| MiniMax H3 | `minimax/minimax-h3` |
+| Wan 2.7 | `wan/wan2.7-t2v` |
+| Wan 2.7 Image to Video | `wan/wan2.7-i2v` |
+| Luma Ray 2 | `luma/ray-2` |
+
+Comfy Router submits queued jobs and polls their existing job IDs.
+Keep the app open while a job runs.
+A lost connection does not mean the remote job stopped.
 
 ## Kie.ai catalog
 
@@ -236,7 +307,7 @@ These are the 16 current dropdown entries.
 | Anthropic | Claude Fable 5.1 | `claude-fable-5-1` |
 
 The default is Google Gemini 3.8 Flash.
-The workflow assistant also uses that model and requires a Gemini key.
+The [Agent](/guides/ai-quickstart#start-with-agent) chooses its model through Claude Code or Codex, separately from LLM Generate.
 Temperature ranges from 0 to 1 for Anthropic, or 0 to 2 for Google and OpenAI.
 Max tokens ranges from 256 to 16,384.
 
