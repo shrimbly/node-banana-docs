@@ -60,13 +60,14 @@ Throughout these guides, **Settings** means this Project settings dialog.
 | Google Gemini | `GEMINI_API_KEY` |
 | OpenAI | `OPENAI_API_KEY` |
 | Anthropic | `ANTHROPIC_API_KEY` |
+| ComfyUI | `COMFY_API_KEY` for hosted models; `COMFY_CLOUD_API_KEY` for Cloud workflows |
 | Replicate | `REPLICATE_API_KEY` |
 | fal.ai | `FAL_API_KEY` |
 | Kie.ai | `KIE_API_KEY` |
 | WaveSpeed | `WAVESPEED_API_KEY` |
 
 You only need keys for the providers you use.
-**Prompt a workflow** requires a Gemini key.
+The [Agent](/guides/ai-quickstart#start-with-agent) uses Claude Code or Codex account sign-in separately from these keys.
 OpenAI supplies image and text models.
 See [Models and pricing](/guides/models-pricing) for the complete provider list.
 
@@ -85,6 +86,8 @@ See [Models and pricing](/guides/models-pricing) for the complete provider list.
 GEMINI_API_KEY=your_gemini_key
 OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
+COMFY_API_KEY=your_comfy_key
+COMFY_CLOUD_API_KEY=your_comfy_key
 REPLICATE_API_KEY=your_replicate_key
 FAL_API_KEY=your_fal_key
 KIE_API_KEY=your_kie_key
@@ -96,17 +99,21 @@ Keep your real keys out of shared workflow notes and public repositories.
 
 ## Connect ComfyUI
 
-ComfyUI uses **Settings → ComfyUI**, separately from provider keys.
-Choose **Comfy Cloud**, **This computer**, or **Remote**.
+Enter your Comfy account key in **Settings → Providers → ComfyUI**, then save the settings.
+It covers hosted models and Comfy Cloud workflows.
+Reopen **Settings → ComfyUI** and choose **Comfy Cloud**, **This computer**, or **Remote**.
+Remote-server authentication stays with that backend.
 The [ComfyUI guide](/guides/comfyui) covers keys, endpoints, and workflow imports.
 
 ## Create your project
 
 1. Select **New project** on the Welcome screen.
-2. Enter a project name and choose its parent directory.
+2. Enter a project name and keep the default location, or choose a custom parent directory.
 3. Save the project settings.
 4. Follow [Your first workflow](/first-workflow).
 
-The app creates a project subfolder inside the selected directory.
-The directory must use an absolute path.
+New projects default to the shared Node Banana folder.
+The app creates a project subfolder there, or inside your custom parent directory.
+A custom directory must use an absolute path.
+See [Assets and Storage](/guides/assets) to change the default folder or bring in existing projects.
 For installation errors, see [Troubleshooting](/guides/troubleshooting).

@@ -7,14 +7,16 @@ You need a provider key from [installation](/installation).
 
 | Welcome screen entry | What it opens |
 | --- | --- |
-| New project | Project name and directory settings |
-| Load workflow | The workflow browser, including subdirectories |
+| New project | Project name and storage settings |
+| Open project | Known projects, including projects in other folders |
 | Templates | Built-in templates and community workflows |
-| Prompt a workflow | A description field for an AI-generated workflow |
+| Start with Agent | Claude Code or Codex setup and an Agent conversation |
+| Bring in your projects, when no projects are known | Search for existing projects and choose whether to move them |
 
 To reopen this screen, select **Nb → Welcome screen**.
 During first-run setup, **Start tutorial** offers a guided demonstration with simulated execution.
-For this example, choose **New project** and save its name and directory.
+For this example, choose **New project** and enter its name.
+The default location is your [Node Banana folder](/guides/assets#choose-the-node-banana-folder).
 
 ## Add three nodes
 
@@ -65,18 +67,21 @@ See [workflow execution](/core-concepts#workflow-execution) for partial runs and
 2. Run the workflow again.
 3. Use the generation node's history controls to compare results.
 
-The **Recent generations** panel collects generation history across the canvas.
+The **Recent generations** panel shows the current tab's recent results.
+Open [Assets](/guides/assets) for the full library and generation-time workflow snapshots.
 Media nodes also provide download buttons.
 For a new default model, use **Settings → Node defaults**.
 Defaults apply to new nodes, so existing nodes keep their own settings.
 
 ## Save and reopen
 
-1. Select **Nb → Save project**, or use the save button beside the Nb menu.
+1. Press `Cmd/Ctrl + S`, or select **Nb → Save project**.
 2. To reopen a workflow, select **Nb → Open project…**.
 3. Choose the saved workflow in the browser.
 
-The app also saves changed projects every 90 seconds after you set a name and directory.
+After the first save, auto-save waits about three seconds after your edits.
+It waits while a run, another save, or a media write is active.
+You can change **Save automatically** under **Settings → Project**.
 Keep the project directory and its media subfolders together.
 
 ## Try an example

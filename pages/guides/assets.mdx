@@ -1,0 +1,121 @@
+# Assets and Storage
+
+Assets collects recorded generations across projects and workflows.
+It keeps media details and available generation-time workflow snapshots.
+Imported project results can open their project but have no historical workflow snapshot.
+A snapshot records the workflow as it was when that result was made.
+Recent generations shows the current tab's recent results; Assets provides the full library.
+
+## Find and reuse a result
+
+1. Select **Nb → Assets**, or press `A` outside a text field.
+2. Search the library or choose filters in its side panel.
+3. Open a result to inspect its media and details.
+4. Open its context menu for project, download, and organization actions.
+
+You can filter by media type, project, workflow, model, tags, and date.
+The side panel also has **Favorites**, **Missing files**, and **Trash**.
+Tags and favorites help you collect results without moving their files.
+
+| Action | Result |
+| --- | --- |
+| Open project | Opens the result's current project |
+| Open as it was when made | Opens the saved generation-time workflow snapshot |
+| Open workflow | Opens the available workflow for a result without a project action |
+| Copy prompt | Copies the recorded prompt |
+| Reveal | Opens the file's location where supported |
+| Save copy or download | Creates a separate copy of the media |
+
+Available actions depend on the result's recorded origin and files.
+Opening a snapshot does not repeat generation requests.
+Check models, keys, and inputs before you run it again.
+
+## Assets keyboard shortcuts
+
+These shortcuts apply in Assets, outside text fields.
+
+| Shortcut | Action |
+| --- | --- |
+| `←` / `→` / `↑` / `↓` | Move between assets |
+| `Enter` | Open the asset |
+| `←` / `→` with an asset open | Previous or next asset |
+| `Space` | Select the asset |
+| `Cmd/Ctrl + A` | Select all loaded assets |
+| `Delete` | Trash selected assets; in Trash or Missing files, open the deletion or removal confirmation |
+| `Cmd/Ctrl + Z` | Undo the last asset action |
+| `Cmd/Ctrl + C` with an asset open | Copy its prompt |
+| `F` with an asset open | Full screen |
+| `Esc` | Close, clear selection, or return to the canvas |
+
+## Choose the Node Banana folder
+
+**Settings → Storage** shows the shared Node Banana folder.
+New projects use this folder by default.
+Generations from unsaved workflows go in its **Generations** subfolder.
+Existing projects can stay in other folders and still appear in Open and Assets.
+
+The usual default is `Documents/Node Banana` under your user folder.
+On Windows with OneDrive-redirected Documents, the app uses `Node Banana` directly under your user folder.
+It also falls back to that location if the Documents default is not writable.
+`NODE_BANANA_ASSET_LIBRARY` can override the location for a source installation.
+
+The shared folder is separate from the desktop profile that holds preferences and encrypted keys.
+See [Desktop app](/desktop#data-and-diagnostics) for profile locations.
+
+### Change the folder
+
+1. Open **Settings → Storage**.
+2. Choose the new folder.
+3. Read the folder-change dialog.
+4. Choose the action that matches your intent.
+
+| Choice | Effect |
+| --- | --- |
+| Move everything there | Moves the library and eligible project folders to the new location |
+| Use that folder | Switches the active folder without moving existing files |
+
+The move checks for conflicts and folders that contain unrelated files.
+If a move is refused, read the report before you change or delete anything.
+Keep the original files until the app reports a successful move.
+
+## Bring in existing projects
+
+1. Open **Settings → Storage**.
+2. Under **Bring in projects from another folder**, select **Choose folder…**.
+3. Choose the folder that contains your existing Node Banana projects.
+4. Wait for the search of that folder and its subfolders.
+5. Review the discovered projects and choose an action.
+
+If no projects are known yet, the Welcome screen also offers **Bring in your projects**.
+
+| Choice | Effect |
+| --- | --- |
+| Make this my Node Banana folder | Uses this folder for new projects and unsaved generations; nothing moves |
+| Move them into the current folder | Moves the discovered project folders into the active Node Banana folder |
+| Leave them where they are | Adds projects to Open and Assets without moving them |
+
+**Open project** lists the projects the app knows about, including projects elsewhere.
+A custom parent directory remains available under **Settings → Project**.
+Project directories need absolute paths.
+
+## Trash, missing files, and permanent deletion
+
+Moving a result to **Trash** keeps it available for restoration for 30 days.
+A missing file still has a record with its prompt and settings under **Missing files**.
+Restore the original file location to make that media available again.
+
+Permanent deletion removes the library record and sends library files to your operating system's trash.
+You cannot undo that action within Node Banana.
+The confirmation has a separate checkbox for files inside project folders.
+If you leave it unchecked, those project files remain available to their workflows.
+
+Removing a missing-file record deletes its saved details without restoring its media.
+Read the confirmation before you remove records or project files.
+
+## Maintain the library
+
+**Settings → Storage** also provides cleanup for unused workflow data and the thumbnail cache.
+A thumbnail is the small preview shown in the library.
+Read each cleanup action's description before you run it.
+Use normal project saves as well as the generation snapshots.
+See [save troubleshooting](/guides/troubleshooting#save-or-recovery-errors) if a project cannot save.

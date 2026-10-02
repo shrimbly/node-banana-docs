@@ -19,7 +19,7 @@ Do not start a dev server or run browser tests from a linked worktree.
 ## Files
 
 - `pages/*.mdx`: introductory guides, canvas concepts, nodes, desktop, and changelog.
-- `pages/guides/*.mdx`: model, ComfyUI, workflow, and troubleshooting guides.
+- `pages/guides/*.mdx`: Agent, Assets, model, ComfyUI, workflow, and troubleshooting guides.
 - `pages/_meta.json` and `pages/guides/_meta.json`: sidebar titles and order.
 - `theme.config.tsx`: site theme and repository links.
 - `public/images/`: existing site images.
