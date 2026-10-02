@@ -14,6 +14,17 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ### Added
 
+- The Agent builds and edits workflows through Claude Code or Codex subscription sign-in.
+- Agent controls add model selection, thinking effort, queued messages, local conversation history, and saved model prompting tips.
+- Assets adds a shared generation library with workflow snapshots, filters, tags, favorites, missing-file records, and Trash.
+- Storage settings add the shared Node Banana folder, existing-project discovery, project moves, and cleanup.
+- The Run menu repeats a workflow, selection, or group 1–50 times and labels outputs by run.
+- Different nodes can run concurrently from their own Run buttons.
+- Desktop packages support update checks, downloads, skipped versions, and restart installation.
+- Mac release packaging supports signing and notarization; Windows release packaging remains unsigned.
+- Hidden-noodle stacks support shared labels, expansion, and navigation to the upstream end.
+- The media viewer supports history and gallery browsing, downloads, and reuse actions.
+- Shortcuts add Save, Run selected, Generate 3D, Output, and Assets.
 - The desktop preview adds encrypted credentials, environment imports, crash recovery, and Apple Silicon packaging. ([#160](https://github.com/shrimbly/node-banana/pull/160))
 - Windows x64 adds an unsigned installer, ZIP package, and window controls in the workflow tab strip. ([#171](https://github.com/shrimbly/node-banana/pull/171))
 - Desktop credential recovery can reset unreadable stored keys while preserving the original file. ([#171](https://github.com/shrimbly/node-banana/pull/171))
@@ -31,6 +42,15 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ### Changed
 
+- Auto-save follows edits and exposes Save automatically in Project settings. Cmd/Ctrl+S also saves during node text editing.
+- Array takes upstream text, expands items for reading, and labels noodles by item. Make Prompts replaces Auto-route to Prompts.
+- Repeated runs finish the current repetition on the first Stop; a second Stop stops immediately.
+- Comfy Cloud and hosted models share the key under Providers → ComfyUI.
+- Start with Agent replaces the Welcome screen's Prompt a workflow entry.
+- Agent changes use ordinary Undo instead of the old Revert AI changes menu command.
+- Model catalogs persist on the server, refresh in the background, and retain previous results after a provider refresh fails.
+- Model search adds explicit Replicate and fal.ai search beyond the loaded catalog.
+- Arrange nodes groups layout choices in the selection toolbar, and group menus use color swatches.
 - Nodes use a media card, border sockets, a history or scrub row, and collapsible controls. ([#149](https://github.com/shrimbly/node-banana/pull/149))
 - Node resizing changes width. Double-clicking a resize edge restores the default width. ([#149](https://github.com/shrimbly/node-banana/pull/149))
 - Workflow tabs, the floating Nb menu, and an icon action bar replace the old top layout. ([#153](https://github.com/shrimbly/node-banana/pull/153))
@@ -55,6 +75,21 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 ### Removed
 
 - The side ControlPanel, inline-parameters preference, aspect-fit resize gesture, and saved per-node heights are removed. ([#149](https://github.com/shrimbly/node-banana/pull/149))
+
+---
+
+## 1.10.0 — 2026-09-23
+
+### Added
+
+- ComfyUI joins the model providers through Comfy Router, with 19 image models and 19 video models.
+- Comfy Router models expose their parameters and image inputs in the model browser.
+- Comfy Router queues jobs and polls existing job IDs for long generations.
+
+### Changed
+
+- Asynchronous provider polling follows server retry hints, capped at 60 seconds and bounded by the overall timeout.
+- Comfy Router returns video results above 20 MB as URLs; images remain inline.
 
 ---
 

@@ -4,11 +4,13 @@ import { Callout } from 'nextra/components'
 
 The desktop preview runs Node Banana in an Electron window with a local server.
 The packaged preview supports Windows x64 and macOS on Apple Silicon.
-It is unsigned and does not include automatic updates.
+Windows builds are unsigned.
+Mac builds can be signed and notarized; default local packaging remains unsigned.
+Packaged apps support update checks and installation.
 
 <Callout type="info">
-  Desktop support is on `develop` after version 1.9.0.
-  These instructions describe the preview and source builds, not a download bundled with the 1.9.0 release.
+  These instructions describe desktop behavior in the checked `develop` source.
+  Available installers depend on the published release and its attached files.
 </Callout>
 
 ## Install a preview package
@@ -38,7 +40,7 @@ A DMG is a macOS disk image.
 1. Open the DMG and drag **Node Banana** into **Applications**.
 2. Alternatively, extract the ZIP and move the app into **Applications**.
 3. Open the installed app.
-4. If macOS blocks a trusted preview, use **System Settings → Privacy & Security → Open Anyway**.
+4. If macOS blocks a trusted unsigned preview, use **System Settings → Privacy & Security → Open Anyway**.
 5. Enter provider keys during setup or in **Settings → Providers**.
 
 ## Run from source
@@ -71,14 +73,41 @@ The Windows packaging check uses Windows 11 x64 with Node.js 23.
 npm run electron:package
 ```
 
+The default command creates unsigned packages.
+On macOS, `npm run electron:package -- --sign` enables signing and notarization with configured Apple credentials.
+The app repository's desktop preview guide describes the release credentials and publishing setup.
+
 The command writes these artifacts to `dist-electron/`:
 
 | Platform | Artifacts |
 | --- | --- |
-| Windows x64 | `.exe` installer, ZIP, and `win-unpacked/` app folder |
-| macOS on Apple Silicon | App, DMG, and ZIP |
+| Windows x64 | `.exe` installer, ZIP, updater manifest, blockmaps, and `win-unpacked/` app folder |
+| macOS on Apple Silicon | App, DMG, ZIP, updater manifest, and blockmaps |
 
 Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+
+## Update the app
+
+Packaged apps check for updates shortly after launch and every six hours.
+A failed background check retries after 30 minutes without interrupting your work.
+On macOS, **Help → Check for Updates…** also checks manually.
+The Windows menu remains hidden; use the update notice when it appears.
+
+1. If a newer version appears in the notice, select **Update** to download it.
+2. Wait for the download to finish.
+3. Save your work.
+4. Select **Restart to update**.
+
+The app does not download a release until you select Update.
+After download, quitting the app also installs the update.
+**Skip** suppresses that version until a manual check.
+Closing the notice hides it until the next check.
+If installation fails, the notice links to the release for a manual download.
+
+Mac updates require a signed build; an unsigned preview needs a manual installation.
+Windows updates run the downloaded installer silently.
+Development runs do not install updates.
+Profiles with `NODE_BANANA_ELECTRON_USER_DATA` set do not check automatically.
 
 ## Window controls
 
@@ -117,7 +146,10 @@ The import leaves the source file unchanged and keeps existing non-empty credent
 Imported credentials take effect immediately.
 Canceling the settings dialog does not undo the import.
 
-The import supports all seven [provider variables](/installation#add-provider-keys).
+The import supports the Gemini, OpenAI, Anthropic, Replicate, fal.ai, Kie.ai, and WaveSpeed provider variables.
+For the shared Comfy account key, use **Settings → Providers → ComfyUI**.
+The desktop importer treats `COMFY_API_KEY` as remote-server authentication.
+The browser server also uses that variable for Comfy Router, so these paths differ.
 It also supports these ComfyUI variables:
 
 | Purpose | Variables |
@@ -147,11 +179,14 @@ Recovery supplements normal saves.
 | --- | --- | --- |
 | Preferences, encrypted keys, recovery, and window state | `%APPDATA%\Node Banana\` | `~/Library/Application Support/Node Banana/` |
 | Writable server copies and caches | `%APPDATA%\Node Banana\runtimes\` | `~/Library/Application Support/Node Banana/runtimes/` |
-| Workflows and generated outputs | Your selected project folders | Your selected project folders |
+| Workflows and generated outputs | Shared Node Banana folder or custom project folders | Shared Node Banana folder or custom project folders |
+| Downloaded updates | `%LOCALAPPDATA%\node-banana-updater\` | `~/Library/Caches/node-banana-updater/` |
 | Desktop and server logs | `%APPDATA%\Node Banana\logs\` | **Help → Open Logs** |
 
 On Windows, you can also select **Open logs** in the disconnected-server banner.
 
+The profile also stores your skipped update version.
+[Assets and Storage](/guides/assets) explains the separate project and generation folders.
 Recovery content is private to your user account, but it is not encrypted.
 
 The local server uses `http://127.0.0.1:47831` and accepts authenticated desktop-session requests.
