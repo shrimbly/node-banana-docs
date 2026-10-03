@@ -1,0 +1,135 @@
+# Inputs and Prompts
+
+These nodes bring images, audio, video, and text into a workflow.
+A socket is an input or output point on a node.
+A noodle is a connection between compatible input and output sockets.
+
+## Image Input
+
+Load a source image or receive one from another node.
+
+**Inputs:** A local file or a reference image noodle.
+
+**Outputs:** One image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Image | PNG, JPEG, or WebP, up to 10 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
+
+### Tips
+
+- Reuse one image output across several generators.
+- Use the download button to save the current image.
+
+## Audio Input
+
+Load or preview an audio file.
+
+**Inputs:** A local audio file or an audio noodle.
+
+**Outputs:** One audio result.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Audio | Upload or drop an audio file, up to 50 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
+
+### Tips
+
+- Preview the audio before you connect it to a video model or Video Stitch.
+
+## Video Input
+
+Load a video for generation or processing.
+
+**Inputs:** A local video file or a video noodle.
+
+**Outputs:** One video.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Video | MP4, WebM, or MOV, up to 200 MB. |
+| Optional | Allows an empty input to skip its dependent branch. |
+
+### Tips
+
+- Use the preview and scrubber to inspect the clip.
+- Connect Frame Grab to extract a reference image.
+
+## Prompt
+
+Provide text for another node.
+
+**Inputs:** Typed text or a text noodle.
+
+**Outputs:** Prompt text.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Prompt | Text in the node or its larger editor. |
+| Variable name | A name that Prompt Constructor can reference. |
+| Optional | Allows an empty prompt to skip its dependent branch. |
+
+### Tips
+
+- Use a variable name such as subject for reusable prompt templates.
+- A connected text input updates the prompt.
+
+## Array
+
+Split text into items for separate branches or repeated generation.
+
+**Inputs:** Text from an upstream Prompt, LLM Generate, or another text node.
+
+**Outputs:** Text as the full JSON array, an item assigned to each noodle, or sequential batch items.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Split mode | Delimiter, Newline, or Regex. Regex means a regular expression, which is a text-matching pattern. |
+| Delimiter | The initial delimiter is *. |
+| Trim spaces / Drop empty | Clean parsed items. Both start enabled. |
+| Batch | Runs each item through a supported generator. Initially disabled. |
+| Item list | Click an item to expand or collapse its full text. |
+| Make Prompts | With Batch off, creates a wired Prompt node for each item. |
+
+### Tips
+
+- Batch supports Generate Image, Generate Video, Generate Audio, and LLM Generate.
+- Use Make Prompts for separate branches that you can edit.
+- New noodles cycle through the items and show **Array n** labels. Batch noodles show **All n**.
+- Clicking an item expands it; it does not choose the next noodle's item.
+
+## Prompt Constructor
+
+Build one prompt from named text values.
+
+**Inputs:** Text from connected Prompt nodes or other text sources.
+
+**Outputs:** The resolved prompt.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Template | Use @name to insert a named variable. |
+| Preview | Shows the resolved text and supports copying from the editor. |
+
+### Tips
+
+- Name a Prompt variable, connect it, then use its @name in the template.
+- Check unresolved variables before generation.
+
+## Next steps
+
+Continue to [Generation](/nodes/generation).

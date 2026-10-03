@@ -1,0 +1,116 @@
+# Image Processing
+
+These nodes edit, split, resize, or encode images.
+A socket is an input or output point on a node.
+
+## Annotation
+
+Draw instructions or marks over an image.
+
+**Inputs:** A connected image or an uploaded PNG, JPEG, or WebP file, up to 10 MB.
+
+**Outputs:** The image with your annotations.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Editor tools | Select, rectangle, circle, arrow, freehand, and text. |
+| Color and width | Eight colors and three stroke widths. |
+
+### Tips
+
+- Connect the result to Generate Image as a visual reference.
+- Without annotations, the source image passes through.
+
+## Split Grid
+
+Split an image into cells and create a node set for each cell.
+
+**Inputs:** One source image.
+
+**Outputs:** Cell images supplied to the generated per-cell node sets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Rows and columns | 1–16 on each axis. The initial grid is 2 rows × 3 columns. |
+| Slice lines | Drag boundaries to create unequal cells. |
+| Open cell editor | Edit the reusable node template for each cell. The initial template contains Image Input. |
+| Layout | Grid, vertical, or horizontal placement for the generated node sets. |
+| Shared Router | Template terminal outputs can feed one shared downstream Router. |
+| Split rows × columns now | Creates the cell groups and fills their base Image Input nodes. |
+
+### Tips
+
+- Build a processing chain once in the cell editor, which supports every node type.
+- With unchanged dimensions and template, another split preserves cell edits. A changed layout or template can rebuild the node sets.
+
+## Remove Background
+
+Remove an image background in the browser.
+
+**Inputs:** One image.
+
+**Outputs:** The image with its background removed.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Model | Fast, Balanced, or Quality. The default is Balanced. |
+
+### Tips
+
+- Start with Balanced. Use Fast or Quality to change the speed and quality tradeoff.
+
+## Image Resize
+
+Resize an image before another processing step.
+
+**Inputs:** One image.
+
+**Outputs:** One resized image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Mode | Exact dimensions, Max edge, or Scale %. |
+| Dimensions | Positive pixel dimensions. Scale accepts 1–400%. |
+| Exact fit | Contain, Cover, or Stretch. |
+| Format | Keep, PNG, JPEG, or WebP. |
+| Quality | 0.1–1 for JPEG and WebP. The default is 0.9. |
+
+### Tips
+
+- Use Max edge to preserve proportions. The longest output edge cannot exceed 8192 pixels.
+- The initial settings are Exact, 128×128, Contain, and PNG.
+
+## GIF Encoder
+
+Combine image frames into an animated GIF.
+
+**Inputs:** At least two ordered image frames.
+
+**Outputs:** An animated GIF through an image socket.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Frame order | Reorder the filmstrip before encoding. |
+| FPS | Frames per second, from 1 to 30. The default is 8. |
+| Colors | Palette size from 2 to 256. The default is 128. |
+| Dithering | Adds a pattern to approximate missing colors. Initially disabled. |
+| Target size | Optional size tuning. The default target is 128 KiB. |
+
+### Tips
+
+- Resize frames consistently first. The encoder caps the longest edge at 1024 pixels.
+- Target-size tuning can reduce colors, dimensions, and frame count. It does not guarantee the target size.
+
+## Next steps
+
+Continue to [Video Processing](/nodes/video-processing).

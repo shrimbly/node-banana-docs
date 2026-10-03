@@ -4,17 +4,18 @@ ComfyUI App runs a ComfyUI workflow as one Node Banana node.
 The imported workflow defines its inputs, settings, and outputs.
 A noodle is a connection between nodes.
 You can connect the ComfyUI App node to your canvas with typed noodles.
+A backend is the service that runs a ComfyUI workflow.
 
 ## One key for Cloud and hosted models
 
 Enter your Comfy account key under **Settings → Providers → ComfyUI**, then save the settings.
 It covers Comfy Cloud workflows, hosted models through Comfy Router, and partner nodes inside workflows.
 For hosted models, choose ComfyUI on Generate Image or Generate Video instead of importing a workflow.
+Reopen **Settings → ComfyUI** and choose **Comfy Cloud**, **This computer**, or **Remote**.
+Remote-server authentication stays with that backend.
 See the [hosted model catalog](/guides/models-pricing#comfyui-hosted-models).
 
 ## Choose a backend
-
-A backend is the service that runs the imported workflow.
 
 1. For Cloud, save the account key under **Settings → Providers → ComfyUI** first.
 2. Open **Nb → Project settings → ComfyUI**.
@@ -129,3 +130,8 @@ The original import file is not required to reopen that node.
 The selected backend still needs its models and custom nodes.
 
 For endpoint, key, and timeout errors, see [Troubleshooting](/guides/troubleshooting#comfyui-errors).
+
+## Next steps
+
+- [ComfyUI hosted models](/guides/models-pricing#comfyui-hosted-models) lists the hosted image and video models.
+- [ComfyUI errors](/guides/troubleshooting#comfyui-errors) covers endpoint, key, and timeout problems.

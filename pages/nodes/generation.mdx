@@ -1,0 +1,137 @@
+# Generation
+
+These nodes create images, video, audio, text, or 3D models from your inputs.
+A socket is an input or output point on a node.
+
+## Generate Image
+
+Generate or edit an image with the selected model.
+
+**Inputs:** Text and reference images, as supported by the selected model.
+
+**Outputs:** One generated image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Choose a model from the model browser. |
+| Aspect ratio and resolution | Available values depend on the model. |
+| Search | Google Search on direct Nano Banana Pro and Nano Banana 2. Image Search on Nano Banana 2. |
+| Model settings | Open the controls card for settings supplied by the selected model. |
+| Fallback | An alternative model and its own settings for an automatic retry. |
+
+### Tips
+
+- Use the [model tables](/guides/models-pricing) to check provider-specific settings.
+- Use the node history to compare earlier results.
+
+## Generate Video
+
+Generate, edit, or extend video with a selected model.
+
+**Inputs:** Text, images, video, or audio through the model-specific sockets.
+
+**Outputs:** One video.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Select a video model to expose its sockets. |
+| Model settings | Duration, aspect ratio, resolution, and other fields depend on the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- For Seedance 2 I2V, use First/Last Frame or Reference Images, not both modes together.
+- Seedance reference limits are nine images, three videos, and three audio inputs.
+
+## Generate Audio
+
+Generate speech, sound effects, or other audio from a selected model.
+
+**Inputs:** Text by default, with extra sockets where the model defines them.
+
+**Outputs:** One audio result.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Choose an audio model from Kie.ai, fal.ai, Replicate, or another discovered provider. |
+| Model settings | Voice, format, and other fields depend on the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Use Array batch mode for a list of speech prompts.
+- Send the result to Output or Video Stitch.
+
+## LLM Generate
+
+Use a large language model (LLM) to generate text or describe an image.
+
+**Inputs:** Text and optional images.
+
+**Outputs:** Generated text.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Google, OpenAI, or Anthropic. See the [current catalog](/guides/models-pricing#text-models). |
+| Temperature | Controls variation. Range 0–1 for Anthropic, or 0–2 for Google and OpenAI. |
+| Max tokens | Limits output length from 256 to 16,384 tokens. Tokens are units of text used by the model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Send generated lists to Array for batch prompts.
+- A retired saved model ID triggers a replacement note.
+
+## Generate 3D
+
+Generate a 3D model from text or an image.
+
+**Inputs:** Text or images through model-specific sockets.
+
+**Outputs:** A 3D model.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Provider and model | Select a compatible Replicate, fal.ai, or WaveSpeed model. |
+| Model settings | Fields depend on the selected model. |
+| Fallback | An alternative model and settings for a retry. |
+
+### Tips
+
+- Connect the 3D output to 3D Viewer to inspect it and capture an image.
+- Generate 3D does not use Array batch mode.
+
+## ComfyUI App
+
+Run an imported ComfyUI workflow as one node.
+
+**Inputs:** Typed sockets selected from the imported workflow. An empty node has no sockets.
+
+**Outputs:** Selected workflow results, including image, text, video, audio, or 3D data.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Workflow | Attach an editor save, API export, Blueprint, or saved node. |
+| Exposed controls | Choose inputs, settings, and outputs in the import or edit dialog. |
+| Backend | Set Comfy Cloud, This computer, or Remote in Settings → ComfyUI. |
+
+### Tips
+
+- Use [saved nodes](/guides/comfyui#save-and-reuse-a-configured-node) to reuse an attached workflow and its values.
+- The [ComfyUI guide](/guides/comfyui) covers setup, formats, previews, and the curve editor.
+
+## Next steps
+
+Continue to [Image Processing](/nodes/image-processing).

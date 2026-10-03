@@ -1,8 +1,10 @@
 {
-  "ai-quickstart": "AI Quickstart & Agent",
-  "assets": "Assets & Storage",
+  "templates": "Templates",
+  "agent": "Agent",
+  "assets": "Assets and Storage",
   "comfyui": "ComfyUI",
-  "models-pricing": "Models & Pricing",
+  "models-pricing": "Models and Pricing",
   "best-practices": "Best Practices",
+  "desktop": "Desktop App",
   "troubleshooting": "Troubleshooting"
 }

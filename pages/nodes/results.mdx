@@ -1,0 +1,90 @@
+# Results
+
+These nodes collect, compare, and show workflow results.
+A socket is an input or output point on a node.
+A noodle is a connection between compatible input and output sockets.
+
+## Output
+
+Show and save a final media result.
+
+**Inputs:** Image, video, or audio.
+
+**Outputs:** No output sockets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Output filename | Custom name for the saved or downloaded result. |
+
+### Tips
+
+- With a project directory, execution saves output files in outputs/.
+- Video nodes already play inline, so Output is optional for preview.
+
+## Output Gallery
+
+Collect image and video results in one place.
+
+**Inputs:** Images and videos from connected nodes.
+
+**Outputs:** No output sockets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Gallery | Shows collected results, with the newest first. |
+| Extract | Creates input nodes from gallery items. |
+| Item actions | Open the shared viewer, add to graph, download, remove, or open in Assets. |
+
+### Tips
+
+- Connect batch generators to collect their results.
+- Use Extract to reuse gallery media elsewhere on the canvas.
+- In the viewer, press `Enter` for Add to graph or `D` for Download.
+- Use the arrow keys to browse results. Add to graph reuses one item; Extract handles the gallery.
+
+## Image Compare
+
+Compare two images with a movable divider.
+
+**Inputs:** The first two images connected to its image input.
+
+**Outputs:** No output sockets.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Divider | Drag the slider to reveal each image. |
+
+### Tips
+
+- Connect an original image and its edited result to compare them.
+
+## 3D Viewer
+
+Inspect a GLB file and capture a view as an image.
+
+**Inputs:** A 3D model noodle or a local .glb file up to 100 MB.
+
+**Outputs:** A captured PNG image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| View | Orbit the model to choose the camera angle. |
+| Auto-rotate | Rotate the model automatically. |
+| Capture | Capture the current view as an image. |
+
+### Tips
+
+- GLB is a binary file format for 3D scenes.
+- Before you use the image output in another node, select Capture.
+
+## Next steps
+
+See [Best Practices](/guides/best-practices) for ways to build, reuse, and scale workflows.

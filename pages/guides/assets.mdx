@@ -29,23 +29,7 @@ Tags and favorites help you collect results without moving their files.
 Available actions depend on the result's recorded origin and files.
 Opening a snapshot does not repeat generation requests.
 Check models, keys, and inputs before you run it again.
-
-## Assets keyboard shortcuts
-
-These shortcuts apply in Assets, outside text fields.
-
-| Shortcut | Action |
-| --- | --- |
-| `←` / `→` / `↑` / `↓` | Move between assets |
-| `Enter` | Open the asset |
-| `←` / `→` with an asset open | Previous or next asset |
-| `Space` | Select the asset |
-| `Cmd/Ctrl + A` | Select all loaded assets |
-| `Delete` | Trash selected assets; in Trash or Missing files, open the deletion or removal confirmation |
-| `Cmd/Ctrl + Z` | Undo the last asset action |
-| `Cmd/Ctrl + C` with an asset open | Copy its prompt |
-| `F` with an asset open | Full screen |
-| `Esc` | Close, clear selection, or return to the canvas |
+For Assets keyboard shortcuts, see [Keyboard Shortcuts](/keyboard-shortcuts#assets).
 
 ## Choose the Node Banana folder
 
@@ -60,7 +44,7 @@ It also falls back to that location if the Documents default is not writable.
 `NODE_BANANA_ASSET_LIBRARY` can override the location for a source installation.
 
 The shared folder is separate from the desktop profile that holds preferences and encrypted keys.
-See [Desktop app](/desktop#data-and-diagnostics) for profile locations.
+See [Desktop app](/guides/desktop#data-and-diagnostics) for profile locations.
 
 ### Change the folder
 
@@ -77,6 +61,29 @@ See [Desktop app](/desktop#data-and-diagnostics) for profile locations.
 The move checks for conflicts and folders that contain unrelated files.
 If a move is refused, read the report before you change or delete anything.
 Keep the original files until the app reports a successful move.
+
+## Project files and auto-save
+
+Your workflows are JSON files that store the canvas and node settings.
+JSON is a text format for structured data.
+Media can live beside the workflow file or inside it.
+
+Auto-save is enabled by default under **Settings → Project → Save automatically**.
+After the first save, it waits about three seconds after your last edit.
+During continuous edits, it attempts a save within 30 seconds of the first edit.
+That limit waits while a run, another save, or a media write is active.
+Leaving the window or hiding its tab also requests a save.
+If saving fails repeatedly, the app backs off and shows an error.
+Use `Cmd/Ctrl + S` to save important changes and inspect any error.
+
+New projects default to the shared Node Banana folder.
+The Project tab controls whether images use external files or embedded base64 data.
+Base64 encodes binary media as text and makes the workflow file larger.
+External media lives beside the workflow, including the `generations/` and `outputs/` folders.
+Keep these folders together when you move a project.
+
+Workflow tabs track separate canvases and warn about unsaved changes before discard.
+The [desktop app](/guides/desktop) also keeps crash-recovery checkpoints.
 
 ## Bring in existing projects
 
@@ -119,3 +126,8 @@ A thumbnail is the small preview shown in the library.
 Read each cleanup action's description before you run it.
 Use normal project saves as well as the generation snapshots.
 See [save troubleshooting](/guides/troubleshooting#save-or-recovery-errors) if a project cannot save.
+
+## Next steps
+
+- [Data and diagnostics](/guides/desktop#data-and-diagnostics) lists the desktop profile and log locations.
+- [Missing assets or projects](/guides/troubleshooting#missing-assets-or-projects) helps you find absent results and projects.

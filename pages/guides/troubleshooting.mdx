@@ -1,5 +1,34 @@
 # Troubleshooting
 
+## Quick triage
+
+| Symptom | Go to |
+| --- | --- |
+| Installation fails or a port is in use | [Installation or port errors](#installation-or-port-errors) |
+| A provider rejects or lacks a key | [Missing or invalid provider key](#missing-or-invalid-provider-key) |
+| The Agent cannot sign in, or Claude Code or Codex is not installed | [Agent sign-in or installation errors](#agent-sign-in-or-installation-errors) |
+| Two nodes do not connect | [A noodle does not connect](#a-noodle-does-not-connect) |
+| A node does not run | [A node skips execution](#a-node-skips-execution) |
+| A generation fails or takes a long time | [Generation errors or delays](#generation-errors-or-delays) |
+| A saved LLM model changes on load | [An old LLM model changes](#an-old-llm-model-changes) |
+| A video does not play or encode | [Video or media preview errors](#video-or-media-preview-errors) |
+| A ComfyUI import or run fails | [ComfyUI errors](#comfyui-errors) |
+| A project does not save or recover | [Save or recovery errors](#save-or-recovery-errors) |
+| A result or project is missing | [Missing assets or projects](#missing-assets-or-projects) |
+| A desktop update fails | [Desktop update errors](#desktop-update-errors) |
+| Nodes are off screen, or you need to report an error | [Find nodes and report an error](#find-nodes-and-report-an-error) |
+
+## Installation or port errors
+
+If installation fails, check your Node version and the package manager's error message.
+The source-install guide uses Node.js 22.12 or newer.
+Run `npm ci` with the repository's existing lockfile.
+
+If browser port 3000 is occupied, start the app with another `PORT` value.
+See the [installation commands](/installation#install-from-source).
+The desktop app uses port 47831 instead.
+Its conflict dialog offers **Retry**, **Open Logs**, and **Quit**.
+
 ## Missing or invalid provider key
 
 1. Open **Nb → Project settings → Providers**.
@@ -7,7 +36,7 @@
 3. Save the settings and retry the node.
 
 Browser-entered keys override environment keys.
-If you use `.env.local`, use the exact variable names from [installation](/installation#add-provider-keys).
+If you use `.env.local`, use the exact variable names from [Models and Pricing](/guides/models-pricing#providers).
 For Replicate and fal.ai, those names are `REPLICATE_API_KEY` and `FAL_API_KEY`.
 Restart the browser server after environment-file changes.
 
@@ -28,18 +57,16 @@ Provider keys enable generation nodes, not Agent access.
 Claude Code needs a paid Claude subscription; Codex needs a ChatGPT plan with Codex access.
 If a turn stops or fails, queued messages wait for **Send now**.
 Closing the Agent window does not stop its turn.
-See [AI Quickstart and Agent](/guides/ai-quickstart) for setup and controls.
+See [Agent](/guides/agent) for setup and controls.
 
-## Installation or port errors
+## A noodle does not connect
 
-If installation fails, check your Node version and the package manager's error message.
-The source-install guide uses Node.js 22.12 or newer.
-Run `npm ci` with the repository's existing lockfile.
+1. Check the data type on both socket labels.
+2. Select a model that accepts the available input.
+3. Drag the noodle to its matching socket.
 
-If browser port 3000 is occupied, start the app with another `PORT` value.
-See the [installation commands](/installation#install-from-source).
-The desktop app uses port 47831 instead.
-Its conflict dialog offers **Retry**, **Open Logs**, and **Quit**.
+Some model choices change the available sockets.
+You can also drag a noodle to empty canvas space and choose a compatible node.
 
 ## A node skips execution
 
@@ -53,15 +80,6 @@ Missing inputs skip a node instead of disabling Run.
 An empty optional input also skips downstream nodes that depend on it.
 Hidden noodles still carry data.
 A pause noodle stops execution until you select **Run** again.
-
-## A noodle does not connect
-
-1. Check the data type on both socket labels.
-2. Select a model that accepts the available input.
-3. Drag the noodle to its matching socket.
-
-Some model choices change the available sockets.
-You can also drag a noodle to empty canvas space and choose a compatible node.
 
 ## Generation errors or delays
 
@@ -94,12 +112,7 @@ An Output node is not required for playback.
 Video Trim, Video Stitch, and Ease Curve require browser encoding support.
 If encoding reports unsupported capabilities, use the error text to identify the unavailable codec or API.
 
-| Input | Accepted upload and limit |
-| --- | --- |
-| Image Input | PNG, JPEG, or WebP, up to 10 MB |
-| Audio Input | Audio files, up to 50 MB |
-| Video Input | MP4, WebM, or MOV, up to 200 MB |
-| 3D Viewer | GLB, up to 100 MB |
+For accepted upload types and sizes, see [Upload limits](/nodes#upload-limits).
 
 If external media is missing after load, restore the project media folders to their saved location.
 
@@ -130,9 +143,7 @@ See the [ComfyUI guide](/guides/comfyui) for formats, Blueprints, and previews.
 Save the project once before you rely on auto-save.
 Its directory must remain writable.
 Check **Settings → Project → Save automatically**.
-Auto-save normally waits about three seconds after edits.
-It waits during runs, concurrent saves, and media writes.
-If repeated saves fail, it backs off and reports the error.
+For auto-save timing, see [Project files and auto-save](/guides/assets#project-files-and-auto-save).
 
 1. Open **Settings → Project**.
 2. Check the project name, location, and Save automatically switch.
@@ -149,7 +160,7 @@ If Windows credentials become unreadable, the app offers **Reset stored keys**.
 Reset preserves the unreadable file and starts an empty store.
 Enter your keys again after reset.
 You can also choose **Use for this session only**.
-See [Desktop app](/desktop) for logs, profile paths, and environment imports.
+See [Desktop app](/guides/desktop) for logs, profile paths, and environment imports.
 
 ## Missing assets or projects
 
@@ -170,7 +181,7 @@ An unsigned Mac preview cannot update in place.
 Development runs do not install updates, and isolated test profiles do not check automatically.
 A downloaded update installs on restart or the next normal quit.
 Save your work before either action.
-See [Desktop updates](/desktop#update-the-app).
+See [Desktop updates](/guides/desktop#update-the-app).
 
 ## Find nodes and report an error
 

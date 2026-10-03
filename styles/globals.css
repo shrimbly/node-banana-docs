@@ -1,0 +1,228 @@
+/* Node Banana docs theme.
+   A light touch on Nextra 2.13.4: fonts, palette and small details borrowed from
+   the Node Banana site (site/src/styles/global.css on develop). The Nextra layout
+   is unchanged.
+
+   Specificity note: Nextra wraps its dark rules in `:is(html[class~=dark] ...)`, so
+   `dark:` utilities are (0,2,1) and its dark body rule is (0,1,2). Nextra's page CSS
+   loads after this file, so a tie loses. Dark overrides use the `html.dark:root`
+   prefix (0,2,1) to win on specificity. `html:root` alone is only (0,1,1). */
+
+:root {
+  --nb-font-display: "Space Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --nb-font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --nb-font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nb-ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --nb-radius-card: 12px;
+  --nb-radius-media: 8px;
+  --nb-radius-ui: 4px;
+
+  /* Light palette (derived from the site's dark tokens) */
+  --nb-ground: #fafafa;
+  --nb-card: #f5f5f5;
+  --nb-well: #f0f0f0;
+  --nb-border: #e5e5e5;
+  --nb-rule: #ececec;
+  --nb-ink: #171717;
+  --nb-ink-2: #525252;
+  --nb-ink-3: #6b6b6b; /* 4.8:1 on Nextra's light footer, #f3f4f6 */
+  --nb-selection: #3b82f6;
+}
+
+html.dark {
+  /* Dark palette (the site's own tokens) */
+  --nb-ground: #0a0a0a;
+  --nb-card: #171717;
+  --nb-well: #1a1a1a;
+  --nb-border: #404040;
+  --nb-rule: #262626;
+  --nb-ink: #e5e5e5;
+  --nb-ink-2: #a3a3a3;
+  --nb-ink-3: #8a8a8a;
+  --nb-selection: #3b82f6;
+}
+
+/* Body prose stays on the system UI stack, as in the app. */
+html:root {
+  font-family: var(--nb-font-ui);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Dark surfaces: the app's ground instead of Nextra's #111. */
+html.dark:root body {
+  background-color: var(--nb-ground);
+}
+html.dark:root body .dark\:nx-bg-dark {
+  background-color: var(--nb-ground);
+}
+html.dark:root .nextra-nav-container-blur {
+  background-color: rgb(10 10 10 / 0.8) !important;
+}
+html.dark:root .nextra-toc .nx-bottom-0,
+html.dark:root .nextra-sidebar-container .nx-bottom-0 {
+  box-shadow: 0 -12px 16px var(--nb-ground);
+}
+
+::selection {
+  background: rgb(59 130 246 / 0.3);
+}
+
+:focus-visible {
+  outline: 2px solid var(--nb-selection);
+  outline-offset: 2px;
+  border-radius: var(--nb-radius-ui);
+}
+
+/* Logo and wordmark */
+.nb-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nb-wordmark {
+  font-family: var(--nb-font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Headings */
+html:root .nextra-content :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--nb-font-display);
+  color: var(--nb-ink);
+}
+html:root .nextra-content h1 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+html:root .nextra-content h2 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  border-color: var(--nb-rule);
+}
+html:root .nextra-content :is(h3, h4, h5, h6) {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Code */
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--nb-font-mono);
+}
+html:root .nextra-content :not(pre) > code {
+  background: var(--nb-well);
+  border: 1px solid var(--nb-border);
+  border-radius: var(--nb-radius-ui);
+  padding: 0.1em 0.35em;
+  font-size: 0.875em;
+}
+html:root .nextra-content .nextra-code-block pre {
+  background: var(--nb-card) !important;
+  border: 1px solid var(--nb-border);
+  border-radius: var(--nb-radius-card);
+}
+
+/* Keyboard caps, after the app's .kcap */
+.nextra-content kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  min-width: 20px;
+  padding: 0 5px;
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: var(--nb-radius-ui);
+  background: rgb(0 0 0 / 0.05);
+  color: var(--nb-ink);
+  font-family: var(--nb-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: middle;
+}
+html.dark .nextra-content kbd {
+  border-color: rgb(255 255 255 / 0.08);
+  background: rgb(255 255 255 / 0.08);
+  color: #d4d4d4;
+}
+
+/* Tables */
+html:root .nextra-content table :is(tr, th, td) {
+  border-color: var(--nb-border);
+}
+html:root .nextra-content table th {
+  font-family: var(--nb-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nb-ink-2);
+}
+
+/* Cards, callouts and images */
+html:root .nextra-cards .nextra-card {
+  border-radius: var(--nb-radius-card);
+  border-color: var(--nb-border);
+  transition: border-color 150ms var(--nb-ease-out), background-color 150ms var(--nb-ease-out);
+}
+html:root .nextra-cards .nextra-card:hover {
+  border-color: var(--nb-selection);
+}
+html:root .nextra-card > span {
+  font-family: var(--nb-font-display);
+}
+html:root .nextra-callout {
+  border-radius: var(--nb-radius-media);
+}
+.nextra-content img {
+  border-radius: var(--nb-radius-media);
+}
+
+/* Labels: sidebar separators and the table-of-contents title */
+html:root .nextra-sidebar-container li.nx-mt-5,
+html:root .nextra-toc p.nx-font-semibold {
+  font-family: var(--nb-font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nb-ink-3);
+}
+
+/* Footer */
+.nb-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--nb-font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nb-ink-3);
+}
+.nb-footer p {
+  margin: 0;
+}
+.nb-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.nb-footer a {
+  color: var(--nb-ink-2);
+  transition: color 150ms var(--nb-ease-out);
+}
+.nb-footer a:hover {
+  color: var(--nb-ink);
+}

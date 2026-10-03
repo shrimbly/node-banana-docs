@@ -3,4 +3,12 @@ const withNextra = require('nextra')({
   themeConfig: './theme.config.tsx',
 })
 
-module.exports = withNextra()
+module.exports = withNextra({
+  async redirects() {
+    return [
+      { source: '/introduction', destination: '/core-concepts', permanent: true },
+      { source: '/desktop', destination: '/guides/desktop', permanent: true },
+      { source: '/guides/ai-quickstart', destination: '/guides/agent', permanent: true },
+    ]
+  },
+})

@@ -1,11 +1,19 @@
 {
   "index": "Home",
-  "introduction": "Introduction",
-  "installation": "Installation",
-  "desktop": "Desktop App",
-  "first-workflow": "First Workflow",
+  "-- get-started": { "type": "separator", "title": "Get started" },
+  "installation": "Install Node Banana",
+  "first-workflow": "Your First Workflow",
   "core-concepts": "Core Concepts",
+  "-- go-further": { "type": "separator", "title": "Go further" },
+  "guides": { "title": "Guides", "theme": { "collapsed": false } },
+  "-- reference": { "type": "separator", "title": "Reference" },
   "nodes": "Nodes",
-  "guides": "Guides",
-  "changelog": "Changelog"
+  "settings": "Settings",
+  "keyboard-shortcuts": "Keyboard Shortcuts",
+  "glossary": "Glossary",
+  "changelog": "Changelog",
+  "nav-start": { "title": "Get started", "type": "page", "href": "/installation" },
+  "nav-nodes": { "title": "Nodes", "type": "page", "href": "/nodes" },
+  "nav-shortcuts": { "title": "Shortcuts", "type": "page", "href": "/keyboard-shortcuts" },
+  "nav-changelog": { "title": "Changelog", "type": "page", "href": "/changelog" }
 }

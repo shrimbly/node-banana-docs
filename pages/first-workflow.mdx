@@ -9,14 +9,26 @@ You need a provider key from [installation](/installation).
 | --- | --- |
 | New project | Project name and storage settings |
 | Open project | Known projects, including projects in other folders |
-| Templates | Built-in templates and community workflows |
-| Start with Agent | Claude Code or Codex setup and an Agent conversation |
+| [Templates](/guides/templates) | Built-in templates and community workflows |
+| [Start with Agent](/guides/agent) | Claude Code or Codex setup and an Agent conversation |
 | Bring in your projects, when no projects are known | Search for existing projects and choose whether to move them |
 
 To reopen this screen, select **Nb → Welcome screen**.
+The first-run setup includes provider keys, model defaults, and an interactive tutorial.
 During first-run setup, **Start tutorial** offers a guided demonstration with simulated execution.
-For this example, choose **New project** and enter its name.
-The default location is your [Node Banana folder](/guides/assets#choose-the-node-banana-folder).
+The tutorial uses simulated execution, so its demonstration does not submit real generation requests.
+To bring in projects from an older installation, see [Bring in existing projects](/guides/assets#bring-in-existing-projects).
+
+For this example, create a new project.
+
+1. Select **New project** on the Welcome screen.
+2. Enter a project name and keep the default location, or choose a custom parent directory.
+3. Save the project settings.
+
+New projects default to the shared Node Banana folder.
+The app creates a project subfolder there, or inside your custom parent directory.
+A custom directory must use an absolute path.
+See [Choose the Node Banana folder](/guides/assets#choose-the-node-banana-folder) to change the default folder.
 
 ## Add three nodes
 
@@ -79,16 +91,13 @@ Defaults apply to new nodes, so existing nodes keep their own settings.
 2. To reopen a workflow, select **Nb → Open project…**.
 3. Choose the saved workflow in the browser.
 
-After the first save, auto-save waits about three seconds after your edits.
-It waits while a run, another save, or a media write is active.
-You can change **Save automatically** under **Settings → Project**.
 Keep the project directory and its media subfolders together.
+Auto-save starts after the first save.
+See [Project files and auto-save](/guides/assets#project-files-and-auto-save).
 
-## Try an example
+## Next steps
 
-The app repository includes `examples/kitchen-sink.json` and `examples/Seedance-2-Parametric-Prompt.json`.
-You can drag an example JSON file onto the canvas.
-A Node Banana workflow file replaces the current canvas, so save your work first.
-Check each example's prompts, models, keys, and media before you run it.
-
-For reusable starters, continue with [AI Quickstart](/guides/ai-quickstart).
+- Learn how data moves through a workflow in [Core Concepts](/core-concepts).
+- Start from a ready-made workflow, including example files, in [Templates](/guides/templates).
+- Build and edit workflows by conversation with the [Agent](/guides/agent).
+- Look up every node's inputs, outputs, and settings in [Nodes](/nodes).

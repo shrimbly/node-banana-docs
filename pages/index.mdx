@@ -15,11 +15,29 @@ You connect nodes to load media, build prompts, call models, and process results
   See the [changelog](/changelog) for release boundaries.
 </Callout>
 
+## How it works
+
+A workflow is a set of nodes on a canvas.
+Each node does one task, such as generating an image or trimming a video.
+A socket is an input or output point on a node.
+A noodle connects an output socket on one node to an input socket on another.
+The app runs each node after its inputs are ready.
+See [Follow the data](/core-concepts#follow-the-data) for an example.
+
 ## Start here
 
-1. [Install Node Banana](/installation) and add your provider keys.
-2. [Create your first workflow](/first-workflow), or use the built-in tutorial.
-3. Learn the [canvas, noodles, and execution controls](/core-concepts).
+1. [Install Node Banana](/installation) and [add your provider keys](/installation#add-provider-keys).
+2. [Build your first workflow](/first-workflow), or [start from a template](/guides/templates).
+3. [Learn the canvas](/core-concepts).
+
+## Choose your path
+
+<Cards>
+  <Card title="Build it yourself" href="/first-workflow" arrow />
+  <Card title="Start from a template" href="/guides/templates" arrow />
+  <Card title="Ask the Agent" href="/guides/agent" arrow />
+  <Card title="Browse all 28 nodes" href="/nodes" arrow />
+</Cards>
 
 ## What you can build
 
@@ -27,19 +45,16 @@ You connect nodes to load media, build prompts, call models, and process results
 | --- | --- |
 | Load, generate, edit, and compare media | [All 28 nodes](/nodes) |
 | Choose image, video, audio, text, and 3D models | [Models and pricing](/guides/models-pricing) |
-| Start from a template or work with the Agent | [AI Quickstart and Agent](/guides/ai-quickstart) |
+| Start from a template | [Templates](/guides/templates) |
+| Work with the Agent | [Agent](/guides/agent) |
 | Find generations and manage project folders | [Assets and Storage](/guides/assets) |
 | Run a ComfyUI workflow inside a node | [ComfyUI](/guides/comfyui) |
-| Use the Windows or macOS preview | [Desktop app](/desktop) |
+| Use the Windows or macOS preview | [Install](/installation#install-the-desktop-app) and [Desktop app](/guides/desktop) |
 | Build batches and reusable workflows | [Best practices](/guides/best-practices) |
+| Look up shortcuts and settings | [Keyboard shortcuts](/keyboard-shortcuts) and [Settings](/settings) |
 
-## Reference
-
-<Cards>
-  <Card title="Introduction" href="/introduction" />
-  <Card title="Core Concepts" href="/core-concepts" />
-  <Card title="Node Reference" href="/nodes" />
-  <Card title="Troubleshooting" href="/guides/troubleshooting" />
-</Cards>
+## Get help
 
 For help, use [Discord](https://discord.com/invite/89Nr6EKkTf) or [report an app error](https://github.com/shrimbly/node-banana/issues).
+For common problems, see [Troubleshooting](/guides/troubleshooting).
+See the [changelog](/changelog) for release changes.

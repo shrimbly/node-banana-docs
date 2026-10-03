@@ -3,9 +3,6 @@
 import { Callout } from 'nextra/components'
 
 The desktop preview runs Node Banana in an Electron window with a local server.
-The packaged preview supports Windows x64 and macOS on Apple Silicon.
-Windows builds are unsigned.
-Mac builds can be signed and notarized; default local packaging remains unsigned.
 Packaged apps support update checks and installation.
 
 <Callout type="info">
@@ -13,78 +10,7 @@ Packaged apps support update checks and installation.
   Available installers depend on the published release and its attached files.
 </Callout>
 
-## Install a preview package
-
-A ZIP is a compressed archive.
-Preview packages include the local server, so you do not need Node.js, npm, or the app repository.
-
-### Windows x64
-
-Windows packages include an `.exe` installer and a ZIP.
-The preview is verified on Windows 11 x64.
-
-1. Open the preview `.exe` installer.
-2. Choose the installation folder, or keep the default.
-3. Open **Node Banana**.
-4. Enter provider keys during setup or in **Settings → Providers**.
-
-The installer installs for your Windows account without administrator access.
-Its default folder is `%LOCALAPPDATA%\Programs\Node Banana\`.
-You can also extract the ZIP and open the app inside it.
-The unsigned installer can trigger a Windows SmartScreen warning.
-
-### macOS on Apple Silicon
-
-A DMG is a macOS disk image.
-
-1. Open the DMG and drag **Node Banana** into **Applications**.
-2. Alternatively, extract the ZIP and move the app into **Applications**.
-3. Open the installed app.
-4. If macOS blocks a trusted unsigned preview, use **System Settings → Privacy & Security → Open Anyway**.
-5. Enter provider keys during setup or in **Settings → Providers**.
-
-## Run from source
-
-Use Node.js 22.12 or newer in an app checkout on `develop`.
-
-```bash
-npm ci
-npm run electron:dev
-```
-
-The command starts both the desktop window and its local server.
-UI edits reload automatically.
-After changes inside `electron/`, restart the command.
-
-For a local production build:
-
-```bash
-npm run build
-npm run electron:start
-```
-
-### Build preview packages
-
-Run packaging on the target platform: Windows x64 or an Apple Silicon Mac.
-On Windows, install ImageMagick 7 and make its `magick` command available on your `PATH`.
-The Windows packaging check uses Windows 11 x64 with Node.js 23.
-
-```bash
-npm run electron:package
-```
-
-The default command creates unsigned packages.
-On macOS, `npm run electron:package -- --sign` enables signing and notarization with configured Apple credentials.
-The app repository's desktop preview guide describes the release credentials and publishing setup.
-
-The command writes these artifacts to `dist-electron/`:
-
-| Platform | Artifacts |
-| --- | --- |
-| Windows x64 | `.exe` installer, ZIP, updater manifest, blockmaps, and `win-unpacked/` app folder |
-| macOS on Apple Silicon | App, DMG, ZIP, updater manifest, and blockmaps |
-
-Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+To install the app, see [Install the desktop app](/installation#install-the-desktop-app).
 
 ## Update the app
 
@@ -200,3 +126,52 @@ For development, `NODE_BANANA_ELECTRON_PORT` changes the port.
 Each port has separate browser-origin storage.
 `NODE_BANANA_ELECTRON_USER_DATA` selects an alternative absolute profile directory.
 Keep the defaults for ordinary use.
+
+## Run from source
+
+This section is for contributors who build the app.
+Use Node.js 22.12 or newer in an app checkout on `develop`.
+
+```bash
+npm ci
+npm run electron:dev
+```
+
+The command starts both the desktop window and its local server.
+UI edits reload automatically.
+After changes inside `electron/`, restart the command.
+
+For a local production build:
+
+```bash
+npm run build
+npm run electron:start
+```
+
+### Build preview packages
+
+Run packaging on the target platform: Windows x64 or an Apple Silicon Mac.
+On Windows, install ImageMagick 7 and make its `magick` command available on your `PATH`.
+The Windows packaging check uses Windows 11 x64 with Node.js 23.
+
+```bash
+npm run electron:package
+```
+
+The default command creates unsigned packages.
+On macOS, `npm run electron:package -- --sign` enables signing and notarization with configured Apple credentials.
+The app repository's desktop preview guide describes the release credentials and publishing setup.
+
+The command writes these artifacts to `dist-electron/`:
+
+| Platform | Artifacts |
+| --- | --- |
+| Windows x64 | `.exe` installer, ZIP, updater manifest, blockmaps, and `win-unpacked/` app folder |
+| macOS on Apple Silicon | App, DMG, ZIP, updater manifest, and blockmaps |
+
+Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+
+## Next steps
+
+- If an update fails, see [Desktop update errors](/guides/troubleshooting#desktop-update-errors).
+- To manage project and generation folders, see [Assets and Storage](/guides/assets).

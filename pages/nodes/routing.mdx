@@ -1,0 +1,68 @@
+# Routing
+
+These nodes send data down different branches of a workflow.
+A socket is an input or output point on a node.
+A noodle is a connection between compatible input and output sockets.
+
+## Router
+
+Pass inputs onward without generation or processing.
+
+**Inputs:** Image, text, video, audio, 3D, or ease-curve data.
+
+**Outputs:** The same data types.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Typed lanes | The initial Any socket expands into lanes for connected data types. |
+
+### Tips
+
+- Use a Router to share a source across branches.
+- Use a noodle bundle when you only want to change how the lines look.
+
+## Switch
+
+Enable or disable named output branches.
+
+**Inputs:** One dynamically typed input.
+
+**Outputs:** The same data through enabled outputs.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Outputs | Add and rename output branches. |
+| Enabled | Toggle each output. The initial Output 1 is enabled. |
+
+### Tips
+
+- Disable a branch without deleting its noodles.
+
+## Conditional Switch
+
+Route text to every rule that matches it.
+
+**Inputs:** Text.
+
+**Outputs:** Text through matching rule outputs, or Fallback when no rule matches.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Rule type | Exact, Contains, Starts with, or Ends with. |
+| Rule values | Comma-separated alternatives. Matching ignores case and trims text. |
+| Evaluation pause | Pause to inspect the rule result. |
+
+### Tips
+
+- Several rules can match the same text.
+- Connect Fallback to handle unmatched text.
+
+## Next steps
+
+Continue to [Results](/nodes/results).

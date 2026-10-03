@@ -1,8 +1,21 @@
 # Core Concepts
 
-A workflow contains nodes and noodles.
-A noodle is a connection that carries data between node sockets.
-The [node reference](/nodes) lists all 28 node types.
+This page explains how data moves through a workflow and how you work on the canvas.
+
+## Follow the data
+
+Node Banana builds workflows on a canvas.
+A workflow is a set of nodes that pass data from one step to another.
+A node performs one task, such as image generation or video trimming.
+A noodle is a connection between two nodes.
+
+A socket is an input or output point on a node.
+Socket types identify the data they accept, such as text, image, video, or audio.
+You drag from an output socket to a compatible input socket.
+
+For example, a Prompt node supplies text to a Generate Image node.
+The generated image can feed an Annotation node, another model, or an Output node.
+The app runs the steps in dependency order, so a node receives upstream results first.
 
 ## The canvas
 
@@ -181,88 +194,10 @@ The multi-select toolbar can remove nodes from a group without deleting them.
 Node comments explain a step's purpose.
 **Nb → Next comment** moves through comments in the workflow.
 
-## Settings
+## Next steps
 
-Open **Nb → Project settings** to access all seven tabs.
-Save changes with the dialog's save control.
-
-| Tab | What you set |
-| --- | --- |
-| Project | Project name, location, Save automatically, and Embed images as base64 |
-| Storage | Shared Node Banana folder, existing projects, moves, and library cleanup |
-| Providers | Keys for the eight model providers |
-| ComfyUI | Backend, authentication, job timeout, and seed behavior |
-| Node defaults | New image/video models, LLM settings, and Max parallel calls |
-| Canvas | Pan, zoom, and selection gestures |
-| Noodles | Line style, thickness, faded opacity, gradient, and loading pulse |
-
-In **Canvas**, pan choices are Space + Drag, Middle Mouse, and Always On.
-Zoom choices are Alt + Scroll, Ctrl + Scroll, and Scroll.
-Selection choices are Click, Alt + Drag, and Shift + Drag.
-The initial settings use Space + Drag, Alt + Scroll, and Click.
-On macOS, trackpad gestures also pan the canvas.
-
-## Keyboard shortcuts
-
-Use `Cmd` on macOS and `Ctrl` on Windows or Linux.
-Most canvas shortcuts do not act while you type in an input field.
-Save also works during text editing outside the Agent window.
-
-| Shortcut or gesture | Action |
-| --- | --- |
-| `Cmd/Ctrl + Enter` | Run workflow or resume a pause |
-| `Alt/Option + Enter` | Run selected nodes |
-| `Cmd/Ctrl + S` | Save, or open first-save setup |
-| `A` | Show or hide Assets |
-| `Cmd/Ctrl + C` | Copy selected nodes |
-| `Cmd/Ctrl + V` | Paste nodes, an image, or text |
-| `Cmd/Ctrl + Z` | Undo |
-| `Cmd/Ctrl + Shift + Z` | Redo |
-| `?` | Show keyboard shortcuts |
-| `Shift + P` | Add Prompt |
-| `Shift + I` | Add Image Input |
-| `Shift + G` | Add Generate Image |
-| `Shift + V` | Add Generate Video |
-| `Shift + D` | Add Generate 3D |
-| `Shift + O` | Add Output |
-| `Shift + L` | Add LLM Generate |
-| `Shift + A` | Add Annotation |
-| `Shift + T` | Add Generate Audio |
-| `Shift + Y` | Add Video Input |
-| `Shift + R` | Add Router |
-| `Shift + C` | Add ComfyUI App |
-| `V` with two or more selected nodes | Stack vertically |
-| `G` with two or more selected nodes | Arrange as a grid |
-| Hold `H` + drag | Hook noodles into a bundle |
-| Scroll, with your configured modifier | Zoom in or out |
-| Trackpad on macOS | Pan |
-| `Delete` / `Backspace` | Delete selected nodes |
-
-The app's shortcut dialog currently labels `Shift + R` as Array.
-The canvas handler creates a Router.
-Use the multi-select toolbar for horizontal stacking.
-You can also save through **Nb → Save project** or the save button.
-
-## Files, auto-save, and costs
-
-Auto-save is enabled by default under **Settings → Project → Save automatically**.
-After the first save, it waits about three seconds after your last edit.
-During continuous edits, it attempts a save within 30 seconds of the first edit.
-That limit waits while a run, another save, or a media write is active.
-Leaving the window or hiding its tab also requests a save.
-If saving fails repeatedly, the app backs off and shows an error.
-Use `Cmd/Ctrl + S` to save important changes and inspect any error.
-
-New projects default to the shared Node Banana folder.
-[Assets and Storage](/guides/assets) explains its location, generation history, and project moves.
-The Project tab controls whether images use external files or embedded base64 data.
-Base64 encodes binary media as text and makes the workflow file larger.
-External media lives beside the workflow, including the `generations/` and `outputs/` folders.
-Keep these folders together when you move a project.
-
-Workflow tabs track separate canvases and warn about unsaved changes before discard.
-The [desktop app](/desktop) also keeps crash-recovery checkpoints.
-
-The cost indicator opens **Workflow Costs** where supported.
-Estimates and incurred costs are incomplete for some providers and node types.
-See [Models and pricing](/guides/models-pricing) before large batches or loops.
+- [Nodes](/nodes) lists all 28 node types.
+- [Settings](/settings) describes each tab in the settings dialog.
+- [Keyboard Shortcuts](/keyboard-shortcuts) lists the canvas and Assets shortcuts.
+- [Project files and auto-save](/guides/assets#project-files-and-auto-save) explains how the app saves your work.
+- [Best Practices](/guides/best-practices) shows patterns for larger workflows.

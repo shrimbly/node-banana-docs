@@ -1,5 +1,7 @@
 # Best Practices
 
+These patterns help you build, reuse, and scale workflows.
+
 ## Build one working path first
 
 1. Add the minimum inputs and one generation node.
@@ -86,7 +88,7 @@ Each axis supports up to 16 cells.
 
 The cell editor supports all node types, including video generation.
 A shared downstream Router can collect the template's terminal outputs.
-See [Split Grid](/nodes#split-grid) before you change an existing materialized layout.
+See [Split Grid](/nodes/image-processing#split-grid) before you change an existing materialized layout.
 
 ## Make execution deliberate
 
@@ -125,4 +127,4 @@ For portable projects, keep workflow files and external media folders together.
 For embedded images, enable **Settings → Project → Embed images as base64**.
 Large embedded workflows use more memory.
 
-The [desktop app](/desktop) provides crash recovery as well as normal project saves.
+The [desktop app](/guides/desktop) provides crash recovery as well as normal project saves.
