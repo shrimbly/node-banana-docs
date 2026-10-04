@@ -1,0 +1,51 @@
+# Agent
+
+The Agent builds and edits workflows for you through a chat conversation. It can create nodes, wire them together, change node settings, and write prompts — all from a plain-English description of what you want.
+
+import { Callout } from 'nextra/components'
+
+<Callout type="info">
+  The Agent replaces the old "Prompt a workflow" feature. The entry point is now **Start with Agent**.
+</Callout>
+
+## Runs on your own subscription
+
+The Agent is different from the generation nodes in one important way: **every turn runs on your own Claude Code or Codex (ChatGPT) login, through the vendor's CLI — never on API credits.** It uses the subscription you already pay for and stops rather than spend extra usage.
+
+This means:
+
+- You need **Claude Code** or **Codex** installed and signed in on the same machine.
+- Agent turns don't add to your provider API bill. Only the generation nodes the Agent builds consume your image/video/text provider keys when you run them.
+
+## Opening the Agent
+
+Click the pill in the **top-right corner of the canvas** to open the chat window. You can also choose **Start with Agent** when beginning a new workflow.
+
+## What it can do
+
+- **Create workflows** — Describe a pipeline and the Agent assembles the nodes and connections.
+- **Edit the canvas** — Add, remove, rewire, and rearrange nodes in an existing workflow.
+- **Change node settings** — Adjust models, parameters, and prompts through its own tools.
+- **Work from your selection** — Select nodes first and the Agent acts on them ("make this one 4K", "add a video step after these").
+- **Write informed prompts** — Before writing a prompt, the Agent reads a prompting guide for the target node's modality and model.
+
+## Look up prompting tips
+
+The **Look up prompting tips** action runs a web research turn to find a specific model's prompting advice and saves the notes for that model, so the Agent writes better prompts for it going forward.
+
+## How it behaves
+
+- **Remembers the conversation** — Preferences you state earlier (a style, an aspect ratio, a model choice) carry through later turns.
+- **Queues your messages** — Send follow-ups while it works; they run in order.
+- **Lines up new nodes** — Nodes it adds are placed with the cluster they join, and the Agent shimmers the nodes it changed so you can see what moved.
+- **Keeps a history** — Past conversations are retained so you can revisit them.
+
+## Tips
+
+<Callout type="tip">
+  Start with a short, concrete description, then refine in follow-up messages. "A product shot workflow for a watch, white background" gets you a canvas to iterate on faster than one long, exhaustive prompt.
+</Callout>
+
+- Select the nodes you want changed before asking — the Agent works from your selection.
+- Review the generated workflow before running it; the Agent assembles the pipeline, but you still provide inputs and provider keys for the generation nodes.
+- Use **Look up prompting tips** when working with a model you haven't used before.

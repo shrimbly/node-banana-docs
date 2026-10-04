@@ -1,4 +1,6 @@
 {
+  "agent": "Agent",
+  "asset-library": "Asset Library",
   "ai-quickstart": "AI Quickstart",
   "models-pricing": "Models & Pricing",
   "best-practices": "Best Practices",

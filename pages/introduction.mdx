@@ -1,5 +1,7 @@
 # Introduction
 
+import { Callout } from 'nextra/components'
+
 Node Banana is a visual workflow editor designed for AI image and video generation. It allows you to create, connect, and execute nodes on an infinite canvas to build complex media generation pipelines.
 
 ## Why Node Banana?
@@ -8,8 +10,10 @@ Traditional AI image generation tools often require you to work with single imag
 
 - **Visual workflows** — See your entire pipeline at a glance
 - **Reusable pipelines** — Save and reuse complex workflows
-- **Batch processing** — Process multiple images through the same pipeline
+- **Batch processing** — Run a workflow or group up to 50 times in a row
 - **Iterative refinement** — Annotate and re-generate images without starting over
+- **Build with an agent** — Describe what you want and let the [Agent](/guides/agent) assemble the canvas
+- **Everything saved** — Generations land in your [Asset Library](/guides/asset-library) as they are made
 - **Cost awareness** — Track your API spending in real-time
 
 ## Use Cases
@@ -36,13 +40,18 @@ Combine multiple input images with annotations and AI generation to create compl
 
 ## System Requirements
 
-- **Browser**: Chrome (recommended), Firefox, Safari, or Edge
+- **Desktop app**: macOS 13 or later (Apple Silicon) or Windows 10 or later (x64)
+- **Or a browser**: Chrome (recommended), Firefox, Safari, or Edge when running from source
 - **Internet**: Required for AI generation (API calls)
 - **API Keys**: At least one provider API key required:
   - Google Gemini API key (for Gemini models)
   - Replicate API key (for Replicate models)
   - fal.ai API key (for fal.ai models)
   - OpenAI API key (optional, for text generation)
+
+<Callout type="info">
+  Node Banana calls AI providers directly with your own keys, so their usage is billed to you by them. The [Agent](/guides/agent) is the exception — it runs on your existing Claude Code or Codex subscription, not on API credits.
+</Callout>
 
 ## What's Next?
 

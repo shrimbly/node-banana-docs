@@ -65,7 +65,11 @@ Community workflows are user-contributed templates stored remotely on node-banan
 
 ## Custom Workflow Generation
 
-Don't see what you need? Describe your workflow in plain English. You can also describe video generation workflows — just mention "video" in your description and the AI will use Generate Video nodes.
+Don't see what you need? Describe your workflow in plain English and let the [Agent](/guides/agent) build it. You can also describe video generation workflows — just mention "video" in your description and the Agent will use Generate Video nodes.
+
+<Callout type="info">
+  As of version 2.0.0, **Start with Agent** replaces the old "Prompt a workflow" button. Instead of a one-shot generation, you get a chat conversation that builds and refines the canvas with you, running on your own Claude Code or Codex subscription. See the [Agent guide](/guides/agent) for details.
+</Callout>
 
 ### Writing Good Descriptions
 
@@ -91,11 +95,10 @@ Make something cool with my photos
 
 ### How It Works
 
-1. Enter your description
-2. Click **Generate Workflow**
-3. The AI analyzes your request
-4. A complete workflow appears on the canvas
-5. Review and modify as needed
+1. Open the Agent and enter your description
+2. The Agent analyzes your request and assembles the nodes on the canvas
+3. Refine it in follow-up messages — the Agent remembers the conversation
+4. Review and modify as needed, then run
 
 <Callout type="info">
   Generated workflows may need adjustment. Review prompts and connections before running to ensure they match your intent.
