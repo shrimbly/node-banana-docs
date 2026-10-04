@@ -250,12 +250,14 @@ Configure API keys for each provider in Project Settings → Providers tab:
 
 ### Model Discovery
 
-Click the model selector to open the Model Search dialog:
+Click the model selector to open the model browser. As of version 2.0.0 it loads every provider's list once and filters, searches, and tabs it locally:
 - Browse models from all configured providers
-- Filter by provider using icon buttons
+- Filter and search within the cached list instantly
+- Use **Search Replicate and fal.ai** for a deeper search beyond the cached list
 - View recently used models for quick access
-- See capability badges (image/video) and model IDs
+- See capability badges (image/video/3D) and model IDs
 - External links to model documentation
+- Apply a model change to a whole selection of generator nodes at once
 
 ### Dynamic Parameters
 
@@ -281,6 +283,14 @@ Three Nano Banana models are available via the Gemini provider:
 - **Up to 10 reference images** for image-to-image generation
 - **Image Search** — enables image-based Google Search grounding (can be used alongside or independently of web search)
 - **Extended aspect ratios** — ultra-wide and ultra-tall ratios (1:4, 1:8, 4:1, 8:1) in addition to the standard set
+
+### OpenAI Models
+
+**GPT Image 2.5** (added in version 2.0.0) is available via the OpenAI provider, with OpenAI's own image controls and support for multiple reference images.
+
+### Comfy Router Models
+
+Through the **ComfyUI** provider (one Comfy key in Settings → Providers serves Comfy Cloud, partner nodes, and Comfy Router), the Generate Image node reaches the Comfy Router catalog, refreshed in 2.0.0 with FLUX 3 Image (up to 10 reference images, with search grounding), Ideogram 4.5 (source images and a mask), and Seedream 5.0 Flash, among others.
 
 ### Usage
 1. Add a Generate Image node
@@ -339,6 +349,14 @@ Gemini is now a native provider for video generation using Google's Veo 3.1 mode
 | Veo 3.1 Fast (image-to-video) | Image + Text → Video | Fast image animation |
 
 Available parameters for Veo models: `aspectRatio`, `durationSeconds`, `resolution`, `negativePrompt`, `seed`.
+
+### Gemini Omni Video
+
+Added in version 2.0.0, **Gemini Omni** video generation is available through the Gemini provider (via the Interactions API).
+
+### Comfy Router Video Models
+
+Through the **ComfyUI** provider, the refreshed Comfy Router catalog adds video models including **Grok Imagine Video 1.5 Lite**. One Comfy key in Settings → Providers serves Comfy Cloud and the Router.
 
 ### Video Generation Features
 
@@ -702,6 +720,10 @@ The Parameters section contains:
 - gpt-4.1-mini (balanced)
 - gpt-4.1-nano (fast)
 
+<Callout type="info">
+  As of version 2.0.0, text models come from a single catalogue kept current with each provider's latest lists — Claude **Sonnet 5.5** among them. Open the model browser to see every model currently available for your configured providers.
+</Callout>
+
 <Callout type="warning">
   OpenAI models require a separate `OPENAI_API_KEY` in your environment. Anthropic models require an `ANTHROPIC_API_KEY`. Both can be set in `.env` or configured per-project in Project Settings → Providers.
 </Callout>
@@ -911,6 +933,10 @@ Split Grid is primarily for visual organization. It:
 - Creates reference outputs for each cell
 - Helps you visually track which part of an image flows where
 
+### Cell Editor
+
+As of version 2.0.0, the Split Grid **cell editor** builds a per-cell pipeline from any node type — video included — so each cell can run its own downstream processing rather than acting only as a visual reference.
+
 ---
 
 ## Output
@@ -978,6 +1004,7 @@ The Output Gallery node collects and displays multiple images in a scrollable th
   - Keyboard navigation (Left/Right arrows, Escape to close)
 - **Real-time display**: Shows images from connected nodes immediately, not just after execution
 - **Automatic collection**: Gathers images from all connected image-producing nodes (Image Input, Generate Image, Annotation, etc.)
+- **Full-screen media viewer** (2.0.0): Opens a full-screen view with a stage, filmstrip, details rail, and an "add to graph" action; video plays on hover, and the gallery resizes vertically
 
 ### Usage
 1. Add an Output Gallery node
@@ -1077,11 +1104,15 @@ Groups aren't nodes, but they're an important organizational feature.
 
 All nodes share these capabilities:
 
+### Node Anatomy
+
+As of version 2.0.0, every node is built from one anatomy: a **media card** that shows its image, video, audio, or text at native proportions with sockets set into its border, and a detached **controls card** beneath it holding a summary row and the node's settings. The side settings rail is gone — every generation node carries its own settings. See [Core Concepts → Node Anatomy](/core-concepts#node-anatomy) for the full breakdown.
+
 ### Title Editing
 Click the title to rename any node. Custom names help organize complex workflows.
 
 ### Moving Nodes
-Drag a node's floating header to reposition it on the canvas.
+Drag a node to reposition it on the canvas.
 
 ### Comments
 Add comments to nodes for documentation. Hover to see the full comment.
@@ -1099,7 +1130,7 @@ Use the comment navigation system to move between nodes with comments:
 This feature helps you review feedback and annotations in complex workflows without manually searching for commented nodes.
 
 ### Resizing
-Drag the bottom-right corner to resize nodes. For Generate Image and Generate Video nodes, manually set heights are preserved when the content aspect ratio changes — only the width adjusts automatically. **Double-click the resize handle** to instantly auto-fit the node to its media content's aspect ratio.
+Node height is derived from content, so nodes are resized by **width only**. **Double-click a resize edge** to restore the node type's default width.
 
 ### Execution Controls
 - **Play button** — Run from this node

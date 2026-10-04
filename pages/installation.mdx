@@ -1,6 +1,42 @@
 # Installation
 
-This guide walks you through setting up Node Banana on your local machine.
+Node Banana ships two ways: as a downloadable **desktop app** for Mac and Windows (the easiest path for most people), or run from source with the **development server** (for contributors and anyone who wants the latest `main`).
+
+import { Callout } from 'nextra/components'
+
+## Desktop App (Recommended)
+
+As of version 2.0.0, Node Banana is an installable, self-updating desktop app.
+
+- **[Download for Mac · Apple Silicon](https://nodebanana.app/download/mac)** — macOS 13 or later. The Mac app is signed and notarised.
+- **[Download for Windows · x64](https://nodebanana.app/download/windows)** — Windows 10 or later. The Windows installer is unsigned for now, so SmartScreen may warn on first run — choose **More info → Run anyway**.
+
+The desktop app runs its own local server bound to `127.0.0.1` and answering only its own window, so your work never leaves your machine unless a provider call sends it.
+
+### Your keys and files
+
+- **Provider keys** are encrypted in your OS profile. If you already have a `.env` with keys, you can import them explicitly from **Settings → Providers**. You still need at least one AI provider key — Node Banana calls the providers directly and their usage is billed to you by them.
+- **Workflows and generated media** are saved as files in the **Node Banana folder** (Documents by default), which you can relocate from **Settings → Library**.
+
+### Automatic updates
+
+The app checks GitHub Releases for new versions 15 seconds after launch, every six hours, and from **Help → Check for Updates…**. Updates download on request and install when you choose **Restart to update** (or at the next quit). A skipped version is remembered.
+
+### Verify a download
+
+Each release lists `SHA256SUMS-mac-arm64.txt` and `SHA256SUMS-windows-x64.txt`. Compare the checksum of your download with:
+
+```bash
+shasum -a 256 <file>        # macOS
+```
+
+```powershell
+Get-FileHash <file>         # Windows
+```
+
+## Development Server
+
+Prefer to run from source — to contribute, or to track the latest changes? The steps below set up the Next.js development server.
 
 <iframe
   width="100%"
@@ -24,6 +60,7 @@ Before installing Node Banana, make sure you have:
   - fal.ai — [Get API key](https://fal.ai/dashboard/keys) (now required for fal.ai models)
   - Kie.ai — [Get API key](https://kie.ai/) (optional, for Sora, Veo, Kling models)
   - WaveSpeed — [Get API key](https://wavespeed.ai/) (optional, for WaveSpeed models)
+  - ComfyUI — [Get API key](https://platform.comfy.org/) (optional). A single Comfy key in Settings → Providers serves Comfy Cloud, partner nodes, and Comfy Router.
 - **Anthropic API key** (optional) — Only needed for Claude text generation in LLM nodes
 - **OpenAI API key** (optional) — Only needed for OpenAI text generation
 
@@ -66,8 +103,6 @@ WAVESPEED_API_KEY=your_wavespeed_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 OPENAI_API_KEY=your_openai_api_key_here
 ```
-
-import { Callout } from 'nextra/components'
 
 <Callout type="warning">
   Never commit your `.env.local` file to version control. It's already in `.gitignore` by default.

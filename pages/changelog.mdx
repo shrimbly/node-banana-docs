@@ -4,6 +4,47 @@ All notable changes to Node Banana are documented here.
 
 ---
 
+## 2.0.0 — 2026-10-04
+
+The desktop release. Node Banana is now an installable, self-updating app for Mac and Windows, with an agent that builds workflows on your own Claude Code or Codex subscription, an asset library that keeps everything you generate, and every node rebuilt on one anatomy.
+
+### Added
+
+- Desktop app for Mac (Apple Silicon, macOS 13+) and Windows (x64, Windows 10+) — signed and notarised on Mac, unsigned per-user installer on Windows; runs a local server bound to 127.0.0.1, encrypts provider keys in the OS profile, and recovers tabs and media after a crash ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Automatic updates — the app checks GitHub Releases on launch and every six hours (or Help → Check for Updates…), downloads on request, and installs on **Restart to update** ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Agent — a chat window in the canvas's top-right corner that builds and edits workflows, running every turn on your Claude Code or Codex (ChatGPT) login through the vendor's CLI instead of API credits; **Start with Agent** replaces Prompt a workflow ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Asset library — everything you generate or edit is saved as it is made and browsable in the Assets view (press `A`) with filters, favourites, tags, and trash/restore ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Batch runs — run a workflow or a group up to 50 times from the Run menu; each output records which run produced it ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Cmd/Ctrl+S saves, and autosave follows your edits and can be turned off with **Save automatically** ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Noodle upgrades — connection labels, hide-without-losing, bundles with a movable clamp, re-plug by dragging an end, marquee selection, and a comet that travels into a running node ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Arrange menu with a live spacing slider, a navigator card with the minimap, a floating menu with browser-style tabs, and Shift+D (Generate 3D) / Shift+O (Output) shortcuts ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Model browser rewrite — loads every provider's list once and filters locally, with **Search Replicate and fal.ai** for a deeper search ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- New models — GPT Image 2.5 with OpenAI's image controls, Gemini Omni video, and a refreshed Comfy Router catalog (FLUX 3 Image, Ideogram 4.5, Seedream 5.0 Flash, Eleven v4, Grok Imagine Video 1.5 Lite) ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Media viewer — a full-screen viewer for recent generations and the output gallery, hover-to-play video, a resizable gallery, and a Split Grid cell editor that builds a per-cell pipeline ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Landing page at [nodebanana.app](https://nodebanana.app/) with downloads, FAQ, and `/download/mac` and `/download/windows` links to the latest installers ([#158](https://github.com/shrimbly/node-banana/pull/158))
+
+### Changed
+
+- Node redesign — every node is built from one anatomy: a media card showing images, video, audio, and text at their native proportions with sockets set into its border, and a detached controls card beneath with every setting ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Every generation node now carries its own settings, so the side settings rail and the "Show model settings on nodes" preference are gone ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- One Comfy key in Settings → Providers now serves Comfy Cloud, partner nodes, and Comfy Router ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- The web build listens on 127.0.0.1 unless `HOST` says otherwise, refuses cross-site requests to its API, and sends the Comfy key only to the configured engine; Next.js 16.3.8 and the flagged dependencies are patched ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- A missing input now skips its node instead of blocking Run ([#158](https://github.com/shrimbly/node-banana/pull/158))
+
+### Removed
+
+- The ControlPanel settings rail, the inline-parameters preference, the aspect-fit resize gesture, and the header bar (the floating menu replaced it) ([#158](https://github.com/shrimbly/node-banana/pull/158))
+
+### Fixed
+
+- A workflow opened from a file now starts at its first node instead of an empty corner of the canvas ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- A string setting like `video_size` is no longer offered as a video input ([#135](https://github.com/shrimbly/node-banana/pull/135))
+- A stopped run can no longer overwrite the run after it, and an upload now lands only on the node and canvas that started it ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Saves no longer keep a ref to a missing file, truncate the previous file on a failed write, or land on the wrong canvas ([#158](https://github.com/shrimbly/node-banana/pull/158))
+- Agent calls that left an optional argument out are no longer rejected ([#158](https://github.com/shrimbly/node-banana/pull/158))
+
+---
+
 ## 1.1.3 — 2026-03-22
 
 ### Changed

@@ -55,13 +55,18 @@ See the [Nodes Reference](/nodes) for detailed information on each node type.
 
 ### Node Anatomy
 
-Every node has:
+As of version 2.0.0, every node is built from one anatomy:
 
-- **Title bar** — Shows the node type (click to edit the name)
-- **Input handles** — Connection points on the left
-- **Output handles** — Connection points on the right
-- **Body** — Node-specific controls and content
-- **Resize handle** — Bottom-right corner for resizing
+- **Media card** — Shows images, video, audio, and text at their native proportions. Selection, running, and error outlines appear on the media card.
+- **Sockets** — Input and output handles are set into the media card's border at a fixed pitch. A connected socket fills in with its type colour.
+- **Controls card** — A detached card beneath the media card with a summary row (provider, model, key values) that opens into a single column of settings.
+- **Title** — Click to edit the node's name.
+
+Each generation node now carries its own settings in its controls card, so there is no longer a side settings rail. Node height is derived from content; nodes are resized by **width only**, and double-clicking a resize edge restores the node type's default width.
+
+<Callout type="info">
+  Socket (handle) ids did not change in the redesign, so workflows saved by older versions keep all their connections when you open them.
+</Callout>
 
 ## Edges (Connections)
 
@@ -177,10 +182,16 @@ The floating action bar shows parallel execution status:
 ### Running Workflows
 
 - `Cmd/Ctrl + Enter` — Run entire workflow
-- **Run button** — Click in header to run all
-- **Run selected** — Select nodes and choose "Run N selected nodes" from the Run dropdown
+- **Run button** — Click in the floating menu to run all
+- **Run selected** — Select nodes and choose "Run N selected nodes" from the Run dropdown (the multi-select toolbar also has its own Run)
 - **Node play button** — Run from a specific node
 - **Regenerate** — Re-run a single node with same inputs
+
+### Batch Runs
+
+A **Runs stepper** in the Run menu runs a workflow — or a group, from its own menu — up to **50 times in a row**. Every output records which run produced it, so you can tell a batch's results apart.
+
+**Stop** lets the current run finish; a second press stops immediately.
 
 #### Execute Selected Nodes
 
@@ -229,6 +240,8 @@ import { Callout } from 'nextra/components'
 | Shortcut | Action |
 |----------|--------|
 | `?` | Show keyboard shortcuts dialog |
+| `A` | Open the Assets view |
+| `Cmd/Ctrl + S` | Save workflow |
 | `Cmd/Ctrl + Enter` | Run workflow |
 | `Cmd/Ctrl + C` | Copy selected nodes |
 | `Cmd/Ctrl + V` | Paste nodes (or paste image into selected Image Input node) |
@@ -236,6 +249,8 @@ import { Callout } from 'nextra/components'
 | `Shift + I` | Add Image Input node |
 | `Shift + G` | Add Generate Image node |
 | `Shift + V` | Add Generate Video node |
+| `Shift + D` | Add Generate 3D node |
+| `Shift + O` | Add Output node |
 | `Shift + L` | Add LLM node |
 | `Shift + A` | Add Annotation node |
 | `Shift + T` | Add Audio node |
@@ -271,16 +286,18 @@ Node Banana tracks API costs for image and text generation.
 
 See [Models & Pricing](/guides/models-pricing) for detailed pricing information.
 
-## Auto-Save
+## Saving &amp; Auto-Save
 
-Node Banana automatically saves your work:
+You can save at any time with **Cmd/Ctrl+S** (File › Save in the desktop app), which also works while your cursor is inside a node's text field.
 
-- **Interval** — Every 90 seconds when enabled
-- **Location** — Configured in project settings
-- **Format** — JSON workflow files
-- **Image storage** — Workflows can store images as external files (default) or embedded base64 data. The `useExternalImageStorage` setting persists in the workflow configuration.
+Autosave then follows your edits automatically:
 
-The header shows save status and last save time.
+- **Follows edits** — Saves 3 seconds after your last change, and at the latest 30 seconds after the first change in a burst.
+- **Never mid-run** — Autosave holds off while a workflow is running.
+- **On focus loss** — Saves immediately when the window loses focus.
+- **Can be turned off** — Disable it with **Save automatically**; Cmd/Ctrl+S still works.
+
+Workflows and generated media are saved as files in the Node Banana folder (see the [Asset Library](/guides/asset-library) guide). The header shows save status and last save time.
 
 ### Save Directory Changes
 
