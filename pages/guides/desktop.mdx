@@ -1,0 +1,177 @@
+# Desktop App
+
+import { Callout } from 'nextra/components'
+
+The desktop preview runs Node Banana in an Electron window with a local server.
+Packaged apps support update checks and installation.
+
+<Callout type="info">
+  These instructions describe desktop behavior in the checked `develop` source.
+  Available installers depend on the published release and its attached files.
+</Callout>
+
+To install the app, see [Install the desktop app](/installation#install-the-desktop-app).
+
+## Update the app
+
+Packaged apps check for updates shortly after launch and every six hours.
+A failed background check retries after 30 minutes without interrupting your work.
+On macOS, **Help → Check for Updates…** also checks manually.
+The Windows menu remains hidden; use the update notice when it appears.
+
+1. If a newer version appears in the notice, select **Update** to download it.
+2. Wait for the download to finish.
+3. Save your work.
+4. Select **Restart to update**.
+
+The app does not download a release until you select Update.
+After download, quitting the app also installs the update.
+**Skip** suppresses that version until a manual check.
+Closing the notice hides it until the next check.
+If installation fails, the notice links to the release for a manual download.
+
+Mac updates require a signed build; an unsigned preview needs a manual installation.
+Windows updates run the downloaded installer silently.
+Development runs do not install updates.
+Profiles with `NODE_BANANA_ELECTRON_USER_DATA` set do not check automatically.
+
+## Window controls
+
+On Windows, the app has no native title bar or visible menu bar.
+Drag the workflow tab strip to move the window.
+Double-click the strip to maximise or restore it.
+The top-right buttons minimise, maximise or restore, and close the window.
+Press **F11** to toggle fullscreen.
+
+## Credentials and environment import
+
+The desktop profile is separate from your browser profile.
+Provider keys and ComfyUI credentials use encrypted storage.
+If secure storage fails on macOS, unlock the keychain and choose **Retry secure storage**.
+On either platform, **Use for this session only** keeps credentials in memory.
+Session-only credentials disappear after you close the app.
+
+### Recover unreadable stored keys
+
+On Windows, a changed encryption key can make existing stored credentials unreadable.
+Retrying does not repair that file.
+If the app offers **Reset stored keys**, you can start with an empty credential store.
+Reset moves the unreadable file aside instead of deleting it.
+Enter your keys again in **Settings → Providers**.
+
+The reset option appears only for unreadable encrypted credentials.
+Other storage errors preserve the existing file and do not offer reset.
+
+### Import environment settings
+
+1. Open **Settings → Providers → Import from .env**.
+2. Choose an existing `.env` or `.env.local` file.
+3. Check the imported provider and ComfyUI settings.
+
+The import leaves the source file unchanged and keeps existing non-empty credentials.
+Imported credentials take effect immediately.
+Canceling the settings dialog does not undo the import.
+
+The import supports the Gemini, OpenAI, Anthropic, Replicate, fal.ai, Kie.ai, and WaveSpeed provider variables.
+For the shared Comfy account key, use **Settings → Providers → ComfyUI**.
+The desktop importer treats `COMFY_API_KEY` as remote-server authentication.
+The browser server also uses that variable for Comfy Router, so these paths differ.
+It also supports these ComfyUI variables:
+
+| Purpose | Variables |
+| --- | --- |
+| Keys | `COMFY_CLOUD_API_KEY`, `COMFY_API_KEY`, `COMFY_ORG_API_KEY` |
+| Endpoints | `COMFY_CLOUD_URL`, `COMFY_LOCAL_URL`, `COMFY_REMOTE_URL` |
+| Preferences | `COMFY_MODE`, `COMFY_API_V2` |
+
+## Save and recover work
+
+Workflows remain ordinary files that the browser app can also open.
+The desktop app uses native folder dialogs.
+Recovery checkpoints record unsaved tabs after one second without edits, or every five seconds during continuous edits.
+Large media and slow storage can delay checkpoints.
+
+After a crash, **Restore Session** restores the saved tabs, noodles, viewport, media, and costs.
+Interrupted nodes show a stopped explanation.
+Recovery does not submit requests again or resume remote jobs.
+If a provider still has an active job, check that job before you run it again.
+
+If you confirm a tab discard, its unsaved edits do not return through recovery.
+Recovery supplements normal saves.
+
+## Data and diagnostics
+
+| Data | Windows | macOS |
+| --- | --- | --- |
+| Preferences, encrypted keys, recovery, and window state | `%APPDATA%\Node Banana\` | `~/Library/Application Support/Node Banana/` |
+| Writable server copies and caches | `%APPDATA%\Node Banana\runtimes\` | `~/Library/Application Support/Node Banana/runtimes/` |
+| Workflows and generated outputs | Shared Node Banana folder or custom project folders | Shared Node Banana folder or custom project folders |
+| Downloaded updates | `%LOCALAPPDATA%\node-banana-updater\` | `~/Library/Caches/node-banana-updater/` |
+| Desktop and server logs | `%APPDATA%\Node Banana\logs\` | **Help → Open Logs** |
+
+On Windows, you can also select **Open logs** in the disconnected-server banner.
+
+The profile also stores your skipped update version.
+[Assets and Storage](/guides/assets) explains the separate project and generation folders.
+Recovery content is private to your user account, but it is not encrypted.
+
+The local server uses `http://127.0.0.1:47831` and accepts authenticated desktop-session requests.
+If that port is occupied, the app offers **Retry**, **Open Logs**, and **Quit**.
+It does not stop the other process or choose another port.
+
+If the server stops, choose **Restart Server**.
+If the editor crashes, choose **Recover Editor** to open checkpoint recovery.
+
+For development, `NODE_BANANA_ELECTRON_PORT` changes the port.
+Each port has separate browser-origin storage.
+`NODE_BANANA_ELECTRON_USER_DATA` selects an alternative absolute profile directory.
+Keep the defaults for ordinary use.
+
+## Run from source
+
+This section is for contributors who build the app.
+Use Node.js 22.12 or newer in an app checkout on `develop`.
+
+```bash
+npm ci
+npm run electron:dev
+```
+
+The command starts both the desktop window and its local server.
+UI edits reload automatically.
+After changes inside `electron/`, restart the command.
+
+For a local production build:
+
+```bash
+npm run build
+npm run electron:start
+```
+
+### Build preview packages
+
+Run packaging on the target platform: Windows x64 or an Apple Silicon Mac.
+On Windows, install ImageMagick 7 and make its `magick` command available on your `PATH`.
+The Windows packaging check uses Windows 11 x64 with Node.js 23.
+
+```bash
+npm run electron:package
+```
+
+The default command creates unsigned packages.
+On macOS, `npm run electron:package -- --sign` enables signing and notarization with configured Apple credentials.
+The app repository's desktop preview guide describes the release credentials and publishing setup.
+
+The command writes these artifacts to `dist-electron/`:
+
+| Platform | Artifacts |
+| --- | --- |
+| Windows x64 | `.exe` installer, ZIP, updater manifest, blockmaps, and `win-unpacked/` app folder |
+| macOS on Apple Silicon | App, DMG, ZIP, updater manifest, and blockmaps |
+
+Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+
+## Next steps
+
+- If an update fails, see [Desktop update errors](/guides/troubleshooting#desktop-update-errors).
+- To manage project and generation folders, see [Assets and Storage](/guides/assets).

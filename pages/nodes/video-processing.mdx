@@ -1,0 +1,86 @@
+# Video Processing
+
+These nodes join, retime, trim, or take frames from videos.
+
+## Video Stitch
+
+Join several video clips into one video.
+
+**Inputs:** At least two ordered video clips and optional audio.
+
+**Outputs:** One combined video.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Clip order | Reorder the clips in the filmstrip. |
+| Loop | Repeat the sequence 1×, 2×, or 3×. The default is 1×. |
+
+### Tips
+
+- Check clip order before you run the node.
+- Connect audio for a soundtrack. The encoder also preserves embedded clip audio.
+
+## Ease Curve
+
+Change a video's playback speed over time.
+
+**Inputs:** Video and, optionally, an ease curve from another node.
+
+**Outputs:** Processed video and reusable ease-curve data.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Preset or custom curve | Choose a preset or edit the Bézier curve. A Bézier curve uses control points to shape a smooth path. |
+| Output duration | 0.1–30 seconds. The default is 1.5 seconds. |
+| Incoming curve | Inherits the upstream curve, preset, and duration. |
+
+### Tips
+
+- Connect the curve output to another Ease Curve node to share timing.
+- Use Stop to cancel an active encode.
+
+## Video Trim
+
+Keep a selected part of a video.
+
+**Inputs:** One video.
+
+**Outputs:** The trimmed video, including its audio.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Start | First retained time in seconds. The default is 0. |
+| End | Last retained time in seconds. It must exceed Start and 0. |
+
+### Tips
+
+- Use the range preview before encoding.
+- Trim clips before you send them to Video Stitch.
+
+## Frame Grab
+
+Extract the first or last frame of a video.
+
+**Inputs:** One video.
+
+**Outputs:** A full-resolution PNG image.
+
+### Settings
+
+| Setting | Effect |
+| --- | --- |
+| Frame | First or Last. The default is First. |
+
+### Tips
+
+- Use the last frame as the first-frame reference for another video generation.
+
+## Next steps
+
+Continue to [Routing](/nodes/routing).

@@ -1,132 +1,103 @@
 # Your First Workflow
 
-This tutorial walks you through creating a simple image generation workflow. By the end, you'll understand the basics of adding nodes, connecting them, and running a workflow.
+This example sends a text prompt to an image model and shows the result.
+You need a provider key from [installation](/installation).
 
-## What We'll Build
+## Choose how to start
 
-A simple two-node workflow that generates an image from a text prompt:
+| Welcome screen entry | What it opens |
+| --- | --- |
+| New project | Project name and storage settings |
+| Open project | Known projects, including projects in other folders |
+| [Templates](/guides/templates) | Built-in templates and community workflows |
+| [Start with Agent](/guides/agent) | Claude Code or Codex setup and an Agent conversation |
+| Bring in your projects, when no projects are known | Search for existing projects and choose whether to move them |
 
-```
-[Prompt] → [Generate] → Generated Image
-```
+To reopen this screen, select **Nb → Welcome screen**.
+The first-run setup includes provider keys, model defaults, and an interactive tutorial.
+During first-run setup, **Start tutorial** offers a guided demonstration with simulated execution.
+The tutorial uses simulated execution, so its demonstration does not submit real generation requests.
+To bring in projects from an older installation, see [Bring in existing projects](/guides/assets#bring-in-existing-projects).
 
-## Step 1: Add a Prompt Node
+For this example, create a new project.
 
-1. Look at the **floating action bar** at the bottom of the screen
-2. Click the **Prompt** button (or press `Shift + P`)
-3. A prompt node appears on the canvas
+1. Select **New project** on the Welcome screen.
+2. Enter a project name and keep the default location, or choose a custom parent directory.
+3. Save the project settings.
 
-The prompt node has:
-- A text input area for your prompt
-- An expand button to open a larger editor
-- A **text output handle** (small circle) on the right side
+New projects default to the shared Node Banana folder.
+The app creates a project subfolder there, or inside your custom parent directory.
+A custom directory must use an absolute path.
+See [Choose the Node Banana folder](/guides/assets#choose-the-node-banana-folder) to change the default folder.
 
-## Step 2: Add a Generate Image Node
+## Add three nodes
 
-1. Click the **Generate** dropdown in the action bar (or press `Shift + G`)
-2. Select **Image** from the dropdown menu (or choose **Video** for video generation, or **3D** for 3D model generation)
-3. A Generate Image node appears on the canvas
-4. Drag it to the right of your prompt node
+1. Press `Shift + P` to add a Prompt node.
+2. Enter this prompt.
 
-The Generate Image node has:
-- **Input handles** on the left (for images and text)
-- **Output handle** on the right (for the generated image)
-- Provider and model selection dropdown
-- Dynamic parameters based on selected model
-- Custom configuration options
-
-## Step 3: Connect the Nodes
-
-1. Click and drag from the **text output** (right side of Prompt node)
-2. Drag to the **text input** (left side of Generate node)
-3. Release to create a connection
-
-import { Callout } from 'nextra/components'
-
-<Callout type="info">
-  Connections only work between compatible types: text-to-text and image-to-image. You can't connect a text output to an image input.
-</Callout>
-
-## Step 4: Write Your Prompt
-
-1. Click inside the prompt node's text area
-2. Type a description of the image you want to generate:
-
-```
-A golden retriever puppy sitting in a field of sunflowers,
-soft afternoon lighting, professional photography
+```text
+A ceramic teapot on a wooden table beside a window.
+Use soft daylight and a plain background.
 ```
 
-## Step 5: Configure the Generator
+3. Press `Shift + G` to add a Generate Image node.
+4. Open its controls card and select a model for your configured provider.
+5. Add an **Output** node from the floating action bar.
 
-1. **Provider**: Start with "Gemini" (default)
-2. **Model**: Select a model like "nano-banana" for faster, cheaper generation
-3. **Parameters**: Configure model-specific options (aspect ratio, resolution, etc.)
+You can also double-click empty canvas space and search for a node by name.
+The [node reference](/nodes) explains model settings and media inputs.
 
-<Callout type="tip">
-  Start with Gemini's "nano-banana" model while testing. You can explore other providers and models using the model search dialog for different capabilities and styles.
-</Callout>
+## Add noodles
 
-### Setting Default Models
+A noodle connects an output socket to an input socket.
 
-Save time by configuring default models for your project:
+1. Drag the Prompt text output to the Generate Image text input.
+2. Drag the Generate Image image output to the Output image input.
 
-1. Open **Project Setup** from the header menu
-2. Go to the **Node Defaults** tab
-3. Set your preferred default models for Generate Image and Generate Video nodes
-4. New nodes will automatically use these defaults
+```text
+Prompt → Generate Image → Output
+```
 
-This is especially useful when you have a preferred model you use frequently.
+Socket labels appear on hover, selection, and drag.
+The media card shows the result, and the controls card holds the node settings.
+You can open or collapse those controls from their summary row.
 
-## Step 6: Run the Workflow
+## Run the workflow
 
-You have several options to run:
+1. Check the selected provider, model, prompt, and resolution.
+2. Select **Run** on the floating action bar, or press `Cmd/Ctrl + Enter`.
+3. Wait for the Generate Image node to finish.
+4. Check the image in the generation node and the Output node.
 
-- Press `Cmd/Ctrl + Enter` to run the entire workflow
-- Click the **Run** button in the floating action bar to run all nodes
-- Select specific nodes and choose **"Run N selected nodes"** from the Run dropdown to run only selected nodes
-- Click the play button on an individual node to run from that point
+A status notification reports generation progress or errors.
+If a node has no usable input, the app skips that node.
+See [workflow execution](/core-concepts#workflow-execution) for partial runs and pauses.
 
-When running:
-1. Nodes execute in dependency order
-2. The current node shows a loading state
-3. Results appear when generation completes
+## Change the result
 
-<Callout type="tip">
-  The "Run selected nodes" feature lets you test specific parts of your workflow without running everything. Select the nodes you want to run, and they'll execute along with their dependencies.
-</Callout>
+1. Edit the prompt.
+2. Run the workflow again.
+3. Use the generation node's history controls to compare results.
 
-## Step 7: View Your Result
+The **Recent generations** panel shows the current tab's recent results.
+Open [Assets](/guides/assets) for the full library and generation-time workflow snapshots.
+Media nodes also provide download buttons.
+For a new default model, use **Settings → Node defaults**.
+Defaults apply to new nodes, so existing nodes keep their own settings.
 
-After generation completes:
-- The generated image appears in the generate node
-- Click the image to open a larger preview
-- Use the **carousel arrows** to browse generation history
-- Right-click to download the image
+## Save and reopen
 
-## Adding an Output Node
+1. Press `Cmd/Ctrl + S`, or select **Nb → Save project**.
+2. To reopen a workflow, select **Nb → Open project…**.
+3. Choose the saved workflow in the browser.
 
-For a cleaner workflow, add an Output node:
+Keep the project directory and its media subfolders together.
+Auto-save starts after the first save.
+See [Project files and auto-save](/guides/assets#project-files-and-auto-save).
 
-1. Click **Output** in the action bar
-2. Connect the generate node's image output to the output node
-3. The output node gives you a dedicated preview area with download options
+## Next steps
 
-## Saving Your Workflow
-
-1. Click the **menu icon** in the header
-2. Select **Save** (or press `Cmd/Ctrl + S`)
-3. Choose a location and filename
-4. Your workflow saves as a `.json` file
-
-<Callout type="info">
-  Node Banana auto-saves your work every 90 seconds when auto-save is enabled.
-</Callout>
-
-## What's Next?
-
-Now that you've created your first workflow, explore these topics:
-
-- [Core Concepts](/core-concepts) — Understand nodes, edges, and handle types
-- [Node Reference](/nodes) — Learn about all available node types
-- [AI Quickstart](/guides/ai-quickstart) — Use templates and AI to build workflows faster
+- Learn how data moves through a workflow in [Core Concepts](/core-concepts).
+- Start from a ready-made workflow, including example files, in [Templates](/guides/templates).
+- Build and edit workflows by conversation with the [Agent](/guides/agent).
+- Look up every node's inputs, outputs, and settings in [Nodes](/nodes).

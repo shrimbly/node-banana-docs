@@ -1,196 +1,130 @@
 # Best Practices
 
-This guide covers tips and patterns for getting the most out of Node Banana.
+These patterns help you build, reuse, and scale workflows.
 
-## Workflow Organization
+## Build one working path first
 
-### Name Your Nodes
-Click node titles to give them meaningful names. Instead of "Prompt" and "Prompt 2", use "Subject Description" and "Style Instructions".
+1. Add the minimum inputs and one generation node.
+2. Check its model and provider key.
+3. Run the node and inspect the result.
+4. Add the next processing step.
+5. Save the project before you expand it into a batch.
 
-### Use Comments
-Add comments to complex nodes explaining their purpose. Future you will thank present you.
+A small workflow makes missing inputs and model errors easier to locate.
+Use **Run selected** or **Run from selected** for focused checks.
 
-### Group Related Nodes
-Create groups for logical sections:
-- Input processing
-- Generation pipeline
-- Output handling
+## Reuse prompts
 
-### Left-to-Right Flow
-Organize workflows so data flows left to right. This matches reading direction and makes workflows easier to understand.
+A Prompt node can define a named variable.
+A Prompt Constructor uses names such as `@subject` and `@style` in a shared template.
+Connect the source Prompt nodes to the constructor before you run it.
+The constructor editor can copy the resolved preview for inspection.
 
-## Prompt Writing
-
-### Be Specific
-Vague prompts get vague results. Include:
-- Subject details
-- Style and mood
-- Lighting conditions
-- Camera perspective
-- Technical specifications
-
-import { Callout } from 'nextra/components'
-
-**Instead of:**
-```
-A cat
+```text
+Prompt: subject ─┐
+                ├→ Prompt Constructor → Generate Image
+Prompt: style ──┘
 ```
 
-**Write:**
-```
-A fluffy orange tabby cat sitting on a windowsill,
-golden hour sunlight streaming in, shallow depth of field,
-professional pet photography, warm tones
-```
+An LLM Generate node can turn an instruction into prompt text.
+Name the subject, composition, light, and changes that you want.
+Check the generated text before a large batch.
 
-### Use Structure
+## Compare two models
 
-For complex prompts, organize into sections:
-```
-Subject: [what you're generating]
-Style: [artistic style or technique]
-Composition: [framing, angle, layout]
-Lighting: [light source, mood, time of day]
-Technical: [camera settings, render quality]
+A Router passes one source to several downstream nodes.
+An Image Compare node shows two image results with a slider.
+
+```text
+                  ┌→ Generate Image A ─┐
+Prompt → Router ──┤                    ├→ Image Compare
+                  └→ Generate Image B ─┘
 ```
 
-### Negative Space
-Mention what you don't want:
-```
-...clean background, no text, no watermarks
-```
+Keep the prompt and references the same to compare model outputs.
+The multi-select toolbar can change the model across several selected generators.
 
-### Iterate on Prompts
-1. Start with a basic prompt
-2. Generate and evaluate
-3. Add details for what's missing
-4. Remove details that cause issues
-5. Save your refined prompt
+## Process a list with Array
 
-## Working with Images
+1. Connect a Prompt or LLM Generate text output to an Array node.
+2. Choose the delimiter, newline, or regular-expression split mode.
+3. Check the parsed items.
+4. Enable **Batch** and connect the Array to a supported generator.
+5. Run the workflow.
 
-### Image Quality Matters
-- Use high-resolution source images
-- Avoid heavily compressed JPEGs
-- Clean, well-lit photos work best
+Array batches run sequentially through Generate Image, Generate Video, Generate Audio, or LLM Generate.
+Generate 3D does not use this batch path.
+For separate editable branches, turn Batch off and use **Make Prompts**.
+Click a parsed item to read its full text.
+Each outgoing noodle shows the item it carries.
+An Output Gallery collects image and video results.
 
-### Annotation Best Practices
-When annotating images for AI reference:
-- Use bright, contrasting colors
-- Keep annotations clear and simple
-- Circle or highlight, don't obscure
-- The AI sees exactly what you draw
+## Repeat a workflow or selection
 
-### Reference Images
-When providing reference images to Generate Image nodes:
-- Include images that show what you want
-- Multiple references can guide style, composition, color
-- Conflicting references may confuse the model
-- Image-to-image support works across all providers
+1. Open the Run menu.
+2. Set **Runs** to a small count between 1 and 50.
+3. Select **Run all**, **Run from selected**, or **Run selected** to start immediately.
+4. Inspect the outputs marked **Run n of N**.
 
-## Execution Strategies
+Groups also offer **Run group** with the shared Runs count.
+This repeats the chosen graph; Array Batch repeats its text items through a generator.
+Both mechanisms can increase provider usage.
 
-### Test Before Batch
-Before running a full workflow:
-1. Run just the first generation node
-2. Check the output
-3. Adjust prompts if needed
-4. Then run the complete workflow
+If repetitions remain, the first Stop finishes the current run and prevents later runs.
+A second Stop stops immediately.
+See [workflow execution](/core-concepts#workflow-execution) for the full stopping behavior.
 
-### Use Locked Groups
-Lock groups containing completed work. This:
-- Prevents accidental re-execution
-- Speeds up partial runs
-- Preserves successful generations
+## Split an image into cell workflows
 
-### Run From Node
-Use the play button on individual nodes to:
-- Re-run specific sections
-- Test changes without full execution
-- Debug connection issues
+Split Grid creates one node set for each image cell.
+Each axis supports up to 16 cells.
 
-## Cost Management
+1. Connect a source image to Split Grid.
+2. Set the rows and columns.
+3. Adjust the slice lines for unequal cells.
+4. Select **Open cell editor** and build the template for one cell.
+5. Choose a grid, vertical, or horizontal node layout.
+6. Split the image to create each cell's node set.
 
-### Iterate Cheaply
-Use faster, cheaper models while iterating. Switch to higher-quality models only for final outputs. Check the Models & Pricing guide for cost comparisons.
+The cell editor supports all node types, including video generation.
+A shared downstream Router can collect the template's terminal outputs.
+See [Split Grid](/nodes/image-processing#split-grid) before you change an existing materialized layout.
 
-### Compare Providers
-Different providers have different pricing. Replicate and fal.ai often have competitive rates for open-source models.
+## Make execution deliberate
 
-### Check Before Running
-Review estimated costs in the header before executing large workflows.
+A Switch enables selected branches without removing their noodles.
+Optional input nodes let an unused branch stay empty.
+Locked groups skip completed or inactive parts of the workflow.
+Hidden noodles still run, so hiding is only a visual change.
 
-### Monitor Cumulative Costs
-Track your spending across sessions. Set mental budgets for projects.
+A loop noodle repeats an upstream path.
+Set a small iteration count first and inspect the result.
+A fallback model retries failed generation with another model and its own settings.
+Check that the fallback's provider key and inputs are available.
 
-## File Management
+## Organize a large canvas
 
-### Consistent Naming
-Name workflow files descriptively:
-- `product-shot-workflow.json`
-- `portrait-style-transfer-v2.json`
+Use node names and comments that describe each step's purpose.
+Groups keep related nodes together.
+Use **Arrange nodes** in the multi-select toolbar for stacking or grid placement.
+Its spacing slider adjusts the gaps between selected nodes.
+Noodle labels and bundles make shared inputs easier to trace.
+Double-click a hidden stack's label to rename its noodles together.
+Use its upstream jump to find the source on a large canvas.
 
-### Version Your Workflows
-When making significant changes, save as a new version rather than overwriting.
+Use [saved ComfyUI nodes](/guides/comfyui#save-and-reuse-a-configured-node) for workflows with repeated ComfyUI settings.
+Use **Output Gallery → Extract** to turn gallery items into reusable input nodes.
 
-### Organize by Project
-Create folders for different projects or clients.
+## Control cost and preserve work
 
-## Common Patterns
+Check [Models and pricing](/guides/models-pricing) before you run batches, loops, or fallback chains.
+The app's cost totals do not cover every provider or model.
+The provider account remains the record of billed usage.
 
-### Prompt Enhancement Pipeline
-```
-[Your Prompt] → [LLM: Enhance this prompt] → [Generate Image]
-```
-Use an LLM to expand simple prompts into detailed generation instructions.
+Save important changes with `Cmd/Ctrl + S` or **Nb → Save project**.
+Use [Assets](/guides/assets) to find earlier results and their generating workflow snapshots.
+For portable projects, keep workflow files and external media folders together.
+For embedded images, enable **Settings → Project → Embed images as base64**.
+Large embedded workflows use more memory.
 
-### A/B Testing
-```
-                    ┌→ [Generate Image: Provider A]
-[Prompt] → [Split] ─┤
-                    └→ [Generate Image: Provider B]
-```
-Compare different providers or models on the same prompt.
-
-### Iterative Refinement
-```
-[Image] → [Annotate: Mark changes] → [Generate Image: Apply changes]
-```
-Draw on images to guide refinements.
-
-### Multi-Style Generation
-```
-                           ┌→ [Prompt: Style 1] → [Generate Image]
-[Base Prompt] → [LLM] ─────┼→ [Prompt: Style 2] → [Generate Image]
-                           └→ [Prompt: Style 3] → [Generate Image]
-```
-Generate multiple style variations from one concept.
-
-### Video Generation
-```
-[Prompt] → [Generate Video] → [Output: Video playback]
-```
-Create AI-generated videos using video-capable models from Replicate or fal.ai.
-
-## Troubleshooting Workflows
-
-### Check Connections
-- Ensure handle types match (image→image, text→text)
-- Verify all inputs are connected
-- Look for disconnected nodes
-
-### Review Node States
-- Red border = error (check console)
-- Spinning = still processing
-- Idle = ready to run
-
-### Isolate Problems
-If a workflow fails:
-1. Find the failing node
-2. Run just that node
-3. Check its inputs
-4. Review its settings
-
-<Callout type="tip">
-  The browser console (F12 or Cmd+Option+I) often contains detailed error messages that help diagnose issues.
-</Callout>
+The [desktop app](/guides/desktop) provides crash recovery as well as normal project saves.

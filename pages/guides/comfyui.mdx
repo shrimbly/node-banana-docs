@@ -1,0 +1,137 @@
+# ComfyUI
+
+ComfyUI App runs a ComfyUI workflow as one Node Banana node.
+The imported workflow defines its inputs, settings, and outputs.
+A noodle is a connection between nodes.
+You can connect the ComfyUI App node to your canvas with typed noodles.
+A backend is the service that runs a ComfyUI workflow.
+
+## One key for Cloud and hosted models
+
+Enter your Comfy account key under **Settings → Providers → ComfyUI**, then save the settings.
+It covers Comfy Cloud workflows, hosted models through Comfy Router, and partner nodes inside workflows.
+For hosted models, choose ComfyUI on Generate Image or Generate Video instead of importing a workflow.
+Reopen **Settings → ComfyUI** and choose **Comfy Cloud**, **This computer**, or **Remote**.
+Remote-server authentication stays with that backend.
+See the [hosted model catalog](/guides/models-pricing#comfyui-hosted-models).
+
+## Choose a backend
+
+1. For Cloud, save the account key under **Settings → Providers → ComfyUI** first.
+2. Open **Nb → Project settings → ComfyUI**.
+3. Choose where the workflow runs.
+4. For a local or remote server, enter its endpoint and any remote authentication.
+5. Select **Test connection**.
+6. Save the settings.
+
+Save the Providers page before you return to ComfyUI.
+Switching settings pages alone does not save a draft key.
+
+| Backend | Setup |
+| --- | --- |
+| Comfy Cloud | Default choice. Add a [Comfy account key](https://platform.comfy.org/profile/api-keys) under Providers → ComfyUI. |
+| This computer | Run your own ComfyUI, normally at `http://127.0.0.1:8188`. |
+| Remote | Enter the address of another ComfyUI server and its authentication key, if required. |
+
+Comfy Cloud needs no local graphics processor (GPU) or ComfyUI installation.
+A local or remote server needs the models and custom nodes that your workflow uses.
+Ordinary local nodes need no Comfy Cloud key.
+Partner nodes can still need an account key.
+Custom nodes are ComfyUI extensions installed on that server.
+
+For a standard ComfyUI server, leave **Behind comfy-api-proxy** off.
+Enable it only for an endpoint that provides Comfy API v2.
+A standard server uses the older ComfyUI API.
+
+### Advanced settings
+
+| Setting | Effect |
+| --- | --- |
+| Comfy API-node key | Authorizes partner nodes inside the workflow, such as Gemini or Kling |
+| Job timeout | Waits 1–60 minutes for a job. Default 30 minutes |
+| Randomise seeds on every run | Changes seed values on each run. Enabled by default |
+
+A seed is a number that controls a model's random choices.
+An explicit seed on a node takes precedence over the randomization preference.
+The API-node key falls back to your shared Comfy account key when no override is set.
+
+## Import a workflow
+
+1. Press `Shift + C` to create a ComfyUI App node.
+2. Open a ComfyUI workflow JSON file in the import dialog.
+3. Check the proposed inputs, settings, and outputs.
+4. Confirm the selection.
+5. Connect media and text to the new sockets.
+6. Run the node or workflow.
+
+You can also drop a ComfyUI JSON file directly onto the canvas.
+The app creates a node at the drop point and opens the import dialog.
+
+### Choose an export format
+
+| Format | What the app does |
+| --- | --- |
+| Editor save | Reads the normal ComfyUI Save file and converts it through the selected server's node catalog |
+| API export | Uses the executable graph and detects inputs and outputs for your review |
+
+**App Mode** is ComfyUI's selection of inputs, settings, and outputs for a simplified app view.
+An editor save preserves those choices.
+An API export does not contain App Mode choices.
+Without App Mode, Node Banana detects candidates and asks you to check them.
+
+An editor save needs a reachable server with `/api/object_info`.
+That endpoint describes the installed ComfyUI nodes and their inputs.
+If an import reports missing custom nodes, install them on that server or choose another backend.
+
+{/* TODO screenshot: ComfyUI import dialog with the inputs, settings, and outputs selected for a node. */}
+
+## Use a Blueprint
+
+A Blueprint is a reusable subgraph supplied by the selected ComfyUI server.
+A subgraph is a smaller workflow inside another workflow.
+
+1. Open the ComfyUI import dialog.
+2. Select **Blueprints**.
+3. Choose a Blueprint from the server's list.
+4. Check its proposed inputs and outputs.
+5. Confirm it and connect the required media.
+
+The importer creates media loaders and output sinks around the Blueprint.
+A loader supplies media, and a sink collects a result.
+You do not need a separate workflow upload.
+If a Blueprint needs unsupported internal data, connect that data inside ComfyUI first.
+
+## Save and reuse a configured node
+
+1. Open the attached node's edit dialog.
+2. Check its selected inputs, settings, outputs, and current values.
+3. Select **Save as node**.
+
+Saved nodes appear in the canvas search, compatible noodle-drop menus, and the dialog's **Saved nodes** tab.
+A saved node contains the workflow, its exposed controls, and its values.
+Seeds are excluded from the saved values.
+
+Saving creates a snapshot rather than a live link.
+For an existing library entry, the dialog offers **Update saved node** and **Save as new**.
+You can reopen an attached workflow to change its exposed sockets and settings without another upload.
+
+## Results and previews
+
+Outputs depend on the workflow and can include images, text, video, audio, or 3D models.
+A ComfyUI `CURVE` setting appears as an editable tone curve.
+A tone curve maps input values to output values.
+
+A v2 backend streams partial image previews during a run.
+Comfy Cloud shows these previews instead of a percentage that misrepresents job progress.
+A standard local backend does not provide the same v2 preview stream.
+
+The Node Banana workflow file includes the attached ComfyUI workflow.
+The original import file is not required to reopen that node.
+The selected backend still needs its models and custom nodes.
+
+For endpoint, key, and timeout errors, see [Troubleshooting](/guides/troubleshooting#comfyui-errors).
+
+## Next steps
+
+- [ComfyUI hosted models](/guides/models-pricing#comfyui-hosted-models) lists the hosted image and video models.
+- [ComfyUI errors](/guides/troubleshooting#comfyui-errors) covers endpoint, key, and timeout problems.

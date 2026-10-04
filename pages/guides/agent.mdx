@@ -1,0 +1,91 @@
+# Agent
+
+For a ready-made starting workflow, see [Templates](/guides/templates).
+
+## Start with Agent
+
+The Agent can build and edit a workflow from your description.
+It uses Claude Code or Codex on your computer.
+These tools use their own account sign-in, separate from generation-provider keys.
+
+1. Select **Start with Agent** on the Welcome screen, or open **Agent** on the canvas.
+2. Choose **Claude Code** or **Codex**.
+3. If the selected tool is missing, use the installation command shown in the panel.
+4. Select **Open Claude Code sign-in** or **Sign in with ChatGPT**.
+5. Complete the account sign-in in your browser.
+6. Describe the inputs, steps, and outputs you want.
+7. Check the proposed nodes, models, prompts, and [noodles](/glossary) before generation.
+
+Claude Code needs a paid Claude subscription.
+Codex needs a ChatGPT plan that provides Codex access.
+The Agent requires confirmed subscription billing; provider API keys do not enable it.
+Generation nodes still need their selected providers' keys.
+The app stops Agent work at the detected plan limit instead of falling back to extra usage or credits.
+
+For example:
+
+```text
+Use a portrait image as a reference.
+Create three background descriptions with an LLM.
+Generate one portrait variation for each description.
+Collect the results in an Output Gallery.
+```
+
+An LLM is a large language model that reads and generates text.
+AI-generated workflows can need changes to model choices, prompts, or [sockets](/glossary).
+You can edit those parts with the same controls as a manual workflow.
+
+## Choose a model and manage a conversation
+
+| Control | What it does |
+| --- | --- |
+| Agent and model menu | Selects Claude Code or Codex and a model available through that tool |
+| Thinking effort | Sets the effort level for a model that supports it |
+| Enter | Sends a message, or queues it while a reply runs |
+| Shift + Enter | Adds a new line |
+| Stop | Stops the current Agent turn |
+| New chat | Starts a conversation and clears queued messages |
+
+The model menu can show a built-in list if the tool's model list is unavailable.
+You cannot switch tools while a reply runs.
+Closing the Agent window hides it; the current turn continues.
+
+Messages sent during a turn enter a queue above the composer.
+You can edit or remove queued messages.
+After a successful turn, the Agent processes them in order.
+After a stopped or failed turn, the queue waits for you to choose **Send now**.
+Switching tools clears the queue.
+
+Completed conversations appear in local history.
+History stays in that browser profile and holds up to 50 conversations within a storage limit.
+It is separate from the saved workflow file.
+
+## Undo and refine changes
+
+Use `Cmd/Ctrl + Z` to undo Agent changes.
+Each applied batch creates an undo step, so a turn with several batches can need several undo steps.
+
+If a workflow differs from your intent, describe the missing step in a follow-up message.
+The Agent carries earlier preferences through the current conversation.
+A new chat does not provide persistent project instructions.
+
+If a model needs a key, add that provider in Settings or choose a configured model.
+If sockets do not match, select a compatible model and reconnect the affected noodles.
+Save a useful result with `Cmd/Ctrl + S` or **Nb → Save project**.
+
+## Look up prompting tips
+
+1. Select one generation node with a model.
+2. Select **Look up prompting tips** in the Agent.
+3. Let the research turn finish and save its notes.
+4. Use **Refresh** for new research, or **Forget** to remove the saved tips.
+
+These notes describe how to prompt that model.
+They persist across chats and projects on this computer.
+The default notes folder is `~/.node-banana/prompt-notes`.
+They are separate from conversation history and your workflow prompts.
+
+## Next steps
+
+- For sign-in errors, see [Troubleshooting](/guides/troubleshooting#agent-sign-in-or-installation-errors).
+- See [Best practices](/guides/best-practices) for batch and reuse patterns.

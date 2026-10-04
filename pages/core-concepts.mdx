@@ -1,293 +1,203 @@
 # Core Concepts
 
-This page covers the fundamental concepts you need to understand when working with Node Banana.
+This page explains how data moves through a workflow and how you work on the canvas.
 
-## The Canvas
+## Follow the data
 
-The canvas is your workspace — an infinite 2D area where you build workflows. You can:
+Node Banana builds workflows on a canvas.
+A workflow is a set of nodes that pass data from one step to another.
+A node performs one task, such as image generation or video trimming.
+A noodle is a connection between two nodes.
 
-- **Pan** — Click and drag on empty space, or use scroll wheel
-- **Zoom** — Pinch to zoom, or use `Cmd/Ctrl + scroll`
-- **Select** — Click nodes, or drag a selection box
-- **Multi-select** — Hold `Shift` while clicking to select multiple nodes
+A socket is an input or output point on a node.
+Socket types identify the data they accept, such as text, image, video, or audio.
+You drag from an output socket to a compatible input socket.
 
-A **minimap** in the corner shows your current viewport position and provides quick navigation.
+For example, a Prompt node supplies text to a Generate Image node.
+The generated image can feed an Annotation node, another model, or an Output node.
+The app runs the steps in dependency order, so a node receives upstream results first.
 
-### Customizable Canvas Navigation
+## The canvas
 
-You can customize how you interact with the canvas to match your preferred workflow. Open **Project Settings** (gear icon in the header) and go to the **Canvas** tab to configure:
+Workflow tabs run across the top of the editor.
+The floating **Nb** menu contains project commands, settings, tabs, comments, and the Welcome screen.
+The floating action bar contains node buttons, **All nodes**, **All models**, noodle controls, and **Run**.
+Hover over an icon to see its label.
 
-| Setting | Options | Description |
-|---------|---------|-------------|
-| **Pan Mode** | Space + Drag (default), Middle Mouse, Always On | How you move the canvas around |
-| **Zoom Mode** | Alt + Scroll (default), Ctrl/Cmd + Scroll, Scroll | How you zoom in and out |
-| **Selection Mode** | Click (default), Alt + Drag, Shift + Drag | How you select nodes |
+The navigator contains the minimap, zoom controls, **Fit view**, and **Lock canvas**.
+Use **Hide minimap** or **Show minimap** to change its visibility.
+**Recent generations** opens the current tab's history panel at the top right.
+**Nb → Assets** opens the full [asset library](/guides/assets).
+Click a point in the minimap to move the canvas view there.
 
-Settings are saved to localStorage and persist across sessions.
+### Add and select nodes
 
-## Nodes
+1. Double-click or right-click empty canvas space.
+2. Type a node name in the search menu.
+3. Choose a result with the mouse or keyboard.
 
-Nodes are the building blocks of your workflow. Each node performs a specific function:
+Saved ComfyUI nodes also appear in this menu.
+If you drag a noodle onto empty space, a menu offers compatible nodes.
 
-| Node | Purpose |
-|------|---------|
-| **Image Input** | Load images from your computer |
-| **Audio Input** | Load audio files from your computer |
-| **Prompt** | Enter text prompts (can be named for use in templates) |
-| **Prompt Constructor** | Build prompts from templates with variables |
-| **Generate Image** | Generate images with AI (multi-provider) |
-| **Generate Video** | Generate videos with AI (multi-provider) |
-| **Generate 3D** | Generate 3D models with AI (multi-provider) |
-| **3D Viewer** | Display and interact with 3D models |
-| **Video Stitch** | Concatenate multiple videos |
-| **Ease Curve** | Apply speed curves to videos |
-| **LLM Generate** | Generate text with AI |
-| **Router** | Route data without transformation |
-| **Switch** | Toggle-controlled routing |
-| **Conditional Switch** | Rule-based text routing |
-| **Annotation** | Draw on images |
-| **Split Grid** | Split images into grids |
-| **Output** | Display and download results |
-| **Output Gallery** | View multiple images in thumbnail grid with lightbox |
-| **Image Compare** | Compare two images side-by-side with slider |
+You can copy selected nodes and paste them elsewhere.
+Pasted images and text create or fill suitable input nodes.
+Dragging a Node Banana JSON workflow onto the canvas loads that workflow.
+Dragging a ComfyUI workflow opens an import dialog for a new node.
 
-See the [Nodes Reference](/nodes) for detailed information on each node type.
+### Node anatomy
 
-### Node Anatomy
+| Part | Purpose |
+| --- | --- |
+| Media card | Shows the image, video, audio, or text result |
+| Sockets | Input and output points set into the card border |
+| Gap row | Holds history navigation or a media scrubber |
+| Controls card | Shows a summary row that opens model and node settings |
+| Resize edge | Changes node width while content determines height |
 
-Every node has:
+Double-click a resize edge to restore the node type's default width.
+Videos play inline on hover.
+Generation nodes show progress or errors on the media card.
+Router, Switch, Conditional Switch, and Array use a single card with socket-aligned rows.
 
-- **Title bar** — Shows the node type (click to edit the name)
-- **Input handles** — Connection points on the left
-- **Output handles** — Connection points on the right
-- **Body** — Node-specific controls and content
-- **Resize handle** — Bottom-right corner for resizing
+{/* TODO screenshot: A selected generation node with media card, sockets, history controls, and expanded controls card. */}
 
-## Edges (Connections)
+### Arrange several nodes
+
+Select at least two nodes to open the multi-select toolbar.
+Open **Arrange nodes** for horizontal stacking, vertical stacking, or a grid.
+The toolbar also provides a spacing slider.
+You can also run the selection, create a group, or remove nodes from a group.
+The model control changes models across selected generators.
+The download control collects selected images into a ZIP archive.
+
+## Noodles
+
+Noodles carry typed data: text, images, video, audio, 3D models, or ease curves.
+An ease curve describes how video time changes during playback.
+A compatible socket accepts the noodle's data type.
+Model selection can change the sockets on generation nodes.
+
+### Edit a noodle
+
+1. Select the noodle to open its toolbar.
+2. Enter a label, then press `Enter` to save it.
+3. To change the destination, drag the noodle's end to another compatible socket.
+
+The toolbar also provides pause, hide, delete, and applicable loop controls.
+If you select several noodles, pause and delete apply to the selection.
+A selection rectangle selects noodles when it selects no nodes.
+
+### Pause and loop
+
+A pause stops execution at a noodle so you can inspect the upstream result.
+Select **Run** again to resume the paused workflow.
+The noodle toolbar adds or removes the pause.
+
+A loop noodle sends an output back to an upstream input.
+Its toolbar sets an iteration count from 1 to 100, with a default of 3.
+Each iteration can make more provider requests.
 
-Edges are the lines that connect nodes. Data flows through edges from outputs to inputs.
-
-### Creating Connections
-
-1. Click and hold on an output handle
-2. Drag to a compatible input handle
-3. Release to create the connection
-
-### Connection Rules
-
-- **Text → Text**: Prompt outputs connect to text inputs
-- **Image → Image**: Image outputs connect to image inputs
-- **Video → Video**: Video outputs connect to video inputs
-- **Audio → Audio**: Audio outputs connect to audio inputs
-- **3D Model → 3D Model**: 3D outputs connect to 3D inputs (e.g., Generate 3D → 3D Viewer)
-- **Ease Curve → Ease Curve**: Easing configurations can be passed between Ease Curve nodes
-- **Multiple connections**: Image and video inputs can receive multiple connections; text inputs accept one
-- **Type safety**: You cannot connect incompatible types (e.g., text to image, audio to video)
-
-### Edge States
-
-- **Normal** — Gray line, data flows through
-- **Paused** — Dashed line, execution stops here
-- **Error** — Red line, indicates a problem
-
-Click an edge to toggle pause state. Right-click to delete.
-
-## Handle Types
-
-Handles are the connection points on nodes. Node Banana has six handle types:
-
-### Image Handles
-Used for visual content. Image data flows as base64-encoded data URLs.
-
-- Found on: Image Input, Annotation, Generate Image, Split Grid, 3D Viewer (output), Output
-- Color: Green
-- Accepts: PNG, JPG, WebP images
-
-### Audio Handles
-Used for audio content. Audio data flows as file references or data URLs.
-
-- Found on: Audio Input (output), Video Stitch (input)
-- Purpose: Add audio tracks to videos
-- Accepts: MP3, WAV, and other browser-supported formats
-
-### Video Handles
-Used for video content. Video data flows as URLs or base64-encoded data.
-
-- Found on: Generate Video, Video Stitch, Ease Curve, Output
-- Accepts: Various video formats (MP4, WebM, etc.)
-
-### Text Handles
-Used for string content like prompts and generated text.
-
-- Found on: Prompt (input and output), LLM Generate (input and output), Generate Image (input), Generate Video (input), Generate 3D (input)
-- Color: Blue
-- Accepts: Any text string
-
-<Callout type="info">
-  Prompt nodes can now both receive and send text. Connect LLM Generate output to Prompt input to chain text processing nodes together.
-</Callout>
-
-### 3D Model Handles
-Used for 3D model content. 3D models flow as GLB files.
-
-- Found on: Generate 3D (output), 3D Viewer (input)
-- Color: Orange
-- Accepts: GLB 3D model files
-- Connection validation: 3D outputs can only connect to 3D inputs
-
-### Ease Curve Handles
-Used for passing easing configuration between Ease Curve nodes.
-
-- Found on: Ease Curve (input and output)
-- Purpose: Chain multiple easing effects together
-- Data: Cubic bezier control points and preset configurations
-
-### Reference Handles
-Used for organizational purposes, primarily with Split Grid.
-
-- Found on: Split Grid (outputs)
-- Purpose: Visual organization, not data transfer
-
-## Workflow Execution
-
-When you run a workflow, Node Banana executes nodes in dependency order using topological sorting. Independent nodes at the same dependency level execute in parallel for improved performance.
-
-### Execution Order
-
-1. Nodes with no dependencies run first (source nodes)
-2. Independent nodes at the same level execute in parallel
-3. Downstream nodes run after their inputs are ready
-4. The workflow completes when all nodes have executed
-
-### Parallel Execution
-
-Node Banana automatically identifies nodes that can run simultaneously:
-
-- **Level-based grouping**: Nodes are grouped by dependency depth
-- **Parallel execution**: All nodes in a level execute concurrently
-- **Performance gains**: Workflows with multiple independent generation nodes complete significantly faster
-
-**Example:** A workflow with 3 independent image generation nodes (each taking 20s) completes in ~20s instead of 60s.
-
-The floating action bar shows parallel execution status:
-- "Running..." (no nodes)
-- "Running \{NodeLabel\}..." (single node)
-- "Running N nodes..." (multiple nodes in parallel)
-
-### Running Workflows
-
-- `Cmd/Ctrl + Enter` — Run entire workflow
-- **Run button** — Click in header to run all
-- **Run selected** — Select nodes and choose "Run N selected nodes" from the Run dropdown
-- **Node play button** — Run from a specific node
-- **Regenerate** — Re-run a single node with same inputs
-
-#### Execute Selected Nodes
-
-When you select one or more nodes, the Run dropdown in the floating action bar shows the option to run only the selected nodes:
-
-- Execution respects dependency order (topological sort)
-- Upstream dependencies of selected nodes execute first
-- Downstream nodes that depend on selected nodes also execute
-- Supports abort/cancellation mid-execution
-
-This is useful for testing specific parts of a workflow without running everything.
-
-### Execution States
-
-Nodes show their current state:
-
-- **Idle** — Ready to run
-- **Running** — Currently executing (shows spinner)
-- **Complete** — Finished successfully
-- **Error** — Something went wrong (shows error message)
-
-## Groups
-
-Groups let you organize related nodes together.
-
-### Creating Groups
-
-1. Select multiple nodes
-2. Right-click and select "Create Group"
-3. Name your group
-
-### Group Features
-
-- **Visual boundary** — Groups have a colored background
-- **Move together** — Dragging the group moves all contained nodes
-- **Lock groups** — Locked groups are skipped during execution
-
-import { Callout } from 'nextra/components'
-
-<Callout type="tip">
-  Use locked groups to temporarily disable parts of your workflow without deleting them.
-</Callout>
-
-## Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `?` | Show keyboard shortcuts dialog |
-| `Cmd/Ctrl + Enter` | Run workflow |
-| `Cmd/Ctrl + C` | Copy selected nodes |
-| `Cmd/Ctrl + V` | Paste nodes (or paste image into selected Image Input node) |
-| `Shift + P` | Add Prompt node |
-| `Shift + I` | Add Image Input node |
-| `Shift + G` | Add Generate Image node |
-| `Shift + V` | Add Generate Video node |
-| `Shift + L` | Add LLM node |
-| `Shift + A` | Add Annotation node |
-| `Shift + T` | Add Audio node |
-| `Shift + R` | Add Array node |
-| `H` | Stack selected horizontally |
-| `V` | Stack selected vertically |
-| `G` | Arrange selected in grid |
-| `Delete/Backspace` | Delete selected |
-
-<Callout type="tip">
-  Press `?` anywhere on the canvas to open the keyboard shortcuts dialog, which shows all available shortcuts grouped by category with correct modifier keys for your platform (⌘ on Mac, Ctrl on Windows/Linux).
-</Callout>
-
-## Cost Tracking
-
-Node Banana tracks API costs for image and text generation.
-
-### How Costs Work
-
-- Each generation node shows estimated cost before running
-- Actual costs are tracked after generation
-- Total workflow cost displays in the header
-- Costs persist between sessions
-
-### Pricing (Approximate)
-
-| Model | Cost per Image |
-|-------|---------------|
-| nano-banana | $0.039 |
-| nano-banana-pro (1K) | $0.134 |
-| nano-banana-pro (2K) | $0.134 |
-| nano-banana-pro (4K) | $0.24 |
-
-See [Models & Pricing](/guides/models-pricing) for detailed pricing information.
-
-## Auto-Save
-
-Node Banana automatically saves your work:
-
-- **Interval** — Every 90 seconds when enabled
-- **Location** — Configured in project settings
-- **Format** — JSON workflow files
-- **Image storage** — Workflows can store images as external files (default) or embedded base64 data. The `useExternalImageStorage` setting persists in the workflow configuration.
-
-The header shows save status and last save time.
-
-### Save Directory Changes
-
-When you save a workflow to a different directory:
-- Image references are automatically cleared to prevent invalid paths
-- A new workflow ID is generated to avoid localStorage conflicts
-- Images are re-saved to the new location
-- Image history IDs are preserved during the migration
-
-This ensures your workflow remains self-contained and portable across different project directories.
+### Hide and show
+
+Hidden noodles still carry data and remain in saved workflows.
+The editor shows short labeled stubs beside their sockets.
+Hidden noodles with the same handle and label share a stack.
+Click its pill to expand it, or hover to preview its noodles.
+Double-click a stack label to rename every member; an individual pill renames one noodle.
+Press `Enter` to save a name, or `Escape` to cancel.
+The downstream pill's upstream-jump control centers the source end on the canvas.
+Select a stub and choose **Show** to restore its noodle.
+The action-bar visibility control hides or shows all noodles.
+
+### Bundle and unbundle
+
+A bundle draws several noodles as one shared stem without changing execution.
+
+1. Click a socket to open its menu.
+2. Select **Bundle** to gather its noodles.
+3. Drag the bundle clamp to change the shared stem's length.
+4. Select **Unbundle** to separate the noodles.
+
+You can also bundle selected noodles from their toolbar or context actions.
+Hold `H` and drag across noodles to hook them into a bundle.
+A Router remains useful when you need a shared node that passes data onward.
+
+### Appearance
+
+Use **Settings → Noodles** to change the drawing style.
+These settings also persist in the workflow file.
+
+| Setting | Values or effect |
+| --- | --- |
+| Line style | Curved, Angular, or Straight |
+| Thickness | Thin, Regular, or Thick |
+| Faded connections | Opacity for noodles outside the selected node |
+| Gradient | Fades the middle of each noodle |
+| Loading pulse | Animates noodles into a node during generation |
+
+The action-bar line-style button cycles the three styles.
+Noodle colors identify data types.
+
+## Workflow execution
+
+The app runs nodes after their upstream dependencies.
+Independent nodes can run in parallel, within **Settings → Node defaults → Max parallel calls**.
+That setting accepts 1 to 10 concurrent calls.
+
+| Run control | Scope |
+| --- | --- |
+| Run all / `Cmd/Ctrl + Enter` | Entire workflow, or resume a pause |
+| Run from selected | Selected node and its downstream path |
+| Run selected / `Alt/Option + Enter` | The selected node or set |
+| Run group | The nodes in the selected group |
+| Runs | Repeat the selected scope 1–50 times |
+| Stop | End repeated runs after the current run; a second click stops immediately |
+
+The Run menu shares one **Runs** count across workflow, selection, and group actions.
+The workflow file saves that count.
+Repetitions run in order, and outputs show **Run n of N**.
+Each repetition can make new billed provider requests.
+
+If repetitions remain, the first **Stop** lets the current run finish and prevents the next.
+The button changes to **Stopping**; another click stops immediately.
+During the final repetition or a single run, **Stop** stops immediately.
+Immediate Stop also cancels active stitch, trim, and ease-curve encodes.
+Remote provider jobs can continue after the editor stops.
+
+You can start different nodes concurrently with their own Run buttons.
+You cannot start the same node twice, or add these runs during a workflow or selection run.
+The global Stop control stops these independent node runs.
+
+Missing inputs do not disable Run.
+If a node has no usable input, the app skips it instead of blocking the workflow.
+Optional input nodes let you leave a branch empty.
+An empty optional input also skips the downstream nodes that depend on it.
+Locked groups and disabled Switch paths skip their nodes.
+
+Array batch mode feeds items through supported generation nodes one at a time.
+Loop noodles repeat a path for the chosen iteration count.
+A generation node's **Fallback** tab can select another model and its settings.
+If the primary model fails, the app retries with that fallback.
+
+Long provider tasks use browser polling: the app checks an existing job until it finishes.
+A slow task does not necessarily mean that the request failed.
+See [Troubleshooting](/guides/troubleshooting) before you submit the same job again.
+
+## Groups and comments
+
+A group keeps related nodes together and moves them as a set.
+Its menu provides six color swatches, a lock, **Run group**, and the **NBP Input** flag.
+The flag marks inputs for Node Banana Pro.
+A locked group skips execution.
+The multi-select toolbar can remove nodes from a group without deleting them.
+
+Node comments explain a step's purpose.
+**Nb → Next comment** moves through comments in the workflow.
+
+## Next steps
+
+- [Nodes](/nodes) lists all 28 node types.
+- [Settings](/settings) describes each tab in the settings dialog.
+- [Keyboard Shortcuts](/keyboard-shortcuts) lists the canvas and Assets shortcuts.
+- [Project files and auto-save](/guides/assets#project-files-and-auto-save) explains how the app saves your work.
+- [Best Practices](/guides/best-practices) shows patterns for larger workflows.
