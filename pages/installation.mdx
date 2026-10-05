@@ -10,32 +10,17 @@ In these guides, **Settings** means the **Nb → Project settings** dialog.
 
 | Option | Use it when | You need |
 | --- | --- | --- |
-| [Desktop app](#install-the-desktop-app) | You use Windows x64 or macOS on Apple Silicon. | A preview installer from `develop`. Version 1.10.0 has no installers. You do not need Node.js, npm, or the app repository. |
+| [Desktop app](#install-the-desktop-app) | You use macOS on Apple Silicon. A Windows build is coming soon. | A preview installer from `develop`. Version 1.10.0 has no installers. You do not need Node.js, npm, or the app repository. |
 | [Install from source](#install-from-source) | You want to use the app in a browser on any operating system. | Git, npm, and Node.js 22.12 or newer. |
 
 ## Install the desktop app
 
 The desktop app is a preview on `develop` and is not part of version 1.10.0.
-Windows builds are unsigned.
+Only the Mac app is published; a Windows build is coming soon.
 Mac builds can be signed and notarized; default local packaging remains unsigned.
 
 A ZIP is a compressed archive.
 Preview packages include the local server, so you do not need Node.js, npm, or the app repository.
-
-### Windows x64
-
-Windows packages include an `.exe` installer and a ZIP.
-The preview is verified on Windows 11 x64.
-
-1. Open the preview `.exe` installer.
-2. Choose the installation folder, or keep the default.
-3. Open **Node Banana**.
-4. Enter provider keys during setup or in **Settings → Providers**.
-
-The installer installs for your Windows account without administrator access.
-Its default folder is `%LOCALAPPDATA%\Programs\Node Banana\`.
-You can also extract the ZIP and open the app inside it.
-The unsigned installer can trigger a Windows SmartScreen warning.
 
 ### macOS on Apple Silicon
 
@@ -49,6 +34,12 @@ A DMG is a macOS disk image.
 
 Available installers depend on the published release and its attached files.
 For updates and recovery, see [Desktop App](/guides/desktop).
+
+### Windows
+
+A Windows build is coming soon.
+It was held back from the release until it runs as well as the Mac app.
+Until then, run Node Banana on Windows [from source](#install-from-source).
 
 ## Install from source
 

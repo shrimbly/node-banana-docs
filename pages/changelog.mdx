@@ -63,9 +63,11 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 - The Welcome screen, onboarding, templates, and settings use split layouts.
 - The Nb menu adds a Templates entry, and the Welcome screen updates its resource links.
 - The app uses a new Nb icon.
+- The published desktop download offers the Mac app only; the Windows x64 build is withdrawn and coming soon. ([#181](https://github.com/shrimbly/node-banana/pull/181))
 
 ### Fixed
 
+- Signed Mac packaging verifies its own code signature before finishing. ([#181](https://github.com/shrimbly/node-banana/pull/181))
 - Generation history finds the correct folder and omits files that no longer exist. ([#164](https://github.com/shrimbly/node-banana/pull/164))
 - Workflow load and save discard temporary blob URLs that cannot survive another session. ([#168](https://github.com/shrimbly/node-banana/pull/168))
 - Ease Curve controls fit the node and show inherited settings. ([#166](https://github.com/shrimbly/node-banana/pull/166))
