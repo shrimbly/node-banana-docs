@@ -13,6 +13,7 @@ It covers Comfy Cloud workflows, hosted models through Comfy Router, and partner
 For hosted models, choose ComfyUI on Generate Image or Generate Video instead of importing a workflow.
 Reopen **Settings → ComfyUI** and choose **Comfy Cloud**, **This computer**, or **Remote**.
 Remote-server authentication stays with that backend.
+ElevenLabs voices and sound effects run on their own route, since Comfy Router's queue cannot carry raw audio.
 See the [hosted model catalog](/guides/models-pricing#comfyui-hosted-models).
 
 ## Choose a backend
@@ -66,6 +67,12 @@ The API-node key falls back to your shared Comfy account key when no override is
 
 You can also drop a ComfyUI JSON file directly onto the canvas.
 The app creates a node at the drop point and opens the import dialog.
+The dialog previews the node as the canvas draws it.
+
+Attaching a workflow adds a Prompt node for each text input the workflow was saved with text in.
+Each new Prompt node holds that text and connects to its handle.
+A workflow whose system prompt matters then runs as its author intended the first time.
+The import dialog's seed setting states what it will do after each run.
 
 ### Choose an export format
 
@@ -114,6 +121,7 @@ Seeds are excluded from the saved values.
 Saving creates a snapshot rather than a live link.
 For an existing library entry, the dialog offers **Update saved node** and **Save as new**.
 You can reopen an attached workflow to change its exposed sockets and settings without another upload.
+To swap the attached workflow, open **Replace workflow** in the node header's menu.
 
 ## Results and previews
 
@@ -124,6 +132,9 @@ A tone curve maps input values to output values.
 A v2 backend streams partial image previews during a run.
 Comfy Cloud shows these previews instead of a percentage that misrepresents job progress.
 A standard local backend does not provide the same v2 preview stream.
+
+A node made from a workflow keeps every run.
+Use the arrows under the picture to move back through them, as on image and video nodes.
 
 The Node Banana workflow file includes the attached ComfyUI workflow.
 The original import file is not required to reopen that node.

@@ -2,7 +2,7 @@
 
 import { Callout } from 'nextra/components'
 
-The desktop preview runs Node Banana in an Electron window with a local server.
+The desktop app runs Node Banana in an Electron window with a local server.
 Packaged apps support update checks and installation.
 
 <Callout type="info">
@@ -30,8 +30,8 @@ After download, quitting the app also installs the update.
 Closing the notice hides it until the next check.
 If installation fails, the notice links to the release for a manual download.
 
-Mac updates require a signed build; an unsigned preview needs a manual installation.
-Windows updates run the downloaded installer silently.
+Mac builds are signed and update themselves from a release.
+Windows updates run the downloaded installer silently after the first, SmartScreen-warned install.
 Development runs do not install updates.
 Profiles with `NODE_BANANA_ELECTRON_USER_DATA` set do not check automatically.
 
@@ -40,7 +40,8 @@ Profiles with `NODE_BANANA_ELECTRON_USER_DATA` set do not check automatically.
 On Windows, the app has no native title bar or visible menu bar.
 Drag the workflow tab strip to move the window.
 Double-click the strip to maximise or restore it.
-The top-right buttons minimise, maximise or restore, and close the window.
+The top-right caption buttons minimise, maximise or restore, and close the window.
+Drag the window's top edge to resize it from the top.
 Press **F11** to toggle fullscreen.
 
 ## Credentials and environment import
@@ -89,6 +90,7 @@ It also supports these ComfyUI variables:
 Workflows remain ordinary files that the browser app can also open.
 The desktop app uses native folder dialogs.
 Recovery checkpoints record unsaved tabs after one second without edits, or every five seconds during continuous edits.
+Checkpoints, window bounds, and media chunks write off the main thread, so saving no longer stalls input.
 Large media and slow storage can delay checkpoints.
 
 After a crash, **Restore Session** restores the saved tabs, noodles, viewport, media, and costs.
@@ -169,7 +171,7 @@ The command writes these artifacts to `dist-electron/`:
 | Windows x64 | `.exe` installer, ZIP, updater manifest, blockmaps, and `win-unpacked/` app folder |
 | macOS on Apple Silicon | App, DMG, ZIP, updater manifest, and blockmaps |
 
-Intel Mac, Windows ARM64, and Linux packages are outside this preview.
+Intel Mac, Windows ARM64, and Linux packages are outside this release.
 
 ## Next steps
 

@@ -91,6 +91,8 @@ A rejected key, unavailable model, quota limit, or unsupported input needs a dif
 | Missing or renamed model | Use Retry on a provider notice, or Search Replicate / Search fal.ai for other results |
 | Request limit | Reduce Max parallel calls in Settings → Node defaults |
 | Primary model fails | Check the Fallback tab and its provider key |
+| Transient server error | A 502, 503, 504, dropped connection, or overloaded model is retried up to three times before it fails |
+| fal.ai settings card is blank | Open it again; the app waits out fal's rate limit and a refusal now shows a Retry |
 | Long video or 3D task | Keep the app open while it polls the existing job |
 | Encode must stop | Select Stop; if a repeated run shows Stopping, select it again to stop immediately |
 | Provider rejects content | Check the reported restriction and revise the prompt or media |
@@ -177,7 +179,7 @@ See [Assets and Storage](/guides/assets) for move choices, Trash, and permanent 
 ## Desktop update errors
 
 If an update fails, use the notice's release link to get the installer manually.
-An unsigned Mac preview cannot update in place.
+Signed Mac builds update in place; an unsigned local build needs a manual install.
 Development runs do not install updates, and isolated test profiles do not check automatically.
 A downloaded update installs on restart or the next normal quit.
 Save your work before either action.

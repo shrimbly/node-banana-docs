@@ -2,7 +2,7 @@
 
 These entries follow the app's release history.
 Historical entries describe behavior at that release, including features that later releases replace.
-The guides describe the checked `develop` snapshot, including Unreleased changes.
+The guides describe the checked `develop` snapshot at the 2.1.0 release.
 
 Dates come from the app's `CHANGELOG.md`, except 1.7.0 and 1.8.0, which use their published release notes.
 The app records its initial release as 1.0.0 without a date.
@@ -10,7 +10,41 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ---
 
-## Unreleased
+## 2.1.0 — 2026-10-12
+
+### Added
+
+- Windows x64 returns as an unsigned installer for Windows 10 or later, after a canvas performance pass and window-chrome fixes. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The Agent gains a full-page chat, opened with `C`, with a conversation sidebar, folded tool calls, and a Copy button under each reply. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A workflow the Agent built shows in the chat as a minimap with Open in canvas; a workflow built from scratch is named and saved. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The Agent runs a workflow only on request through a Run card scoped to the workflow, a group, changed nodes, or a node. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- Run progress and results appear in the chat as previews, open in the full-screen viewer, and attach to your next message. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The Agent reads node outputs with `view_outputs` to judge a result and change the workflow accordingly. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- Attaching a ComfyUI workflow adds a Prompt node for each saved text input, holding that text and wired to its handle. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The ComfyUI import dialog previews the node as the canvas draws it, and a seed setting states what it does after each run. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- Video players add a sound button in each scrub row, one remembered on/off setting, and a volume slider on hover. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A trial low-detail mode draws nodes as light cards below 25% zoom, with its switch and threshold in Settings → Canvas. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+
+### Changed
+
+- Canvas panning and dragging are smoother on React Flow 12.11.2, with pointer capture, a node drag that commits on drop, and cached lookups. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- Desktop recovery checkpoints, window bounds, and media chunks are written off the main thread, and thumbnails decode off it a few at a time. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The ComfyUI node's Replace workflow moves to the node header menu. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- The media viewer rail shows the whole prompt. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+
+### Fixed
+
+- A run that ends early, by a failure or by Stop, now settles every node it started instead of leaving neighbors spinning. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A 502, 503, or 504, a dropped connection, or Gemini's model-overloaded error is retried up to three times with a short backoff. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A Comfy Router submit keeps one idempotency key across retries, so a retry never queues a run twice. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A node made from a ComfyUI workflow keeps every run, with the same history arrows as image and video nodes. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- ElevenLabs voices and sound effects on Comfy Router run again on their own route. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A fal.ai settings card no longer comes up blank after the model browser opens, and a refusal now shows a Retry. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+- A marquee near the canvas edge no longer pans it, and Lock canvas locks the nodes again. ([#185](https://github.com/shrimbly/node-banana/pull/185))
+
+---
+
+## 2.0.0 — 2026-10-04
 
 ### Added
 
@@ -26,7 +60,7 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 - The media viewer supports history and gallery browsing, downloads, and reuse actions.
 - Shortcuts add Save, Run selected, Generate 3D, Output, and Assets.
 - The desktop preview adds encrypted credentials, environment imports, crash recovery, and Apple Silicon packaging. ([#160](https://github.com/shrimbly/node-banana/pull/160))
-- Windows x64 adds an unsigned installer, ZIP package, and window controls in the workflow tab strip. ([#171](https://github.com/shrimbly/node-banana/pull/171))
+- Windows x64 window controls join the workflow tab strip; its installer shipped briefly, was withdrawn, and returns in 2.1.0. ([#171](https://github.com/shrimbly/node-banana/pull/171))
 - Desktop credential recovery can reset unreadable stored keys while preserving the original file. ([#171](https://github.com/shrimbly/node-banana/pull/171))
 - Noodle controls add labels, hide/show, re-plugging, bundles, and appearance settings. ([#150](https://github.com/shrimbly/node-banana/pull/150))
 - Hold H and drag to hook noodles into a bundle.

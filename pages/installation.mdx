@@ -3,31 +3,30 @@
 import { Callout } from 'nextra/components'
 
 You can install the desktop app or run the app from source in a browser.
-These guides describe `develop`, including features that are not yet in a release.
+These guides describe `develop` at the 2.1.0 release.
 In these guides, **Settings** means the **Nb → Project settings** dialog.
 
 ## Choose how to install
 
 | Option | Use it when | You need |
 | --- | --- | --- |
-| [Desktop app](#install-the-desktop-app) | You use Windows x64 or macOS on Apple Silicon. | A preview installer from `develop`. Version 1.10.0 has no installers. You do not need Node.js, npm, or the app repository. |
+| [Desktop app](#install-the-desktop-app) | You use Windows x64 or macOS on Apple Silicon. | A signed Mac installer or an unsigned Windows installer from the 2.1.0 release. You do not need Node.js, npm, or the app repository. |
 | [Install from source](#install-from-source) | You want to use the app in a browser on any operating system. | Git, npm, and Node.js 22.12 or newer. |
 
 ## Install the desktop app
 
-The desktop app is a preview on `develop` and is not part of version 1.10.0.
-Windows builds are unsigned.
-Mac builds can be signed and notarized; default local packaging remains unsigned.
+The desktop app ships from the 2.1.0 release.
+Mac builds are signed and notarized, and Windows builds are unsigned.
 
 A ZIP is a compressed archive.
-Preview packages include the local server, so you do not need Node.js, npm, or the app repository.
+Release packages include the local server, so you do not need Node.js, npm, or the app repository.
 
 ### Windows x64
 
 Windows packages include an `.exe` installer and a ZIP.
-The preview is verified on Windows 11 x64.
+The 2.1.0 installer supports Windows 10 or later.
 
-1. Open the preview `.exe` installer.
+1. Open the `.exe` installer.
 2. Choose the installation folder, or keep the default.
 3. Open **Node Banana**.
 4. Enter provider keys during setup or in **Settings → Providers**.
@@ -35,16 +34,17 @@ The preview is verified on Windows 11 x64.
 The installer installs for your Windows account without administrator access.
 Its default folder is `%LOCALAPPDATA%\Programs\Node Banana\`.
 You can also extract the ZIP and open the app inside it.
-The unsigned installer can trigger a Windows SmartScreen warning.
+The unsigned installer triggers a Windows SmartScreen warning on first run; choose **More info → Run anyway**.
 
 ### macOS on Apple Silicon
 
 A DMG is a macOS disk image.
+The 2.1.0 build supports macOS 13 or later and updates itself from later releases.
 
 1. Open the DMG and drag **Node Banana** into **Applications**.
 2. Alternatively, extract the ZIP and move the app into **Applications**.
 3. Open the installed app.
-4. If macOS blocks a trusted unsigned preview, use **System Settings → Privacy & Security → Open Anyway**.
+4. If macOS blocks the app, use **System Settings → Privacy & Security → Open Anyway**.
 5. Enter provider keys during setup or in **Settings → Providers**.
 
 Available installers depend on the published release and its attached files.
