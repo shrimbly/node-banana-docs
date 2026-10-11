@@ -60,6 +60,36 @@ Completed conversations appear in local history.
 History stays in that browser profile and holds up to 50 conversations within a storage limit.
 It is separate from the saved workflow file.
 
+## Open the full-page chat
+
+The floating Agent window expands into a full-page chat over the canvas.
+
+1. Press `C`, or use the expand control in the Agent window.
+2. Read the conversation and open past conversations from the sidebar.
+3. Press `C` again to return to the canvas.
+
+The chat and the floating window share one conversation.
+A turn's tool calls fold under one line, and each reply has a Copy button.
+A workflow the Agent builds shows as a minimap with **Open in canvas**.
+A workflow built from scratch is named and saved for you.
+
+## Run and review from the chat
+
+The Agent never starts a run on its own.
+When you ask it to run something, it adds a Run card to the chat.
+
+1. Ask the Agent to run the workflow, a group, the nodes it changed, or from a node.
+2. Check the Run card's scope, run count, and options.
+3. Start the run from the card.
+4. Watch progress, then the results, as previews in the chat.
+
+Select a preview to open the full-screen viewer.
+You can attach a result to your next message.
+A turn that builds runnable nodes ends with a Run card too.
+
+With `view_outputs`, the Agent reads what the nodes generated.
+It can then judge a result and change the workflow accordingly.
+
 ## Undo and refine changes
 
 Use `Cmd/Ctrl + Z` to undo Agent changes.
