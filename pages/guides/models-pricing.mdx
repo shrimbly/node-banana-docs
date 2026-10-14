@@ -49,17 +49,18 @@ For Replicate, an exact owner/model search can find entries outside the loaded l
 
 ## Gemini image models
 
-All four direct Gemini image models accept text and reference images.
+All five direct Gemini image models accept text and reference images.
 
 | Model | App ID | Supported resolution | Estimated USD per image |
 | --- | --- | --- | --- |
 | Nano Banana | `nano-banana` | 1K | $0.039 |
 | Nano Banana Pro | `nano-banana-pro` | 1K / 2K / 4K | $0.134 / $0.134 / $0.240 |
 | Nano Banana 2 | `nano-banana-2` | 512 / 1K / 2K / 4K | $0.045 / $0.067 / $0.101 / $0.151 |
+| Nano Banana 2.1 | `nano-banana-2.1` | 1K / 2K / 4K | $0.034 / $0.050 / $0.113 |
 | Nano Banana 2 Lite | `nano-banana-2-lite` | 1K | $0.034 |
 
 Nano Banana Pro supports Google Search.
-Nano Banana 2 supports Google Search and Image Search.
+Nano Banana 2 and Nano Banana 2.1 support Google Search and Image Search.
 Nano Banana and Nano Banana 2 Lite have no search or resolution controls.
 
 ### Aspect ratios
@@ -70,9 +71,10 @@ Available values depend on the model and provider.
 | Models | Ratios |
 | --- | --- |
 | All direct Gemini image models | 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 |
-| Nano Banana 2 also supports | 1:4, 1:8, 4:1, 8:1 |
+| Nano Banana 2 and 2.1 also support | 1:4, 1:8, 4:1, 8:1 |
 
 The direct Nano Banana 2 model supports the 512 tier.
+Nano Banana 2.1 has no 512 tier and starts at 1K.
 The Kie version offers 1K, 2K, and 4K, with its own settings and pricing.
 
 ## OpenAI image models
@@ -136,7 +138,7 @@ This runs a hosted model through Generate Image or Generate Video.
 Importing a ComfyUI workflow uses the separate [ComfyUI App node](/guides/comfyui).
 Both paths can use the account key in **Settings → Providers → ComfyUI**.
 
-The catalog contains 19 image models and 19 video models.
+The catalog is extensive and refreshes from Comfy Router; the tables below list common image and video models.
 The app supplies no fixed price for these entries.
 Direct-provider prices elsewhere on this page do not establish Comfy Router prices.
 Check the selected model's parameters and sockets before you run it.
@@ -155,6 +157,7 @@ Check the selected model's parameters and sockets before you run it.
 | GPT Image 1.5 | `openai/gpt-image-1.5` |
 | Nano Banana Pro | `vertexai/gemini-3-pro-image` |
 | Nano Banana 2 | `vertexai/gemini-3.1-flash-image` |
+| Nano Banana 2.1 | `vertexai/gemini-nano-banana-2.1` |
 | Nano Banana | `vertexai/gemini-2.5-flash-image` |
 | Seedream 5.0 | `byteplus/seedream-5-0-260128` |
 | Seedream 4.5 | `byteplus/seedream-4-5-251128` |
@@ -179,7 +182,6 @@ Check the selected model's parameters and sockets before you run it.
 | Kling 3.0 Turbo | `kling/kling-3.0-turbo` |
 | Veo 3.1 | `veo/veo-3.1-generate-001` |
 | Veo 3.1 Fast | `veo/veo-3.1-fast-generate-001` |
-| Veo 3 | `veo/veo-3.0-generate-001` |
 | Grok Imagine Video 1.5 | `xai/grok-imagine-video-1.5` |
 | Runway Gen-4 Turbo | `runway/gen4_turbo` |
 | LTX 2.5 Pro | `ltx/ltx-2-5-pro` |
@@ -188,6 +190,9 @@ Check the selected model's parameters and sockets before you run it.
 | Wan 2.7 | `wan/wan2.7-t2v` |
 | Wan 2.7 Image to Video | `wan/wan2.7-i2v` |
 | Luma Ray 2 | `luma/ray-2` |
+
+Comfy Router also offers Pika's own routes for Nano Banana Pro, Nano Banana 2, GPT Image 2, Pika 2.5, and Seedance 2.0.
+Higgsfield's Genjutsu Motion Transfer recasts a video using up to eight reference images.
 
 Comfy Router submits queued jobs and polls their existing job IDs.
 Keep the app open while a job runs.
