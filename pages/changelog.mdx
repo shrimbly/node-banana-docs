@@ -2,7 +2,7 @@
 
 These entries follow the app's release history.
 Historical entries describe behavior at that release, including features that later releases replace.
-The guides describe the checked `develop` snapshot, including Unreleased changes.
+The guides describe the checked `develop` snapshot, which can lead the latest release.
 
 Dates come from the app's `CHANGELOG.md`, except 1.7.0 and 1.8.0, which use their published release notes.
 The app records its initial release as 1.0.0 without a date.
@@ -10,7 +10,56 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ---
 
-## Unreleased
+## 2.1.1 — 2026-10-15
+
+### Added
+
+- Nano Banana 2.1 joins the Gemini image models at 1K, 2K, or 4K, with the wide Nano Banana 2 aspect ratios and search grounding. ([#192](https://github.com/shrimbly/node-banana/pull/192))
+- Comfy Router adds Nano Banana 2.1, Pika's own routes for several models, and Higgsfield's Genjutsu Motion Transfer. ([#192](https://github.com/shrimbly/node-banana/pull/192))
+
+### Fixed
+
+- The desktop app saves the Comfy provider key again, instead of refusing it and every key saved with it as an invalid field. ([#192](https://github.com/shrimbly/node-banana/pull/192))
+
+### Removed
+
+- Comfy Router drops Imagen 3, Imagen 3 Fast, Veo 3, and Veo 3 Fast, which the Router no longer serves. ([#192](https://github.com/shrimbly/node-banana/pull/192))
+
+---
+
+## 2.1.0 — 2026-10-12
+
+### Added
+
+- Windows x64 adds an unsigned installer, ZIP package, and window controls in the workflow tab strip. ([#171](https://github.com/shrimbly/node-banana/pull/171))
+- Desktop credential recovery can reset unreadable stored keys while preserving the original file. ([#171](https://github.com/shrimbly/node-banana/pull/171))
+- The Agent gains a full-page chat with a workflow minimap, folded tool calls, reply copying, and a conversation sidebar.
+- The Agent sets up and shows Run cards from the chat, then displays progress and result previews.
+- The Agent reads node outputs from the library to judge results and adjust the workflow.
+- Attaching a ComfyUI workflow adds a Prompt node for each saved text input, wired to its handle.
+- The ComfyUI import dialog previews the node as drawn, adds Replace workflow, and opens its ComfyUI settings.
+- Video players gain a sound button that unmutes playback and remembers the choice; hover previews stay silent.
+- Nodes draw as light cards below 25% zoom for smoother panning, set in Settings → Canvas.
+
+### Changed
+
+- Canvas gestures, drag handling, and caching were reworked for performance, measured with a new performance runner.
+- The desktop writes checkpoints, hashes media, and decodes thumbnails off the main thread.
+- The media viewer rail shows the whole prompt.
+- The website adds Vercel Web Analytics with a Download event for each installer click.
+
+### Fixed
+
+- A run that ends early, by failure or Stop, settles every node it started.
+- Transient provider errors like 502, 503, 504, dropped connections, or overloaded models retry up to three times.
+- A node made from a ComfyUI workflow keeps every run in a carousel, like the image and video nodes.
+- ElevenLabs voices and sound effects on Comfy Router run on their own route and return audio directly.
+- A rate-limited fal.ai settings request is retried instead of cached as an empty result.
+- Canvas, Agent, and noodle fixes cover marquee panning, canvas lock, and deleted conversations.
+
+---
+
+## 2.0.0 — 2026-10-04
 
 ### Added
 
@@ -26,8 +75,6 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 - The media viewer supports history and gallery browsing, downloads, and reuse actions.
 - Shortcuts add Save, Run selected, Generate 3D, Output, and Assets.
 - The desktop preview adds encrypted credentials, environment imports, crash recovery, and Apple Silicon packaging. ([#160](https://github.com/shrimbly/node-banana/pull/160))
-- Windows x64 adds an unsigned installer, ZIP package, and window controls in the workflow tab strip. ([#171](https://github.com/shrimbly/node-banana/pull/171))
-- Desktop credential recovery can reset unreadable stored keys while preserving the original file. ([#171](https://github.com/shrimbly/node-banana/pull/171))
 - Noodle controls add labels, hide/show, re-plugging, bundles, and appearance settings. ([#150](https://github.com/shrimbly/node-banana/pull/150))
 - Hold H and drag to hook noodles into a bundle.
 - Selection rectangles select noodles when no nodes are selected.
