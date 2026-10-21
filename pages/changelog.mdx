@@ -78,6 +78,34 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ---
 
+## 2.2.0 — 2026-10-22
+
+### Added
+
+- Edit Video replaces the Video Stitch node, with a timeline editor opened from **Open editor**: trim, split, reorder, mute, and add clips with a live preview. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- The Stacked layout gives each clip its own row and start time, with Crossfade to dissolve overlaps; Track stays the default. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Audio clips put the music and library audio on their own rows, each with move, trim, split, mute, and a Fade in, Fade out, or Flat volume curve. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Select, copy, cut, paste, and duplicate several clips within a node or across Edit Video nodes. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Frame to canvas adds the frame at the playhead to the canvas as a full-size image node. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- The Edit video view (press `E`) edits standalone edit projects saved in the Edits folder, with a media pane and render to the asset library. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Add media browses the asset library in a dialog with search and filters; Upload or drag-and-drop brings in video and audio files. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Save or Done in a node's editor also keeps the sequence as an edit project in the Edits folder. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Recent generations lists generated videos beside images, with viewer, add-to-canvas, download, and drag actions. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Pick up collects a Kie or Comfy Router result later when the app stopped waiting or closed; Comfy Router keeps a result for 24 hours. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+
+### Fixed
+
+- Long runs no longer time out at ten minutes; a run polls for as long as the provider reports it running, with a 90-minute safety net. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- A refused Comfy Router run shows the provider's own explanation at once. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- The Generate Video card's player follows playback instead of leaving the playhead still. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Array batches run ComfyUI App and Generate 3D nodes once per item instead of once with the first item. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Annotation's Cancel and Done take clicks on the desktop, below the window's drag region. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Edit Video renders clips in the order shown on the card. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Rendered clips keep their timing and sound: joins no longer drift, and a clip with a different sample rate is no longer silent. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+- Edit Video keeps a socket for every connected clip after clips are removed. ([#195](https://github.com/shrimbly/node-banana/pull/195))
+
+---
+
 ## 1.10.0 — 2026-09-23
 
 ### Added

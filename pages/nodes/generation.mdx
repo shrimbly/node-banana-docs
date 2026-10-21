@@ -66,7 +66,7 @@ Generate speech, sound effects, or other audio from a selected model.
 ### Tips
 
 - Use Array batch mode for a list of speech prompts.
-- Send the result to Output or Video Stitch.
+- Send the result to Output or Edit Video.
 
 ## LLM Generate
 
@@ -131,6 +131,22 @@ Run an imported ComfyUI workflow as one node.
 
 - Use [saved nodes](/guides/comfyui#save-and-reuse-a-configured-node) to reuse an attached workflow and its values.
 - The [ComfyUI guide](/guides/comfyui) covers setup, formats, previews, and the curve editor.
+
+## Long runs and Pick up
+
+Kie and Comfy Router runs can take a long time.
+The app polls the provider for as long as it reports the run as still going.
+A run no longer times out at ten minutes, and a safety net stops polling after 90 minutes.
+
+The provider keeps working whether or not the app waits.
+If the app stops waiting, or you close it, the node keeps the request.
+
+- The card shows a **Pick up** button with the request details.
+- Select **Pick up** to collect the result into the node's history and the asset library.
+- Comfy Router keeps a result for 24 hours; after that, Pick up clears the request.
+
+A refused run shows the reason.
+When Comfy Router refuses a run, the node shows the provider's own explanation at once.
 
 ## Next steps
 

@@ -1,6 +1,7 @@
 {
   "templates": "Templates",
   "agent": "Agent",
+  "edit-video": "Edit Video",
   "assets": "Assets and Storage",
   "comfyui": "ComfyUI",
   "models-pricing": "Models and Pricing",
