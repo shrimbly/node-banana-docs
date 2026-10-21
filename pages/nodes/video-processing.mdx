@@ -2,25 +2,34 @@
 
 These nodes join, retime, trim, or take frames from videos.
 
-## Video Stitch
+## Edit Video
 
-Join several video clips into one video.
+Join and edit several video clips into one video on a timeline.
+A clip is one source video in the sequence.
+This node was called Video Stitch before version 2.2.0.
 
-**Inputs:** At least two ordered video clips and optional audio.
+**Inputs:** At least two ordered video clips and optional music on the audio socket.
 
-**Outputs:** One combined video.
+**Outputs:** One rendered video.
 
 ### Settings
 
 | Setting | Effect |
 | --- | --- |
-| Clip order | Reorder the clips in the filmstrip. |
+| Clip order | Reorder the clips in the card's filmstrip. |
+| Open editor | Open the timeline editor to trim, split, reorder, mute, and add clips. |
+| Layout | Track lays clips end to end; Stacked gives each clip its own row and start time. |
+| Crossfade | In Stacked, dissolve overlapping clips. With it off, the upper clip covers the clips below. |
+| Audio clips | Place the music and library audio on their own rows, each with a volume curve. |
 | Loop | Repeat the sequence 1×, 2×, or 3×. The default is 1×. |
+| Render | Encode the timeline into one video. Render needs at least two clips with video. |
 
 ### Tips
 
-- Check clip order before you run the node.
+- A workflow that never opened the editor renders as before.
 - Connect audio for a soundtrack. The encoder also preserves embedded clip audio.
+- Use **Frame to canvas** in the editor to drop the current frame onto the canvas as an image.
+- The [Edit video guide](/guides/edit-video) covers the timeline, Stacked layout, audio, and the standalone view.
 
 ## Ease Curve
 
@@ -61,7 +70,7 @@ Keep a selected part of a video.
 ### Tips
 
 - Use the range preview before encoding.
-- Trim clips before you send them to Video Stitch.
+- Trim clips before you send them to Edit Video.
 
 ## Frame Grab
 

@@ -1,0 +1,142 @@
+# Edit video
+
+import { Callout } from 'nextra/components'
+
+The Edit Video node and the Edit video view share one timeline editor.
+A timeline is a horizontal track of clips you arrange over time.
+A clip is one source video or audio file in the sequence.
+The playhead is the vertical line that marks the current time.
+
+Use the node to finish a sequence inside a workflow.
+Use the view to build a standalone edit from library media.
+
+## Open the editor
+
+The [Edit Video node](/nodes/video-processing#edit-video) opens its editor two ways.
+
+1. Select **Open editor** on the node's card, beside Render.
+2. Or select **Expand** in the node's floating header.
+
+The editor fills most of the window.
+The preview sits above the timeline, with a control row under the preview.
+Select **Done** to keep your edits, or **Cancel** to discard them.
+
+<Callout type="info">
+A workflow that never opened the editor renders as before.
+Opening the editor and selecting Done stores a timeline that Render then encodes.
+</Callout>
+
+## Arrange the timeline
+
+The timeline has a clips lane for video and audio rows beneath it.
+
+| Action | How |
+| --- | --- |
+| Reorder | Drag a clip along the lane. |
+| Trim | Drag either edge of a clip. |
+| Split | Move the playhead and press `S`. |
+| Mute | Toggle the clip's sound button. |
+| Add | Select the `+` slot after the last clip to open Add media. |
+| Zoom | Use the `−` and `=` keys, or the control row's zoom buttons. |
+
+Drag the timeline's top edge to make it taller or shorter.
+The preview gives or takes the space.
+
+## Track and Stacked layouts
+
+The control row's **Track | Stacked** toggle sets how clips lay out.
+Track is the default.
+
+| Layout | Behavior |
+| --- | --- |
+| Track | Each clip starts where the one before it ends, in a single row. |
+| Stacked | Each clip has its own row and start time, like layers in a video editor. |
+
+In Stacked, clips can overlap.
+**Crossfade** dissolves the picture and sound across an overlap.
+With Crossfade off, the upper row's clip covers the clips below, but their sound still plays.
+
+Drag a clip sideways to move it in time, or up and down to change its row.
+Select **Line up**, under the audio rows, to space every clip by the overlap again.
+
+## Audio and volume curves
+
+The music on the node's audio socket and any library audio appear as clips on audio rows.
+
+- Move, trim, split, or mute each audio clip like a video clip.
+- Give a clip a volume curve with **Fade in**, **Fade out**, or **Flat**.
+- Select a taller row's volume-curve button to edit points directly on the line.
+
+A node that only uses the connected music keeps its original sound behavior.
+
+## Add media
+
+**Add media** opens the asset library in a dialog with search and filters.
+
+1. Open Add media from the timeline's `+` slot or **+ Audio**.
+2. Search or filter by Kind, Project, or Favorites.
+3. Select one or more files, then select **Add**.
+
+Select **Upload** to bring in video and audio files from your computer.
+You can also drop files onto the dialog.
+Uploaded files are kept in the asset library.
+The library accepts MP4, M4V, MOV, and WebM video, and MP3, WAV, Ogg, FLAC, AAC, M4A, and WebM audio.
+
+## Frame to canvas
+
+**Frame to canvas**, under the preview, puts the frame at the playhead onto the canvas.
+
+- The new image node appears beside the Edit Video node, at the sequence's full size.
+- The image is saved to the asset library as an edited image.
+- The button is off while clips load or the playhead sits in a gap.
+
+## Select, copy, and paste clips
+
+- `Cmd/Ctrl + click` or `Shift + click` adds clips to the selection.
+- Drag a box, or press `Cmd/Ctrl + A`, to select several clips at once.
+- `Cmd/Ctrl + C`, `X`, `V`, and `D` copy, cut, paste, and duplicate the selection.
+
+A copied clip pastes into the same node or another Edit Video node.
+A library clip pastes anywhere, but a connected clip pastes only into its own node.
+
+## The Edit video view
+
+Press `E`, or select **Edit video** in the tab strip, to open the standalone view.
+The view edits **edit projects**: timelines saved on their own, not tied to any node or workflow.
+Each edit project is a file in the **Edits** folder of your Node Banana folder.
+
+The view opens on a list of your edits, newest first.
+
+1. Select a row to preview it, then press `Enter` or double-click to open it.
+2. Use the media pane beside the timeline to add clips.
+3. Select **Render** to encode the edit.
+
+### The media pane
+
+The media pane shows the edit's own media as a list or a grid.
+
+- Select an item to add it at the playhead, or drag it onto the timeline.
+- Use an item's ⋯ menu to rename, show it in Assets, or remove it from the edit.
+- Drop video or audio files on the pane to add them to the edit.
+
+### Saving and rendering
+
+An edit is a document that saves on its own.
+
+- With **Save automatically** on, under Settings → Project, the edit saves a few seconds after each change.
+- Press `Cmd/Ctrl + S` to save now.
+- **Render** keeps the video in the asset library under the edit's name.
+
+A node's **Save** or **Done** also keeps its sequence as an edit project in the Edits folder.
+The project is named after the node or the workflow.
+
+## Keyboard shortcuts
+
+The editor has its own shortcuts.
+See [Edit video editor](/keyboard-shortcuts#edit-video-editor) for the full list.
+Press `?` inside the editor to show them at any time.
+
+## Next steps
+
+- Review the [Edit Video node](/nodes/video-processing#edit-video) reference.
+- See [Assets and Storage](/guides/assets) for where edits and renders are kept.
