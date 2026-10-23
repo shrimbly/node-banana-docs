@@ -14,6 +14,10 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ### Added
 
+- Edit Video text layers put words over the video on a dark wash, with a font, size, weight, color, position, and fade in and out. ([#197](https://github.com/shrimbly/node-banana/pull/197))
+- Text layers use the app's fonts, font files from the Node Banana folder's Fonts directory, or fonts installed on your computer. ([#197](https://github.com/shrimbly/node-banana/pull/197))
+- Edit Video clip speed plays a clip from 0.1× to 10×, ramps speed along a curve, reverses it, and blends frames in slow motion. ([#197](https://github.com/shrimbly/node-banana/pull/197))
+- Render and Frame to canvas burn in text layers and each clip's speed, ramp, and reverse. ([#197](https://github.com/shrimbly/node-banana/pull/197))
 - The Agent builds and edits workflows through Claude Code or Codex subscription sign-in.
 - Agent controls add model selection, thinking effort, queued messages, local conversation history, and saved model prompting tips.
 - Assets adds a shared generation library with workflow snapshots, filters, tags, favorites, missing-file records, and Trash.
@@ -42,6 +46,9 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ### Changed
 
+- Noodle toolbars add Jump to start and Jump to end and drop the crosshair and the label field. ([#197](https://github.com/shrimbly/node-banana/pull/197))
+- Rename a noodle by double-clicking its label while the noodle is hidden. ([#197](https://github.com/shrimbly/node-banana/pull/197))
+- The Ease Curve node moves a focused handle with the arrow keys and draws its plot on neutral black. ([#197](https://github.com/shrimbly/node-banana/pull/197))
 - Auto-save follows edits and exposes Save automatically in Project settings. Cmd/Ctrl+S also saves during node text editing.
 - Array takes upstream text, expands items for reading, and labels noodles by item. Make Prompts replaces Auto-route to Prompts.
 - Repeated runs finish the current repetition on the first Stop; a second Stop stops immediately.
@@ -66,6 +73,7 @@ It does not provide release entries or a date for the older docs' 0.x groupings.
 
 ### Fixed
 
+- A click on an Ease Curve handle keeps the chosen preset, and a steep custom curve follows its handles. ([#197](https://github.com/shrimbly/node-banana/pull/197))
 - Generation history finds the correct folder and omits files that no longer exist. ([#164](https://github.com/shrimbly/node-banana/pull/164))
 - Workflow load and save discard temporary blob URLs that cannot survive another session. ([#168](https://github.com/shrimbly/node-banana/pull/168))
 - Ease Curve controls fit the node and show inherited settings. ([#166](https://github.com/shrimbly/node-banana/pull/166))
